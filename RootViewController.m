@@ -256,14 +256,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    // remove the observers
-    
-    //    EADSessionController *sessionController = [EADSessionController sharedController];
-    
-    //    [sessionController closeSession];
-    //    [_accessory release];
-    //    _accessory = nil;
-    
     //hsu jay add for when leaving this page, u need to end receive remote control
     [[UIApplication sharedApplication]endReceivingRemoteControlEvents];
 }
@@ -807,16 +799,6 @@
     NSError *err;
     AVAudioSession *recordSession = [AVAudioSession sharedInstance];
     [recordSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
-    //    if(audioPlayer.playing || recordPlayer.playing){
-    //        [audioPlayer stop];
-    //        [_playMuzik setTitle:@"Play Music" forState:UIControlStateNormal];
-    //        _pauseMuzik.hidden = YES;
-    //
-    //        [recordPlayer stop];
-    //        [_startRecord setBackgroundImage:[UIImage imageNamed:@"recording"] forState:UIControlStateNormal];
-    //
-    //        _stopRecord.hidden = YES;
-    //    }
     
     if(!isRecord){
         if(!audioRecoder.recording){
@@ -914,11 +896,6 @@
         [recordPlayend setText:[NSString stringWithFormat:@"Stop_R %d times",recordPlayend_count]];
         isPlayRecord = false;
     }
-    //    if(!audioPlayer.playing){
-    //        _stop_playRecord.hidden = YES;
-    //        _playRecord.hidden = NO;
-    //        [_playRecord setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-    //    }
     else{
         [self warningMessage:@"Stop_Play_Record"];
     }
@@ -976,24 +953,6 @@ NSMutableArray *avg_dBfs;
         [self warningMessage:@"Finish playing fail"];
     }
     
-    
-    // for music play
-    //    if(isPlay == true){
-    //        [audioPlayer pause];
-    //        softKeyTap_pause++;
-    //        NSLog(@"JJJJ soft pause %d times",softKeyTap_pause);
-    //        isPlay = false;
-    //    }
-    //    if(!audioPlayer.playing){
-    //        _pauseMuzik.hidden = YES;
-    //        _playMuzik.hidden = NO;
-    //        [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
-    //    }
-    //    else{
-    //        [self warningMessage:@"Finish playing fail"];
-    //    }
-    
-    
 }
 
 
@@ -1038,9 +997,6 @@ NSMutableArray *avg_dBfs;
         
     }
     
-    //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([_accessoryList count] - 1) inSection:0];
-    
-    //[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 - (void)_accessoryDidDisconnect:(NSNotification *)notification {
