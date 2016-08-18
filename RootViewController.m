@@ -203,7 +203,8 @@
 
 
 -(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+   // [super viewDidAppear:animated];
+    
     
 }
 
@@ -219,9 +220,11 @@
     commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
     
     //read music in resource folder
-    
-    url_music = [[NSURL alloc] initFileURLWithPath:@"mms://bcr.media.hinet.net/RA000007"];
+    url_music = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle]pathForResource:@"happy" ofType:@"mp3"]];
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:nil];
+
+//    url_music = [[NSURL alloc] initFileURLWithPath:@"mms://bcr.media.hinet.net/RA000007"];
+//    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:nil];
     
     //flag for music is played or not
     isPlay = false;
@@ -271,13 +274,13 @@
 -(void)initView{
     
     _playMuzik =[UIButton buttonWithType:UIButtonTypeCustom];
-    _playMuzik = [[UIButton alloc]initWithFrame:CGRectMake(150,100, 32, 32)];
+    _playMuzik = [[UIButton alloc]initWithFrame:CGRectMake(20,20, 32, 32)];
     [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
     [_playMuzik addTarget:self action:@selector(playMusic:) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:_playMuzik];
     
     _pauseMuzik = [UIButton buttonWithType:UIButtonTypeCustom];
-    _pauseMuzik = [[UIButton alloc]initWithFrame:CGRectMake(150,100, 32, 32)];
+    _pauseMuzik = [[UIButton alloc]initWithFrame:CGRectMake(20,20, 32, 32)];
     [_pauseMuzik setBackgroundImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
     [_pauseMuzik addTarget:self action:@selector(pauseMusic:) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:_pauseMuzik];
@@ -288,7 +291,7 @@
     [vol setFont:[UIFont systemFontOfSize:15]];
     [vol setTextColor:[UIColor blackColor]];
     [vol setText:[NSString stringWithFormat:@"音量：%.0f",volValue*100]];
-    [_scrollView addSubview:vol];
+   // [_scrollView addSubview:vol];
     
     volmeUp_label = [[UILabel alloc]initWithFrame:CGRectMake(counter.frame.origin.x, counter.frame.origin.y+25, 130, 20)];
     [volmeUp_label setFont:[UIFont systemFontOfSize:15]];
@@ -301,12 +304,12 @@
     
     [volumeView reloadInputViews];
     volumeView = [[MPVolumeView alloc] init];
-    [volumeView setFrame:CGRectMake(20.0, volumDown_label.frame.origin.y+10, 290.0, 20.0)];
+    [volumeView setFrame:CGRectMake(20.0, volumDown_label.frame.origin.y+20, 250.0, 20.0)];
     [_scrollView addSubview:volumeView];
     
     _refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _refreshBtn = [[UIButton alloc]initWithFrame:CGRectMake(280,40, 32, 32)];
-    [_refreshBtn setBackgroundImage:[UIImage imageNamed:@"warning"] forState:UIControlStateNormal];
+    _refreshBtn = [[UIButton alloc]initWithFrame:CGRectMake(270,30, 28, 28)];
+    [_refreshBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
     [_refreshBtn addTarget:self action:@selector(refreshTable:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_refreshBtn];
     
