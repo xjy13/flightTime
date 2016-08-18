@@ -11,19 +11,6 @@
 #define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24top=6&%24format=JSON"
 #define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
 
-typedef enum AppFunction{
-    AppFunction_GetAccessoryInformation = 0,
-    AppFunction_PlayAudio,
-    AppFunction_PauseAudio,
-    AppFunction_ReturnButtonCount,
-    AppFunction_StartVoiceRecord,
-    AppFunction_StopVoiceRecord,// ( app 端 stop 後 要去算Quanlity )
-    AppFunction_PlayRecordAudio,
-    AppFunction_StopRecordAudio,
-    AppFunction_ReturnVoiceLevel,  //(error  當還在運行 )(error code   定義)
-    AppFunction_ReturnVoiceLevel_stop
-}AppFunction;
-
 
 @interface RootViewController(){
     UILabel *EAmaun ;
