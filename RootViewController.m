@@ -48,7 +48,7 @@ typedef enum AppFunction{
     NSString *scheduleArrivalTime;
     NSString *gateNumber ;
     NSString *terminal;
-
+    
     
     UILabel *flightID;
     UILabel *IDLabel;
@@ -101,7 +101,7 @@ typedef enum AppFunction{
     
     MPVolumeView *volumeView;
     NSUserDefaults *volumeValueBefore;
-    TalkToMac* module;
+    
     
     NSString *recordRate;
     NSString *recordChannel;
@@ -116,7 +116,7 @@ typedef enum AppFunction{
 - (void)dealloc
 {
     [super dealloc];
-   
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -127,14 +127,13 @@ typedef enum AppFunction{
 
 
 -(void)initialTable{
-   
-    NSLog(@"QQQ = %@",_accessoryList);
+    
     _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 80, 320, 568)];
     _scrollView.scrollEnabled = YES;
-    _scrollView.contentSize = CGSizeMake(320, 800);
+    _scrollView.contentSize = CGSizeMake(320, 900);
     [_scrollView reloadInputViews];
-
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 400)];
+    
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 600)];
     _tableView.scrollEnabled = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     _tableView.dataSource = self;
@@ -166,14 +165,11 @@ typedef enum AppFunction{
 }
 
 - (void)viewDidLoad {
-     [super viewDidLoad];
-    module = [[TalkToMac alloc] init];
-    module.delegate = self;
-    [module creatConnect];
+    [super viewDidLoad];
     _noExternalAccessoriesLabelView = [[UILabel alloc] initWithFrame:CGRectMake(60, 180, 240, 50)];
     [_noExternalAccessoriesLabelView setText:@"No Accessories Connected"];
     [self.view addSubview:_noExternalAccessoriesLabelView];
-
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_accessoryDidConnect:) name:EAAccessoryDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_accessoryDidDisconnect:) name:EAAccessoryDidDisconnectNotification object:nil];
@@ -198,11 +194,11 @@ typedef enum AppFunction{
         _noExternalAccessoriesLabelView.hidden = NO;
     }
     else{
-         [self initialTable];
+        [self initialTable];
         [self initView];
         _noExternalAccessoriesLabelView.hidden = YES;
     }
-
+    
     
     [self setupTestEnvironment];
     enterBackgound = false;
@@ -211,23 +207,23 @@ typedef enum AppFunction{
     [self enterToBackground];
     [self jsonArrival];
     //    flightSchedule = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(jsonDeparture) userInfo:nil repeats:YES];
-//    [flightSchedule fire];
+    //    [flightSchedule fire];
     
- 
-
+    
+    
 }
 
 
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-  
+    
 }
 
 
 #pragma mark INITIAL parameters
 -(void)setupTestEnvironment{
-
+    
     //hsu jay make device not to in sleep mode
     [[UIApplication sharedApplication]setIdleTimerDisabled:YES];
     
@@ -237,7 +233,7 @@ typedef enum AppFunction{
     
     //read music in resource folder
     
-    url_music = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:@"happy" ofType:@"mp3"]];
+    url_music = [[NSURL alloc] initFileURLWithPath:@"mms://bcr.media.hinet.net/RA000007"];
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:nil];
     
     //flag for music is played or not
@@ -275,11 +271,11 @@ typedef enum AppFunction{
 {
     // remove the observers
     
-//    EADSessionController *sessionController = [EADSessionController sharedController];
+    //    EADSessionController *sessionController = [EADSessionController sharedController];
     
-//    [sessionController closeSession];
-//    [_accessory release];
-//    _accessory = nil;
+    //    [sessionController closeSession];
+    //    [_accessory release];
+    //    _accessory = nil;
     
     //hsu jay add for when leaving this page, u need to end receive remote control
     [[UIApplication sharedApplication]endReceivingRemoteControlEvents];
@@ -334,7 +330,7 @@ typedef enum AppFunction{
     [_refreshBtn setBackgroundImage:[UIImage imageNamed:@"warning"] forState:UIControlStateNormal];
     [_refreshBtn addTarget:self action:@selector(refreshTable:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_refreshBtn];
-
+    
     
 }
 
@@ -354,8 +350,8 @@ typedef enum AppFunction{
         
         
         //        [sessionTransferViewController release];
-     //   [self performSegueWithIdentifier:@"testPage" sender:self];
-   
+        //   [self performSegueWithIdentifier:@"testPage" sender:self];
+        
     }
     
     [_selectedAccessory release];
@@ -366,18 +362,18 @@ typedef enum AppFunction{
 
 #pragma mark access to next
 //-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    
+//
 //    if ([segue.identifier isEqualToString:@"testPage"]) {
 //        EADSessionTransferViewController *EADTransView =[segue destinationViewController];
 //    }
-//    
+//
 //}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     return 100;
     
-
+    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -395,14 +391,8 @@ typedef enum AppFunction{
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-//    NSLog(@"JJJ row count: %d",[_accessoryList count]);
-//    if([_accessoryList count] == 0){
-//        return [_accessoryList count];
-//    }
-//    else{
+    return 6;
     
-        return 6;
-  //  }
 }
 
 
@@ -427,18 +417,17 @@ typedef enum AppFunction{
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *eaAccessoryCellIdentifier = @"eaAccessoryCellIdentifier";
+    static NSString *cellIdentifier = @"scheduleCell";
     NSUInteger row = [indexPath row];
-    NSLog(@"JJJJ row = %d",row);
-   // NSLog(@"AIRLINE ID = %@",[[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"]);
-
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:eaAccessoryCellIdentifier];
+    NSLog(@"Table Row = %d",row);
+    // NSLog(@"AIRLINE ID = %@",[[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"]);
+    
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:eaAccessoryCellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
     }
-    
     
     switch (row) {
         case 0:
@@ -448,17 +437,17 @@ typedef enum AppFunction{
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
             [self figureRegistration:airlineID];
-
+            
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-//            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
-//            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
+            //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
+            //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             
             [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",departureAirport]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-
+            
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
             [cell addSubview:ManuLabel];
@@ -528,16 +517,26 @@ typedef enum AppFunction{
             break;
         case 4:
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
+            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
+            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
             [self figureRegistration:airlineID];
-            //            departureRemark = [[arrivalArray objectAtIndex:row] objectForKey:@" DepartureRemark"];
-            //            scheduleDepartureTime = [[arrivalArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+            
+            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             
             [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
+            [IDLabel setText:[NSString stringWithFormat:@"From : %@",departureAirport]];
+            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+            
             [cell addSubview:flightID];
+            [cell addSubview:IDLabel];
+            [cell addSubview:ManuLabel];
+            
             break;
         case 5:
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
@@ -562,7 +561,7 @@ typedef enum AppFunction{
             [cell addSubview:ManuLabel];
             break;
         default:;
-        break;
+            break;
     }
     
     return cell;
@@ -617,7 +616,7 @@ typedef enum AppFunction{
 #pragma mark detect hard key
 -(void)receive_harkeyCmd{
     NSLog(@"JJJ hard cmd start");
-        NSError *err = nil;
+    NSError *err = nil;
     if(!isPlay){
         MPRemoteCommand *playCmd = [commandCenter togglePlayPauseCommand];
         audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:&err];
@@ -641,12 +640,12 @@ typedef enum AppFunction{
 #pragma mark test by headset hard key
 -(void)playAudioHardkey:(MPRemoteCommand *)cmd{
     NSLog(@"JJJJ  remote command = %@",cmd);
-   
+    
     _pauseMuzik.hidden = YES;
     NSError *err = nil;
     if(err == nil && cmd !=nil){
         if(!isPlay){
-             [audioPlayer play];
+            [audioPlayer play];
             if(audioPlayer.playing){
                 _playMuzik.hidden = YES;
                 _pauseMuzik.hidden = NO;
@@ -662,8 +661,8 @@ typedef enum AppFunction{
         else{
             [self stopAudioHardkey:cmd];
         }
-          }
-     
+    }
+    
     else{
         NSLog(@"JJJ print play mp3 err msg %@",err);
         [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
@@ -679,7 +678,7 @@ typedef enum AppFunction{
 -(void)stopAudioHardkey:(MPRemoteCommand *)cmd{
     NSError *err = nil;
     if(cmd != nil && err == nil){
-          [audioPlayer pause];
+        [audioPlayer pause];
         if(!audioPlayer.playing){
             _playMuzik.hidden = NO;
             _pauseMuzik.hidden = YES;
@@ -703,10 +702,10 @@ typedef enum AppFunction{
 #pragma mark test music control
 -(void)volumeChanged{
     [[NSNotificationCenter defaultCenter]addObserver:self
-     selector:@selector(volumeChange:)
-     name:@"AVSystemController_SystemVolumeDidChangeNotification"
-     object:nil];
-  }
+                                            selector:@selector(volumeChange:)
+                                                name:@"AVSystemController_SystemVolumeDidChangeNotification"
+                                              object:nil];
+}
 
 #pragma mark adjust volume up and down
 -(void)volumeChange:(NSNotification *)notification{
@@ -718,48 +717,48 @@ typedef enum AppFunction{
     
     volValue = [[[notification userInfo] objectForKey:@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
     if(notification){
-            if(hardKeyTap_vol == 0){
-                if(firstVol > volValue){
-                    volumeDown_count++;
-                    NSLog(@"volume down = %d",volumeDown_count);
-//                    [volumDown_label setText:[NSString stringWithFormat:@"Vol down %d time(s)",volumeDown_count]];
-//                    [_scrollView addSubview:volumDown_label];
-                    audioPlayer.volume = volValue;
-                }
-                if(firstVol < volValue){
-                    volumeUp_count++;
-                    NSLog(@"volume up = %d",volumeUp_count);
-//                    [volmeUp_label setText:[NSString stringWithFormat:@"Vol up %d time(s)",volumeUp_count]];
-//                    [_scrollView addSubview:volmeUp_label];
-                    audioPlayer.volume = volValue;
-                }
+        if(hardKeyTap_vol == 0){
+            if(firstVol > volValue){
+                volumeDown_count++;
+                NSLog(@"volume down = %d",volumeDown_count);
+                //                    [volumDown_label setText:[NSString stringWithFormat:@"Vol down %d time(s)",volumeDown_count]];
+                //                    [_scrollView addSubview:volumDown_label];
+                audioPlayer.volume = volValue;
             }
-            if(hardKeyTap_vol > 0){
-                if(audioPlayer.volume > volValue){
-                    volumeDown_count++;
-                    NSLog(@"volume down = %d",volumeDown_count);
-//                    [volumDown_label setText:[NSString stringWithFormat:@"Vol down %d time(s)",volumeDown_count]];
-//                    [_scrollView addSubview:volumDown_label];
-                    audioPlayer.volume = volValue;
-                }
-                if(audioPlayer.volume < volValue){
-                    volumeUp_count++;
-                    NSLog(@"volume up = %d",volumeUp_count);
-                    [volmeUp_label setText:[NSString stringWithFormat:@"Vol up %d time(s)",volumeUp_count]];
+            if(firstVol < volValue){
+                volumeUp_count++;
+                NSLog(@"volume up = %d",volumeUp_count);
+                //                    [volmeUp_label setText:[NSString stringWithFormat:@"Vol up %d time(s)",volumeUp_count]];
+                //                    [_scrollView addSubview:volmeUp_label];
+                audioPlayer.volume = volValue;
+            }
+        }
+        if(hardKeyTap_vol > 0){
+            if(audioPlayer.volume > volValue){
+                volumeDown_count++;
+                NSLog(@"volume down = %d",volumeDown_count);
+                //                    [volumDown_label setText:[NSString stringWithFormat:@"Vol down %d time(s)",volumeDown_count]];
+                //                    [_scrollView addSubview:volumDown_label];
+                audioPlayer.volume = volValue;
+            }
+            if(audioPlayer.volume < volValue){
+                volumeUp_count++;
+                NSLog(@"volume up = %d",volumeUp_count);
+                [volmeUp_label setText:[NSString stringWithFormat:@"Vol up %d time(s)",volumeUp_count]];
                 //    [_scrollView addSubview:volmeUp_label];
-                    audioPlayer.volume = volValue;
-                }
-                //volume is 0 or 1 max min
-                else{
-                    NSLog(@"MAX or MIN");
-                }
+                audioPlayer.volume = volValue;
             }
-            hardKeyTap_vol = volumeDown_count+volumeUp_count;
-            NSLog(@"JJJ get tap noti %d",hardKeyTap_vol);
-            NSString *count_string = [NSString stringWithFormat:@"Vol pass %d times",hardKeyTap_vol];
-            [counter setText:count_string];
-            [counter setTextColor:[UIColor blackColor]];
-
+            //volume is 0 or 1 max min
+            else{
+                NSLog(@"MAX or MIN");
+            }
+        }
+        hardKeyTap_vol = volumeDown_count+volumeUp_count;
+        NSLog(@"JJJ get tap noti %d",hardKeyTap_vol);
+        NSString *count_string = [NSString stringWithFormat:@"Vol pass %d times",hardKeyTap_vol];
+        [counter setText:count_string];
+        [counter setTextColor:[UIColor blackColor]];
+        
     }
     else{
         [counter setText:[NSString stringWithFormat:@"fail in %d",hardKeyTap_vol]];
@@ -767,7 +766,7 @@ typedef enum AppFunction{
         [self warningMessage:@"Volume"];
     }
     [vol setText:[NSString stringWithFormat:@"音量：%.0f",volValue*100]];
-//    [_scrollView addSubview:counter];
+    //    [_scrollView addSubview:counter];
     [_scrollView addSubview:vol];
     
 }
@@ -800,38 +799,38 @@ typedef enum AppFunction{
     recordPath  = [NSURL fileURLWithPath:[componentsDir stringByAppendingPathComponent:@"test.m4a"]];
     
     // 設定錄音格式
-     NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc]init];
     [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
     [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
     [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
-  
+    
     
     audioRecoder = [[AVAudioRecorder alloc] initWithURL:recordPath settings:recordSetting error:&err];
     audioRecoder.delegate = self;
     audioRecoder.meteringEnabled = YES;
     
-   // [audioRecoder prepareToRecord];
-  //  audioSession = [[AVAudioSession sharedInstance]setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
-  
+    // [audioRecoder prepareToRecord];
+    //  audioSession = [[AVAudioSession sharedInstance]setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
+    
     
 }
 #pragma mark recording
 -(void)setStartRecord:(UIButton *)sender{
-  //  NSLog(@"sender = %@",sender);
-     NSError *err;
+    //  NSLog(@"sender = %@",sender);
+    NSError *err;
     AVAudioSession *recordSession = [AVAudioSession sharedInstance];
     [recordSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
-//    if(audioPlayer.playing || recordPlayer.playing){
-//        [audioPlayer stop];
-//        [_playMuzik setTitle:@"Play Music" forState:UIControlStateNormal];
-//        _pauseMuzik.hidden = YES;
-//        
-//        [recordPlayer stop];
-//        [_startRecord setBackgroundImage:[UIImage imageNamed:@"recording"] forState:UIControlStateNormal];
-//        
-//        _stopRecord.hidden = YES;
-//    }
-   
+    //    if(audioPlayer.playing || recordPlayer.playing){
+    //        [audioPlayer stop];
+    //        [_playMuzik setTitle:@"Play Music" forState:UIControlStateNormal];
+    //        _pauseMuzik.hidden = YES;
+    //
+    //        [recordPlayer stop];
+    //        [_startRecord setBackgroundImage:[UIImage imageNamed:@"recording"] forState:UIControlStateNormal];
+    //
+    //        _stopRecord.hidden = YES;
+    //    }
+    
     if(!isRecord){
         if(!audioRecoder.recording){
             [recordSession setActive:YES error:&err];
@@ -839,7 +838,7 @@ typedef enum AppFunction{
             recordStart_count++;
             NSLog(@"JJJJ record pass %d time",recordStart_count);
             [audioRecoder updateMeters];
-          
+            
             [recordStart setText:[NSString stringWithFormat:@"Record %d times",recordStart_count]];
             _startRecord.hidden = YES;
             _stopRecord.hidden = NO;
@@ -928,29 +927,27 @@ typedef enum AppFunction{
         [recordPlayend setText:[NSString stringWithFormat:@"Stop_R %d times",recordPlayend_count]];
         isPlayRecord = false;
     }
-//    if(!audioPlayer.playing){
-//        _stop_playRecord.hidden = YES;
-//        _playRecord.hidden = NO;
-//        [_playRecord setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-//    }
+    //    if(!audioPlayer.playing){
+    //        _stop_playRecord.hidden = YES;
+    //        _playRecord.hidden = NO;
+    //        [_playRecord setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+    //    }
     else{
         [self warningMessage:@"Stop_Play_Record"];
     }
     
 }
 
- NSMutableArray *avg_dBfs;
+NSMutableArray *avg_dBfs;
 -(void)test_dBFS{
     [recordPlayer updateMeters];
-     float avgdB = [recordPlayer averagePowerForChannel:0];
-     float peakdB = [recordPlayer peakPowerForChannel:0];
-     long valueDBFS = 20*log10(fabs(avgdB)/44100);
-     float recordTime = [recordPlayer currentTime];
+    float avgdB = [recordPlayer averagePowerForChannel:0];
+    float peakdB = [recordPlayer peakPowerForChannel:0];
+    long valueDBFS = 20*log10(fabs(avgdB)/44100);
+    float recordTime = [recordPlayer currentTime];
     
-     NSLog(@"JJJ DB avg = %.2f and peak = %.2f and dBFS = %ld",avgdB,peakdB,valueDBFS);
-     [module sendMessage:[NSString stringWithFormat:@"averge dB = %f",avgdB]];
-     [module sendMessage:[NSString stringWithFormat:@"peak dB = %f",peakdB]];
-     [module sendMessage:[NSString stringWithFormat:@"dBFS  = %ld",valueDBFS]];
+    NSLog(@"JJJ DB avg = %.2f and peak = %.2f and dBFS = %ld",avgdB,peakdB,valueDBFS);
+    
 }
 
 
@@ -994,20 +991,20 @@ typedef enum AppFunction{
     
     
     // for music play
-//    if(isPlay == true){
-//        [audioPlayer pause];
-//        softKeyTap_pause++;
-//        NSLog(@"JJJJ soft pause %d times",softKeyTap_pause);
-//        isPlay = false;
-//    }
-//    if(!audioPlayer.playing){
-//        _pauseMuzik.hidden = YES;
-//        _playMuzik.hidden = NO;
-//        [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
-//    }
-//    else{
-//        [self warningMessage:@"Finish playing fail"];
-//    }
+    //    if(isPlay == true){
+    //        [audioPlayer pause];
+    //        softKeyTap_pause++;
+    //        NSLog(@"JJJJ soft pause %d times",softKeyTap_pause);
+    //        isPlay = false;
+    //    }
+    //    if(!audioPlayer.playing){
+    //        _pauseMuzik.hidden = YES;
+    //        _playMuzik.hidden = NO;
+    //        [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
+    //    }
+    //    else{
+    //        [self warningMessage:@"Finish playing fail"];
+    //    }
     
     
 }
@@ -1078,7 +1075,7 @@ typedef enum AppFunction{
     NSLog(@"JJJJ disconnectedAccessoryIndex = %d",disconnectedAccessoryIndex);
     if (disconnectedAccessoryIndex < [_accessoryList count]) {
         [_accessoryList removeObjectAtIndex:disconnectedAccessoryIndex];
-        } else {
+    } else {
         NSLog(@"could not find disconnected accessory in accessory list");
     }
     
@@ -1089,7 +1086,7 @@ typedef enum AppFunction{
         
     }
     else {
-         [_scrollView removeFromSuperview];
+        [_scrollView removeFromSuperview];
         _noExternalAccessoriesLabelView.hidden = YES;
         [self setupTestEnvironment];
         [self initialTable];
@@ -1099,7 +1096,7 @@ typedef enum AppFunction{
 
 
 -(void)uninstallSetup{
-
+    
     hardKeyTap_vol = 0 ;
     volumeUp_count = 0;
     volumeDown_count = 0;
@@ -1126,16 +1123,17 @@ typedef enum AppFunction{
     [[NSNotificationCenter defaultCenter]
      removeObserver:self name:@"MPMusicPlayerControllerPlaybackStateDidChangeNotification" object:nil];
     [[MPMusicPlayerController applicationMusicPlayer]endGeneratingPlaybackNotifications];
-   
+    
 }
 
 -(void)enterToFront{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(toFront:) name:UIApplicationWillEnterForegroundNotification object:nil];
-
+    
 }
 -(void)toFront:(NSNotification *)noti{
     if(!enterFront){
         [self setupTestEnvironment];
+        [self jsonArrival];
         [self enterToBackground];
         enterBackgound = false;
     }
@@ -1149,87 +1147,19 @@ typedef enum AppFunction{
 
 -(void)enterToBackground:(NSNotification *)nofi{
     if(!enterBackgound){
-            dispatch_after(1, dispatch_get_main_queue(), ^(void){
-                [self uninstallSetup];
-                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(receive_harkeyCmd:) object:nil];
-                 NSLog(@"really go to background!!");
+        dispatch_after(1, dispatch_get_main_queue(), ^(void){
+            [self uninstallSetup];
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(receive_harkeyCmd:) object:nil];
+            NSLog(@"really go to background!!");
         });
         
         enterBackgound = true;
         enterFront = false;
     }
-
-}
-
-
-#pragma mark  TalkToMac Delegate
--(void)showMessage:(NSString *)message{
-    NSLog(@"message=%@",message);
-    NSArray *strArray = [message componentsSeparatedByString:@":"];
-    if ([strArray count]<3) {
-        return;
-    }
-    int functionNumber =[[strArray objectAtIndex:2] intValue];
-    NSLog(@"message=%@",message);
-    NSLog(@"functionNumber=%d",functionNumber);
-    NSString *result;
-    NSError *err = nil;
     
-    switch (functionNumber) {
-        case AppFunction_GetAccessoryInformation: //--->0
-            //Todo
-            [module sendMessage:eaAccessoryName];
-//            [module sendMessage:accessoryData_ConnectionID];
-            [module sendMessage:eaAccessoryManufacturer];
-            [module sendMessage:eaAccessorymodelNumber];
-            [module sendMessage:eaAccessoryserialNumber];
-            [module sendMessage:eaAccessoryFirmware];
-            [module sendMessage:eaAccessoryHarware];
-            [module sendMessage:eaAccessoryDockType];
-            break;
-        case AppFunction_PlayAudio: //--->1
-            if(!isPlay && err == nil){
-                NSLog(@"control console play");
-               [self playAudioHardkey:[commandCenter togglePlayPauseCommand]];
-            }
-            break;
-        case AppFunction_PauseAudio: //--->2
-            //Todo
-            if(isPlay == true && err == nil){
-            [self playAudioHardkey:[commandCenter togglePlayPauseCommand]];
-            }
-            break;
-        case AppFunction_ReturnButtonCount: //--->3
-            result= [NSString stringWithFormat:@"volume count = %d , volume up = %d , volume down =%d , play = %d , pause = %d",hardKeyTap_vol,volumeUp_count,volumeDown_count,hardKeyTap_play,hardKeyTap_pause];
-            [module sendMessage:result];
-            break;
-        case AppFunction_StartVoiceRecord: //--->4
-            //Todo
-            [self setStartRecord:_startRecord.tag];
-            break;
-        case AppFunction_StopVoiceRecord: //--->5
-            [self setStopRecord:_stopRecord.tag];
-            //Todo
-            break;
-        case  AppFunction_PlayRecordAudio: //--->6
-            //todo
-            [self playReord:_playRecord.tag];
-            break;
-        case  AppFunction_StopRecordAudio: //--->7
-            [self pauseRecordSound:_stop_playRecord.tag];
-            break;
-        case AppFunction_ReturnVoiceLevel: //--->8
-            //Todo 錄音品質
-            [self playReord:_playRecord.tag];
-            checkdB = [NSTimer scheduledTimerWithTimeInterval:0.01f target:self selector:@selector(test_dBFS) userInfo:nil repeats:YES];
-            [checkdB fire];
-            break;
-        case AppFunction_ReturnVoiceLevel_stop: //--->9
-            [checkdB invalidate];
-        default:
-            break;
-    }
 }
+
+
 
 -(void)jsonArrival{
     NSError *err = nil;
@@ -1238,7 +1168,7 @@ typedef enum AppFunction{
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
     _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     NSLog(@"Departure json : %@",_arrivalArray);
-   
+    
 }
 // refresh schedule
 -(void)refreshTable:(UIButton *)btn {
@@ -1249,72 +1179,90 @@ typedef enum AppFunction{
 }
 
 /*-(void)jsonDeparture{
-    NSError *err = nil;
-    NSURL *url = [NSURL URLWithString:departureURL];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
-    
-
-    NSMutableArray *departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    NSLog(@"Departure json : %@",departureArray);
-    //  NSDictionary
-    NSString *airlineID = [[departureArray objectAtIndex:0] objectForKey:@"AirlineID"];
-    NSString *airlineID_full;
-    NSString *flightNumber = [[departureArray objectAtIndex:0] objectForKey:@"FlightNumber"];
-    NSString *departureRemark = [[departureArray objectAtIndex:0] objectForKey:@" DepartureRemark"];
-    NSString *scheduleDepartureTime = [[departureArray objectAtIndex:0]objectForKey:@"ScheduleDepartureTime"];
-    NSString *gateNumber = [[departureArray objectAtIndex:0]objectForKey:@"Gate"];
-    NSString *terminal = [[departureArray objectAtIndex:0]objectForKey:@"Terminal"];
-    
-    NSLog(@"Flight ID: %@",airlineID);
-    if([airlineID isEqualToString:@"CI"]){
-        airlineID_full = [NSString stringWithFormat:@"中華航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([airlineID isEqualToString:@"BR"]){
-        airlineID_full = [NSString stringWithFormat:@"長榮航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([airlineID isEqualToString:@"GE"]){
-        airlineID_full = [NSString stringWithFormat:@"復興航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([airlineID isEqualToString:@"CX"]){
-        airlineID_full = [NSString stringWithFormat:@"國泰航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([airlineID isEqualToString:@"MU"]){
-        airlineID_full = [NSString stringWithFormat:@"中國東方-%@%@ ",airlineID,flightNumber];
-    }
-    else if([airlineID isEqualToString:@"CZ"]){
-        airlineID_full = [NSString stringWithFormat:@"中國南方-%@%@ ",airlineID,flightNumber];
-    }
-    else if([airlineID isEqualToString:@"JL"]){
-        airlineID_full = [NSString stringWithFormat:@"日本航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([airlineID isEqualToString:@"KE"]){
-        airlineID_full = [NSString stringWithFormat:@"大韓民航-%@%@ ",airlineID,flightNumber];
-    }
-    else{
-         airlineID_full = [NSString stringWithFormat:@"離開台灣-%@%@ ",airlineID,flightNumber];
-    }
-    
-    NSLog(@"airlineID_full departure = %@",airlineID_full);
-
-
-}*/
+ NSError *err = nil;
+ NSURL *url = [NSURL URLWithString:departureURL];
+ NSURLRequest *request = [NSURLRequest requestWithURL:url];
+ NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
+ 
+ 
+ NSMutableArray *departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+ NSLog(@"Departure json : %@",departureArray);
+ //  NSDictionary
+ NSString *airlineID = [[departureArray objectAtIndex:0] objectForKey:@"AirlineID"];
+ NSString *airlineID_full;
+ NSString *flightNumber = [[departureArray objectAtIndex:0] objectForKey:@"FlightNumber"];
+ NSString *departureRemark = [[departureArray objectAtIndex:0] objectForKey:@" DepartureRemark"];
+ NSString *scheduleDepartureTime = [[departureArray objectAtIndex:0]objectForKey:@"ScheduleDepartureTime"];
+ NSString *gateNumber = [[departureArray objectAtIndex:0]objectForKey:@"Gate"];
+ NSString *terminal = [[departureArray objectAtIndex:0]objectForKey:@"Terminal"];
+ 
+ NSLog(@"Flight ID: %@",airlineID);
+ if([airlineID isEqualToString:@"CI"]){
+ airlineID_full = [NSString stringWithFormat:@"中華航空-%@%@ ",airlineID,flightNumber];
+ }
+ else if([airlineID isEqualToString:@"BR"]){
+ airlineID_full = [NSString stringWithFormat:@"長榮航空-%@%@ ",airlineID,flightNumber];
+ }
+ else if([airlineID isEqualToString:@"GE"]){
+ airlineID_full = [NSString stringWithFormat:@"復興航空-%@%@ ",airlineID,flightNumber];
+ }
+ else if([airlineID isEqualToString:@"CX"]){
+ airlineID_full = [NSString stringWithFormat:@"國泰航空-%@%@ ",airlineID,flightNumber];
+ }
+ else if([airlineID isEqualToString:@"MU"]){
+ airlineID_full = [NSString stringWithFormat:@"中國東方-%@%@ ",airlineID,flightNumber];
+ }
+ else if([airlineID isEqualToString:@"CZ"]){
+ airlineID_full = [NSString stringWithFormat:@"中國南方-%@%@ ",airlineID,flightNumber];
+ }
+ else if([airlineID isEqualToString:@"JL"]){
+ airlineID_full = [NSString stringWithFormat:@"日本航空-%@%@ ",airlineID,flightNumber];
+ }
+ else if([airlineID isEqualToString:@"KE"]){
+ airlineID_full = [NSString stringWithFormat:@"大韓民航-%@%@ ",airlineID,flightNumber];
+ }
+ else{
+ airlineID_full = [NSString stringWithFormat:@"離開台灣-%@%@ ",airlineID,flightNumber];
+ }
+ 
+ NSLog(@"airlineID_full departure = %@",airlineID_full);
+ 
+ 
+ }*/
 
 -(void)figureRegistration:(NSString *)code{
     if([airlineID isEqualToString:@"CI"]){
         airlineID_full = [NSString stringWithFormat:@"中華航空-%@%@ ",airlineID,flightNumber];
     }
+    else if([airlineID isEqualToString:@"AE"]){
+        airlineID_full = [NSString stringWithFormat:@"華信航空-%@%@ ",airlineID,flightNumber];
+    }
     else if([airlineID isEqualToString:@"BR"]){
         airlineID_full = [NSString stringWithFormat:@"長榮航空-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"B7"]){
+        airlineID_full = [NSString stringWithFormat:@"立榮航空-%@%@ ",airlineID,flightNumber];
     }
     else if([airlineID isEqualToString:@"GE"]){
         airlineID_full = [NSString stringWithFormat:@"復興航空-%@%@ ",airlineID,flightNumber];
     }
+    else if([airlineID isEqualToString:@"VZ"]){
+        airlineID_full = [NSString stringWithFormat:@"威航-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"FE"]){
+        airlineID_full = [NSString stringWithFormat:@"遠東航空-%@%@ ",airlineID,flightNumber];
+    }
     else if([airlineID isEqualToString:@"CX"]){
         airlineID_full = [NSString stringWithFormat:@"國泰航空-%@%@ ",airlineID,flightNumber];
     }
+    else if([airlineID isEqualToString:@"KA"]){
+        airlineID_full = [NSString stringWithFormat:@"港龍航空-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"HX"]){
+        airlineID_full = [NSString stringWithFormat:@"香港航空-%@%@ ",airlineID,flightNumber];
+    }
     else if([airlineID isEqualToString:@"CA"]){
-     airlineID_full = [NSString stringWithFormat:@"中國國際-%@%@ ",airlineID,flightNumber];
+        airlineID_full = [NSString stringWithFormat:@"中國國際-%@%@ ",airlineID,flightNumber];
     }
     else if([airlineID isEqualToString:@"MU"]){
         airlineID_full = [NSString stringWithFormat:@"中國東方-%@%@ ",airlineID,flightNumber];
@@ -1325,17 +1273,51 @@ typedef enum AppFunction{
     else if([airlineID isEqualToString:@"JL"]){
         airlineID_full = [NSString stringWithFormat:@"日本航空-%@%@ ",airlineID,flightNumber];
     }
+    else if([airlineID isEqualToString:@"NH"]){
+        airlineID_full = [NSString stringWithFormat:@"全日本空輸-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"VN"]){
+        airlineID_full = [NSString stringWithFormat:@"越南航空-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"SQ"]){
+        airlineID_full = [NSString stringWithFormat:@"新加坡航空-%@%@ ",airlineID,flightNumber];
+    }
     else if([airlineID isEqualToString:@"KE"]){
         airlineID_full = [NSString stringWithFormat:@"大韓民航-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"OZ"]){
+        airlineID_full = [NSString stringWithFormat:@"韓亞航-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"UA"]){
+        airlineID_full = [NSString stringWithFormat:@"美國航空-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"DL"]){
+        airlineID_full = [NSString stringWithFormat:@"達美航空-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"KL"]){
+        airlineID_full = [NSString stringWithFormat:@"荷蘭航空-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"EK"]){
+        airlineID_full = [NSString stringWithFormat:@"阿聯酋航空-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"MH"]){
+        airlineID_full = [NSString stringWithFormat:@"馬來西亞航空-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"TG"]){
+        airlineID_full = [NSString stringWithFormat:@"泰國航空-%@%@ ",airlineID,flightNumber];
+    }
+    else if([airlineID isEqualToString:@"PG"]){
+        airlineID_full = [NSString stringWithFormat:@"菲律賓航空-%@%@ ",airlineID,flightNumber];
     }
     else{
         airlineID_full = [NSString stringWithFormat:@"來台灣-%@%@ ",airlineID,flightNumber];
     }
     
     NSLog(@"airlineID_full departure = %@",airlineID_full);
-
-
-
+    
+    
+    
 }
+
 
 @end

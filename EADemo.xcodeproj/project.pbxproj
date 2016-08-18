@@ -313,7 +313,7 @@
 				GCC_PREFIX_HEADER = EADemo_Prefix.pch;
 				INFOPLIST_FILE = "EADemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.EADemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flightTime;
 				PRODUCT_NAME = EADemo;
 			};
 			name = Debug;
@@ -329,7 +329,7 @@
 				GCC_PREFIX_HEADER = EADemo_Prefix.pch;
 				INFOPLIST_FILE = "EADemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.EADemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flightTime;
 				PRODUCT_NAME = EADemo;
 			};
 			name = Release;
