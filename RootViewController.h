@@ -54,12 +54,11 @@
 #import <MediaPlayer/MPMusicPlayerController.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MPRemoteCommandCenter.h>
-#import "TalkToMac.h"
 #import "EADemoAppDelegate.h"
 @class EADSessionController;
 
 
-@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate,TalkToMacDelegate> {
+@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate> {
     
     NSMutableArray *_accessoryList;
     NSMutableArray *_accessoryOriginal;
