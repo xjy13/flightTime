@@ -27,7 +27,6 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
-		30631982106F42E500DAD121 /* ReadMe.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30631981106F42E500DAD121 /* ReadMe.txt */; };
 		309BCA6D11DB0A0E000B4574 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6611DB0A0E000B4574 /* Icon-72.png */; };
 		309BCA6E11DB0A0E000B4574 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6711DB0A0E000B4574 /* Icon-Small-50.png */; };
 		309BCA6F11DB0A0E000B4574 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6811DB0A0E000B4574 /* Icon-Small.png */; };
@@ -71,7 +70,6 @@
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* EADemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EADemo_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		30631981106F42E500DAD121 /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		309BCA6611DB0A0E000B4574 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		309BCA6711DB0A0E000B4574 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		309BCA6811DB0A0E000B4574 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -157,7 +155,6 @@
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				044ECEE81D2D01420073DA60 /* Storyboard.storyboard */,
 				8D1107310486CEB800E47090 /* EADemo-Info.plist */,
-				30631981106F42E500DAD121 /* ReadMe.txt */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -261,7 +258,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30631982106F42E500DAD121 /* ReadMe.txt in Resources */,
 				04A0233F1D263C99002C989D /* playBtn.png in Resources */,
 				04A023401D263C99002C989D /* stop.png in Resources */,
 				04A023431D265DDC002C989D /* stop_recording.png in Resources */,
