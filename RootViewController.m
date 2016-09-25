@@ -8,10 +8,11 @@
 #import <MediaPlayer/MPRemoteCommandEvent.h>
 #import "EADemoAppDelegate.h"
 
-#define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24top=6&%24format=JSON"
+
 #define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
-
-
+#define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
+#define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
+#define arrival @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
 @interface RootViewController(){
     UILabel *EAmaun ;
     UILabel *EAname;
@@ -36,7 +37,7 @@
     NSString *gateNumber ;
     NSString *terminal;
     
-    
+    UILabel *noDatasLabelView;
     UILabel *flightID;
     UILabel *IDLabel;
     UILabel *ManuLabel;
@@ -95,6 +96,7 @@
     NSTimer *checkdB;
     NSTimer *flightSchedule;
     EADemoAppDelegate *EADemo;
+   
 }
 @end
 
@@ -136,70 +138,41 @@
     
     [self.view addSubview:_scrollView];
 }
-- (void)viewWillAppear:(BOOL)animated
-{
-    
-    // watch for the accessory being disconnected
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_accessoryDidDisconnect:) name:EAAccessoryDidDisconnectNotification object:nil];
-    // watch for received data from the accessory
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_sessionDataReceived:) name:EADSessionDataReceivedNotification object:nil];
-    
-    //EADSessionController *sessionController = [EADSessionController sharedController];
-    
-    //    _accessory = [[sessionController accessory] retain];
-    //    [self setTitle:[sessionController protocolString]];
-    //    [sessionController openSession];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _noExternalAccessoriesLabelView = [[UILabel alloc] initWithFrame:CGRectMake(60, 180, 240, 50)];
-    [_noExternalAccessoriesLabelView setText:@"No Accessories Connected"];
-    [self.view addSubview:_noExternalAccessoriesLabelView];
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_accessoryDidConnect:) name:EAAccessoryDidConnectNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_accessoryDidDisconnect:) name:EAAccessoryDidDisconnectNotification object:nil];
-    [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
-    
-    _eaSessionController = [EADSessionController sharedController];
-    
-    _accessoryList = [[NSMutableArray alloc] initWithArray:[[EAAccessoryManager sharedAccessoryManager] connectedAccessories]];
-    NSLog(@"original accessory list =%@",_accessoryList);
-    if([_accessoryList count] > 1 ){
-        if([[[_accessoryList objectAtIndex:0]dockType] isEqualToString:@"Unknown"]){
-            [_accessoryList removeObjectAtIndex:1];
-        }
-        else{
-            [_accessoryList removeObjectAtIndex:0];
-        }
-    }
-    NSLog(@"accessoryList = %@",_accessoryList );
-    
-    if ([_accessoryList count] == 0) {
-        [_scrollView removeFromSuperview];
-        _noExternalAccessoriesLabelView.hidden = NO;
-    }
-    else{
-        [self initialTable];
-        [self initView];
-        _noExternalAccessoriesLabelView.hidden = YES;
-    }
-    
-    
+    NSLog(@"Now Date = %@",[self currentDate]);
+    [self jsonArrival];
+    [self initialTable];
+    [self initView];
     [self setupTestEnvironment];
     enterBackgound = false;
     enterFront = true;
     [self enterToFront];
     [self enterToBackground];
-    [self jsonArrival];
+   
     //    flightSchedule = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(jsonDeparture) userInfo:nil repeats:YES];
     //    [flightSchedule fire];
     
-    
+   
     
 }
 
+-(NSString *)currentDate{
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *nowDate = [NSDate date];
+    NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
+    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,@"&%24top=6&%24format=JSON"];
+    
+    NSString *arrvalDate = [arrival stringByAppendingString:filter];
+    NSLog(@"new format Date = %@",arrvalDate);
+    return  arrvalDate;
+}
 
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -317,30 +290,6 @@
 }
 
 
-#pragma mark UIActionSheetDelegate methods
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    
-    if (_selectedAccessory && (buttonIndex >= 0) && (buttonIndex < [[_selectedAccessory protocolStrings] count]))
-    {
-        [_eaSessionController setupControllerForAccessory:_selectedAccessory
-                                       withProtocolString:[[_selectedAccessory protocolStrings] objectAtIndex:buttonIndex]];
-        //  EADSessionTransferViewController *sessionTransferViewController =
-        //     [[EADSessionTransferViewController alloc] initWithNibName:@"EADSessionTransfer" bundle:nil];
-        
-        //        [[self navigationController] pushViewController:sessionTransferViewController animated:YES];
-        
-        
-        //        [sessionTransferViewController release];
-        //   [self performSegueWithIdentifier:@"testPage" sender:self];
-        
-    }
-    
-    [_selectedAccessory release];
-    _selectedAccessory = nil;
-    [_protocolSelectionActionSheet release];
-    _protocolSelectionActionSheet = nil;
-}
 
 #pragma mark access to next
 //-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -422,12 +371,12 @@
             
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+          
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
-            
             [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
-            [IDLabel setText:[NSString stringWithFormat:@"From : %@",departureAirport]];
+            [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
             [cell addSubview:flightID];
@@ -471,7 +420,7 @@
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             
             [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
-            [IDLabel setText:[NSString stringWithFormat:@"From : %@",departureAirport]];
+            [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
             [cell addSubview:flightID];
@@ -490,7 +439,7 @@
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
-            [IDLabel setText:[NSString stringWithFormat:@"From : %@",departureAirport]];
+            [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
             [cell addSubview:flightID];
@@ -512,7 +461,7 @@
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             
             [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
-            [IDLabel setText:[NSString stringWithFormat:@"From : %@",departureAirport]];
+            [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
             [cell addSubview:flightID];
@@ -535,7 +484,7 @@
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             
             [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
-            [IDLabel setText:[NSString stringWithFormat:@"From : %@",departureAirport]];
+            [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
             [cell addSubview:flightID];
@@ -603,7 +552,6 @@
         MPRemoteCommand *playCmd = [commandCenter togglePlayPauseCommand];
         audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:&err];
         // if we set loops to -1, it will play infinity.
-        audioPlayer.numberOfLoops = 5;
         [playCmd addTarget:self action:@selector(playAudioHardkey:)];
     }
     
@@ -905,7 +853,7 @@
     
 }
 
-NSMutableArray *avg_dBfs;
+
 -(void)test_dBFS{
     [recordPlayer updateMeters];
     float avgdB = [recordPlayer averagePowerForChannel:0];
@@ -958,87 +906,6 @@ NSMutableArray *avg_dBfs;
     
 }
 
-
-
-#pragma mark UITableViewDelegate methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //   NSUInteger row = [indexPath row];
-    _selectedAccessory = [[_accessoryList objectAtIndex:0] retain];
-    
-    _protocolSelectionActionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Protocol" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
-    NSArray *protocolStrings = [_selectedAccessory protocolStrings];
-    for(NSString *protocolString in protocolStrings) {
-        [_protocolSelectionActionSheet addButtonWithTitle:protocolString];
-    }
-    
-    [_protocolSelectionActionSheet setCancelButtonIndex:[_protocolSelectionActionSheet addButtonWithTitle:@"Cancel"]];
-    [_protocolSelectionActionSheet showInView:[self tableView]];
-    
-    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-
-#pragma mark Internal
-
-- (void)_accessoryDidConnect:(NSNotification *)notification {
-    EAAccessory *connectedAccessory = [[notification userInfo] objectForKey:EAAccessoryKey];
-    NSLog(@"EAAccessory key = %@",connectedAccessory);
-    [_accessoryList addObject:connectedAccessory];
-    
-    if ([_accessoryList count] == 0) {
-        _noExternalAccessoriesLabelView.hidden = NO;
-        [_scrollView removeFromSuperview];
-        [self uninstallSetup];
-    }
-    else {
-        [_scrollView removeFromSuperview];
-        [self setupTestEnvironment];
-        [self initialTable];
-        [self initView];
-        _noExternalAccessoriesLabelView.hidden = YES;
-        
-    }
-    
-}
-
-- (void)_accessoryDidDisconnect:(NSNotification *)notification {
-    EAAccessory *disconnectedAccessory = [[notification userInfo] objectForKey:EAAccessoryKey];
-    
-    if (_selectedAccessory && [disconnectedAccessory connectionID] == [_selectedAccessory connectionID])
-    {
-        [_protocolSelectionActionSheet dismissWithClickedButtonIndex:-1 animated:YES];
-    }
-    
-    int disconnectedAccessoryIndex = 0;
-    for(EAAccessory *accessory in _accessoryList) {
-        NSLog(@"disconnect accessory = %@",accessory);
-        if ([disconnectedAccessory connectionID] == [accessory connectionID]) {
-            break;
-        }
-        disconnectedAccessoryIndex++;
-    }
-    NSLog(@"JJJJ disconnectedAccessoryIndex = %d",disconnectedAccessoryIndex);
-    if (disconnectedAccessoryIndex < [_accessoryList count]) {
-        [_accessoryList removeObjectAtIndex:disconnectedAccessoryIndex];
-    } else {
-        NSLog(@"could not find disconnected accessory in accessory list");
-    }
-    
-    if ([_accessoryList count] == 0) {
-        [_scrollView removeFromSuperview];
-        [self uninstallSetup];
-        _noExternalAccessoriesLabelView.hidden = NO;
-        
-    }
-    else {
-        [_scrollView removeFromSuperview];
-        _noExternalAccessoriesLabelView.hidden = YES;
-        [self setupTestEnvironment];
-        [self initialTable];
-        [self initView];
-    }
-}
 
 
 -(void)uninstallSetup{
@@ -1108,12 +975,31 @@ NSMutableArray *avg_dBfs;
 
 
 -(void)jsonArrival{
+    [self currentDate];
+ //      NSString *arrivalLink = [NSString stringWithFormat:<#(nonnull NSString *), ...#>]
     NSError *err = nil;
-    NSURL *url = [NSURL URLWithString:arrivalURL];
+    NSURL *url = [NSURL URLWithString:[self currentDate]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
-    _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    NSLog(@"Departure json : %@",_arrivalArray);
+
+    NSLog(@"get json data = %@",data);
+    if(data != nil){
+        NSInputStream *inStream = [[NSInputStream alloc] initWithData:data];
+        [inStream open];
+        _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"Departure json : %@",_arrivalArray);
+        [inStream close];
+        //    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:arrivalURL]];
+        [_tableView reloadData];
+        noDatasLabelView.hidden = YES;
+    }
+    else{
+        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
+        [noDatasLabelView setText:@"No Data....."];
+        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
+        [self.view addSubview:noDatasLabelView];
+        noDatasLabelView.hidden = NO;
+    }
     
 }
 // refresh schedule
@@ -1177,82 +1063,82 @@ NSMutableArray *avg_dBfs;
  }*/
 
 -(void)figureRegistration:(NSString *)code{
-    if([airlineID isEqualToString:@"CI"]){
+    if([code isEqualToString:@"CI"]){
         airlineID_full = [NSString stringWithFormat:@"中華航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"AE"]){
+    else if([code isEqualToString:@"AE"]){
         airlineID_full = [NSString stringWithFormat:@"華信航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"BR"]){
+    else if([code isEqualToString:@"BR"]){
         airlineID_full = [NSString stringWithFormat:@"長榮航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"B7"]){
+    else if([code isEqualToString:@"B7"]){
         airlineID_full = [NSString stringWithFormat:@"立榮航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"GE"]){
+    else if([code isEqualToString:@"GE"]){
         airlineID_full = [NSString stringWithFormat:@"復興航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"VZ"]){
+    else if([code isEqualToString:@"VZ"]){
         airlineID_full = [NSString stringWithFormat:@"威航-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"FE"]){
+    else if([code isEqualToString:@"FE"]){
         airlineID_full = [NSString stringWithFormat:@"遠東航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"CX"]){
+    else if([code isEqualToString:@"CX"]){
         airlineID_full = [NSString stringWithFormat:@"國泰航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"KA"]){
+    else if([code isEqualToString:@"KA"]){
         airlineID_full = [NSString stringWithFormat:@"港龍航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"HX"]){
+    else if([code isEqualToString:@"HX"]){
         airlineID_full = [NSString stringWithFormat:@"香港航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"CA"]){
+    else if([code isEqualToString:@"CA"]){
         airlineID_full = [NSString stringWithFormat:@"中國國際-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"MU"]){
+    else if([code isEqualToString:@"MU"]){
         airlineID_full = [NSString stringWithFormat:@"中國東方-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"CZ"]){
+    else if([code isEqualToString:@"CZ"]){
         airlineID_full = [NSString stringWithFormat:@"中國南方-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"JL"]){
+    else if([code isEqualToString:@"JL"]){
         airlineID_full = [NSString stringWithFormat:@"日本航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"NH"]){
+    else if([code isEqualToString:@"NH"]){
         airlineID_full = [NSString stringWithFormat:@"全日本空輸-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"VN"]){
+    else if([code isEqualToString:@"VN"]){
         airlineID_full = [NSString stringWithFormat:@"越南航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"SQ"]){
+    else if([code isEqualToString:@"SQ"]){
         airlineID_full = [NSString stringWithFormat:@"新加坡航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"KE"]){
+    else if([code isEqualToString:@"KE"]){
         airlineID_full = [NSString stringWithFormat:@"大韓民航-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"OZ"]){
+    else if([code isEqualToString:@"OZ"]){
         airlineID_full = [NSString stringWithFormat:@"韓亞航-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"UA"]){
+    else if([code isEqualToString:@"UA"]){
         airlineID_full = [NSString stringWithFormat:@"美國航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"DL"]){
+    else if([code isEqualToString:@"DL"]){
         airlineID_full = [NSString stringWithFormat:@"達美航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"KL"]){
+    else if([code isEqualToString:@"KL"]){
         airlineID_full = [NSString stringWithFormat:@"荷蘭航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"EK"]){
+    else if([code isEqualToString:@"EK"]){
         airlineID_full = [NSString stringWithFormat:@"阿聯酋航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"MH"]){
+    else if([code isEqualToString:@"MH"]){
         airlineID_full = [NSString stringWithFormat:@"馬來西亞航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"TG"]){
+    else if([code isEqualToString:@"TG"]){
         airlineID_full = [NSString stringWithFormat:@"泰國航空-%@%@ ",airlineID,flightNumber];
     }
-    else if([airlineID isEqualToString:@"PG"]){
+    else if([code isEqualToString:@"PG"]){
         airlineID_full = [NSString stringWithFormat:@"菲律賓航空-%@%@ ",airlineID,flightNumber];
     }
     else{
@@ -1262,7 +1148,50 @@ NSMutableArray *avg_dBfs;
     NSLog(@"airlineID_full departure = %@",airlineID_full);
     
     
-    
+}
+
+//-(NSString *)translateFlight:(NSString *)flightCode{
+//
+//    NSError *err = nil;
+//    NSLog(@"airline code = %@",flightCode);
+//    NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",flightInfo,flightCode];   //JFK?$format=JSON
+//    NSURL *url = [NSURL URLWithString:IATAinfo];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//    //using ios 9.0 method
+//    
+//    NSData *data = [NSURLSession sessionWithConfiguration:<#(nonnull NSURLSessionConfiguration *)#> delegate:<#(nullable id<NSURLSessionDelegate>)#> delegateQueue:<#(nullable NSOperationQueue *)#>];
+//
+//
+//
+//}
+
+-(NSString *)translateIATA:(NSString *)airportCode{
+    NSError *err = nil;
+    NSLog(@"airport code = %@",airportCode);
+    NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",airportInfo,airportCode];   //JFK?$format=JSON
+    NSURL *url = [NSURL URLWithString:IATAinfo];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
+    if(data != nil){
+        _airportArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"Airport json : %@,  %d",_airportArray,[_airportArray count]);
+        _scrollView.hidden = NO;
+        noDatasLabelView.hidden = YES;
+        NSString *airportName = [[_airportArray objectForKey:@"AirportName"] objectForKey:@"Zh_tw"];
+        if([airportName isEqualToString:@""]){
+            airportName = airportCode;
+        }
+        return  airportName;
+    }
+    else{
+        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
+        [noDatasLabelView setText:@"No Data....."];
+        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
+        [self.view addSubview:noDatasLabelView];
+        _scrollView.hidden = YES;
+        noDatasLabelView.hidden = NO;
+    }
+       //NSArray *portName = [[_airportArray objectAtIndex:4]objectForKey:@"AirportName"];
 }
 
 

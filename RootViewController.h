@@ -66,10 +66,9 @@
     EADSessionController *_eaSessionController;
     NSMutableDictionary *accessoryInfo;
 
-    UIActionSheet *_protocolSelectionActionSheet;
 
   //  UIView *_noExternalAccessoriesPosterView;
-    UILabel *_noExternalAccessoriesLabelView;
+   
     
     //add for 20160712
     AVAudioPlayer *audioPlayer;
@@ -92,8 +91,8 @@
 @property(nonatomic, retain)UIButton *refreshBtn;
 
 @property (nonatomic, retain)NSMutableArray *arrivalArray;
-
-
+@property (nonatomic, retain)NSMutableArray *airportArray;
+@property (nonatomic, retain)NSMutableArray *flightArray;
 // from UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
 

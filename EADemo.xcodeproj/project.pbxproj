@@ -20,6 +20,7 @@
 		04AEB3991D17E2C800687DBE /* happy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04AEB3981D17E2C800687DBE /* happy.mp3 */; };
 		04C04AC11D18E89E00708E7E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C04AC01D18E89D00708E7E /* AVFoundation.framework */; };
 		04C04AC31D18E94C00708E7E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C04AC21D18E94C00708E7E /* MediaPlayer.framework */; };
+		04E572351D73D1DC005CE613 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E572341D73D1DC005CE613 /* Default-568h@2x.png */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -52,6 +53,7 @@
 		04AEB3981D17E2C800687DBE /* happy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = happy.mp3; sourceTree = "<group>"; };
 		04C04AC01D18E89D00708E7E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		04C04AC21D18E94C00708E7E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		04E572341D73D1DC005CE613 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* EADemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EADemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -137,6 +139,7 @@
 		309BCA6511DB0A0E000B4574 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				04E572341D73D1DC005CE613 /* Default-568h@2x.png */,
 				045AEECA1D65EA7D0065CAE7 /* refresh.png */,
 				0448F3D21D2E474C00FF90DB /* warning.png */,
 				044ECEE61D2D01180073DA60 /* back.png */,
@@ -233,6 +236,7 @@
 				309BCA6F11DB0A0E000B4574 /* Icon-Small.png in Resources */,
 				04A0234A1D2662A7002C989D /* play.png in Resources */,
 				044ECEE71D2D01180073DA60 /* back.png in Resources */,
+				04E572351D73D1DC005CE613 /* Default-568h@2x.png in Resources */,
 				309BCA7011DB0A0E000B4574 /* Icon-Small@2x.png in Resources */,
 				309BCA7111DB0A0E000B4574 /* Icon.png in Resources */,
 				04A023461D26600D002C989D /* recording.png in Resources */,
