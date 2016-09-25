@@ -366,9 +366,11 @@
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+          
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
             [self figureRegistration:airlineID];
-            
+            [self figureRegistration_new:airlineID id:airlineID number:flightNumber];
+
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
           
@@ -1150,20 +1152,45 @@
     
 }
 
-//-(NSString *)translateFlight:(NSString *)flightCode{
-//
-//    NSError *err = nil;
-//    NSLog(@"airline code = %@",flightCode);
-//    NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",flightInfo,flightCode];   //JFK?$format=JSON
-//    NSURL *url = [NSURL URLWithString:IATAinfo];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    //using ios 9.0 method
-//    
-//    NSData *data = [NSURLSession sessionWithConfiguration:<#(nonnull NSURLSessionConfiguration *)#> delegate:<#(nullable id<NSURLSessionDelegate>)#> delegateQueue:<#(nullable NSOperationQueue *)#>];
-//
-//
-//
-//}
+
+-(void)figureRegistration_new:(NSString *)flightCode id:(NSString *)airlineID number:(NSString *)flightNumber{
+    NSLog(@"airline code = %@",flightCode);
+    
+    //using ios 9.0 method
+    NSURLSessionConfiguration *configObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration: configObject delegate: self delegateQueue: [NSOperationQueue mainQueue]];
+    
+    NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",flightInfo,flightCode];
+    NSURL *url = [NSURL URLWithString:IATAinfo];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    NSURLSessionDataTask *dataTask = [defaultSession dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response,NSError *err ){
+        NSHTTPURLResponse *urlResponse =(NSHTTPURLResponse *)response;
+        NSLog(@"Http response = %d",[urlResponse statusCode]);
+        if([urlResponse statusCode] == 200 && err == nil){
+            _flightArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"flight json = %@",_flightArray);
+            NSString *airlineInfo = [NSString stringWithFormat:@"%@-%@%@ ",[[_flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],airlineID,flightNumber];
+             NSLog(@"flight name = %@",airlineInfo);
+            
+            _scrollView.hidden = NO;
+            noDatasLabelView.hidden = YES;
+        }
+        else{
+            NSLog(@"err = %@ and response code = %d",err,[urlResponse statusCode]);
+            noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
+            [noDatasLabelView setText:@"No Data....."];
+            [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
+            [self.view addSubview:noDatasLabelView];
+            _scrollView.hidden = YES;
+            noDatasLabelView.hidden = NO;
+        }
+    }];
+   
+    [dataTask resume];
+   
+    
+}
 
 -(NSString *)translateIATA:(NSString *)airportCode{
     NSError *err = nil;
