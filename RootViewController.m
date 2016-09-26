@@ -366,10 +366,8 @@
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-          
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-            [self figureRegistration:airlineID];
-            [self figureRegistration_new:airlineID id:airlineID number:flightNumber];
+            [self figureRegistration_new:airlineID number:flightNumber];
 
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
@@ -377,9 +375,11 @@
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
-            [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
+//            [flightID setText:[NSString stringWithFormat:@"%@",[self returnCode]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+            
+           
             
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
@@ -977,8 +977,7 @@
 
 
 -(void)jsonArrival{
-    [self currentDate];
- //      NSString *arrivalLink = [NSString stringWithFormat:<#(nonnull NSString *), ...#>]
+    
     NSError *err = nil;
     NSURL *url = [NSURL URLWithString:[self currentDate]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -992,8 +991,10 @@
         NSLog(@"Departure json : %@",_arrivalArray);
         [inStream close];
         //    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:arrivalURL]];
+      
         [_tableView reloadData];
         noDatasLabelView.hidden = YES;
+        
     }
     else{
         noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
@@ -1011,6 +1012,13 @@
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
 }
+-(void)refreshTable{
+    NSLog(@"refresh schedule");
+    [self jsonArrival];
+    NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+    [_tableView reloadSections:indexSet withRowAnimation:nil];
+}
+
 
 /*-(void)jsonDeparture{
  NSError *err = nil;
@@ -1152,32 +1160,31 @@
     
 }
 
-
--(void)figureRegistration_new:(NSString *)flightCode id:(NSString *)airlineID number:(NSString *)flightNumber{
+#pragma mark 新的
+-(void)figureRegistration_new:(NSString *)flightCode number:(NSString *)flightNum{
     NSLog(@"airline code = %@",flightCode);
-    
-    //using ios 9.0 method
-    NSURLSessionConfiguration *configObject = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration: configObject delegate: self delegateQueue: [NSOperationQueue mainQueue]];
-    
+
+if(flightCode != nil){
     NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",flightInfo,flightCode];
     NSURL *url = [NSURL URLWithString:IATAinfo];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-
-    NSURLSessionDataTask *dataTask = [defaultSession dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response,NSError *err ){
-        NSHTTPURLResponse *urlResponse =(NSHTTPURLResponse *)response;
-        NSLog(@"Http response = %d",[urlResponse statusCode]);
-        if([urlResponse statusCode] == 200 && err == nil){
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *err) {
+        NSHTTPURLResponse *statusURL = (NSHTTPURLResponse *)response;
+        if([statusURL statusCode] == 200 && err == nil ){
             _flightArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"flight json = %@",_flightArray);
-            NSString *airlineInfo = [NSString stringWithFormat:@"%@-%@%@ ",[[_flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],airlineID,flightNumber];
-             NSLog(@"flight name = %@",airlineInfo);
-            
+            NSString *airlineCode = [NSString stringWithFormat:@"%@-%@%@(測試)",[[_flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],flightCode,flightNum];
+            airlineID_full = airlineCode;
+            NSLog(@"flight name  = %@",airlineID_full);
+            //[self returnCode];
+            [flightID setText:[NSString stringWithFormat:@"%@",[self returnCode]]];
             _scrollView.hidden = NO;
             noDatasLabelView.hidden = YES;
+          
         }
         else{
-            NSLog(@"err = %@ and response code = %d",err,[urlResponse statusCode]);
+            NSLog(@"err = %@ and response code = %d",err,[statusURL statusCode]);
             noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
             [noDatasLabelView setText:@"No Data....."];
             [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
@@ -1186,12 +1193,19 @@
             noDatasLabelView.hidden = NO;
         }
     }];
-   
-    [dataTask resume];
+    
+    }else{
+        NSLog(@"flight code is null");
+        [_tableView reloadData];
+    }
    
     
 }
 
+-(NSString *)returnCode{
+    NSLog(@"flight name  in return = %@",airlineID_full);
+    return airlineID_full;
+}
 -(NSString *)translateIATA:(NSString *)airportCode{
     NSError *err = nil;
     NSLog(@"airport code = %@",airportCode);
@@ -1199,6 +1213,17 @@
     NSURL *url = [NSURL URLWithString:IATAinfo];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
+    
+    
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//        NSLog(@"new XDD : %@", json);
+//        
+//    }];
+    
+    
+    
+    
     if(data != nil){
         _airportArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"Airport json : %@,  %d",_airportArray,[_airportArray count]);

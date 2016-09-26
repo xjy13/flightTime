@@ -93,8 +93,9 @@
 @property (nonatomic, retain)NSMutableArray *arrivalArray;
 @property (nonatomic, retain)NSMutableArray *airportArray;
 @property (nonatomic, retain)NSMutableArray *flightArray;
+
 // from UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
 
 ////for peer to talk
 //- (void)appendOutputMessage:(NSString*)message;
