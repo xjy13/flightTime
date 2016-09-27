@@ -367,7 +367,7 @@
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-            [self figureRegistration_new:airlineID number:flightNumber];
+          
 
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
@@ -375,7 +375,8 @@
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
-//            [flightID setText:[NSString stringWithFormat:@"%@",[self returnCode]]];
+            //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
@@ -399,7 +400,7 @@
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             
-            [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
+            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",departureAirport]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
@@ -421,7 +422,7 @@
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             
-            [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
+            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
@@ -440,7 +441,7 @@
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-            [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
+            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
@@ -462,7 +463,7 @@
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             
-            [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
+            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
@@ -485,7 +486,7 @@
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             
-            [flightID setText:[NSString stringWithFormat:@"%@",airlineID_full]];
+            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
@@ -1016,7 +1017,7 @@
     NSLog(@"refresh schedule");
     [self jsonArrival];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
-    [_tableView reloadSections:indexSet withRowAnimation:nil];
+    [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
 }
 
 
@@ -1161,30 +1162,33 @@
 }
 
 #pragma mark 新的
--(void)figureRegistration_new:(NSString *)flightCode number:(NSString *)flightNum{
+-(NSString *)figureRegistration_new:(NSString *)flightCode number:(NSString *)flightNum{
     NSLog(@"airline code = %@",flightCode);
 
 if(flightCode != nil){
     NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",flightInfo,flightCode];
     NSURL *url = [NSURL URLWithString:IATAinfo];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSError *err = nil;
+    NSHTTPURLResponse *res =nil;
+     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
     
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *err) {
-        NSHTTPURLResponse *statusURL = (NSHTTPURLResponse *)response;
-        if([statusURL statusCode] == 200 && err == nil ){
+    
+    
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *err) {
+//        NSHTTPURLResponse *statusURL = (NSHTTPURLResponse *)response;
+        if([res statusCode] == 200 && err == nil && ![flightCode isEqualToString:@""]){
             _flightArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"flight json = %@",_flightArray);
             NSString *airlineCode = [NSString stringWithFormat:@"%@-%@%@(測試)",[[_flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],flightCode,flightNum];
-            airlineID_full = airlineCode;
-            NSLog(@"flight name  = %@",airlineID_full);
+            NSLog(@"flight name  = %@",airlineCode);
             //[self returnCode];
-            [flightID setText:[NSString stringWithFormat:@"%@",[self returnCode]]];
             _scrollView.hidden = NO;
             noDatasLabelView.hidden = YES;
-          
+            return airlineCode;
         }
         else{
-            NSLog(@"err = %@ and response code = %d",err,[statusURL statusCode]);
+            NSLog(@"err = %@ and response code = %d",err,[res statusCode]);
             noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
             [noDatasLabelView setText:@"No Data....."];
             [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
@@ -1192,11 +1196,11 @@ if(flightCode != nil){
             _scrollView.hidden = YES;
             noDatasLabelView.hidden = NO;
         }
-    }];
+    
     
     }else{
         NSLog(@"flight code is null");
-        [_tableView reloadData];
+        [self figureRegistration:flightCode];
     }
    
     
@@ -1212,7 +1216,8 @@ if(flightCode != nil){
     NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",airportInfo,airportCode];   //JFK?$format=JSON
     NSURL *url = [NSURL URLWithString:IATAinfo];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
+    NSHTTPURLResponse *response = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     
     
 //    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -1222,9 +1227,9 @@ if(flightCode != nil){
 //    }];
     
     
+    NSLog(@"translateIATA status = %d",[response statusCode]);
     
-    
-    if(data != nil){
+    if(data != nil ){
         _airportArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"Airport json : %@,  %d",_airportArray,[_airportArray count]);
         _scrollView.hidden = NO;
