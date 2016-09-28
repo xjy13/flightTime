@@ -89,6 +89,8 @@
 @property (nonatomic, retain)UIButton *playRecord;
 @property (nonatomic, retain)UIButton *stop_playRecord;
 @property(nonatomic, retain)UIButton *refreshBtn;
+@property (nonatomic, retain)UIButton *arrivalBtn;
+@property (nonatomic, retain)UIButton *departureBtn;
 
 @property (nonatomic, retain)NSMutableArray *arrivalArray;
 @property (nonatomic, retain)NSMutableArray *airportArray;

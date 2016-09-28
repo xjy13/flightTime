@@ -13,6 +13,7 @@
 #define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
 #define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
 #define arrival @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
+
 @interface RootViewController(){
     UILabel *EAmaun ;
     UILabel *EAname;
@@ -142,7 +143,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"Now Date = %@",[self currentDate]);
     [self jsonArrival];
     [self initialTable];
     [self initView];
@@ -152,22 +152,23 @@
     [self enterToFront];
     [self enterToBackground];
    
-    //    flightSchedule = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(jsonDeparture) userInfo:nil repeats:YES];
-    //    [flightSchedule fire];
+    flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
+    [flightSchedule fire];
     
    
     
 }
 
 -(NSString *)currentDate{
-
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *nowDate = [NSDate date];
     NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
-    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,@"&%24top=6&%24format=JSON"];
+    NSString *topCountString = @"&%24top=6&%24format=JSON";
+    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
     
     NSString *arrvalDate = [arrival stringByAppendingString:filter];
     NSLog(@"new format Date = %@",arrvalDate);
@@ -286,7 +287,16 @@
     [_refreshBtn addTarget:self action:@selector(refreshTable:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_refreshBtn];
     
+    _arrivalBtn = [[UIButton alloc]initWithFrame:CGRectMake(0,80, 160, 45)];
+    [_arrivalBtn setBackgroundColor:[UIColor colorWithRed:0.0 green:.2 blue:.3 alpha:.5]];
+    [_arrivalBtn setTitle:@"Arrival" forState:UIControlStateNormal];
+    [_scrollView addSubview:_arrivalBtn];
     
+    _departureBtn = [[UIButton alloc]initWithFrame:CGRectMake(160,80, 160, 45)];
+    [_departureBtn setBackgroundColor:[UIColor colorWithRed:0.1 green:.3 blue:.2 alpha:.5]];
+    [_departureBtn setTitle:@"Departure" forState:UIControlStateNormal];
+    [_scrollView addSubview:_departureBtn];
+
 }
 
 
@@ -364,7 +374,7 @@
         case 0:
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
+            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
           
@@ -378,10 +388,21 @@
             //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            
            
+            NSRange delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
+            NSRange changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
+             NSRange cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
+            ManuLabel.numberOfLines = 0;
+            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
+                       [ManuLabel setFont:[UIFont systemFontOfSize:16]];
+            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
+                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
+            }
+            else{
+                 [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
+            }
             
+            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
             [cell addSubview:ManuLabel];
@@ -389,20 +410,37 @@
         case 1:
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
+            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-            [self figureRegistration:airlineID];
+            
             
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+            
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
+            //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
+            [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             
-            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
-            [IDLabel setText:[NSString stringWithFormat:@"From : %@",departureAirport]];
+            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
+            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
+            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
+            ManuLabel.numberOfLines = 0;
+            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
+            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
+                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
+            }
+            else{
+                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
+            }
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+            
+            
+            
             
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
@@ -411,88 +449,164 @@
         case 2:
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
+            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-            [self figureRegistration:airlineID];
+            
             
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+            
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
-            
-            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
+            //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+            
+            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
+            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
+            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
+            ManuLabel.numberOfLines = 0;
+            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
+            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
+                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
+            }
+            else{
+                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
+            }
+            
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+            
+            
+            
             
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
             [cell addSubview:ManuLabel];
+
             break;
         case 3:
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
+            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-            [self figureRegistration:airlineID];
+            
             
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+            
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
+            //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
+            //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
+            //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+            
+            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
+            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
+            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
+            ManuLabel.numberOfLines = 0;
+            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
+            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
+                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
+            }
+            else{
+                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
+            }
+            
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+            
+            
+            
             
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
             [cell addSubview:ManuLabel];
+
             break;
         case 4:
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
+            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-            [self figureRegistration:airlineID];
+            
             
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+            
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
-            
-            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
+            //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+            
+            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
+            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
+            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
+            ManuLabel.numberOfLines = 0;
+            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
+            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
+                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
+            }
+            else{
+                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
+            }
+            
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+            
+            
+            
             
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
             [cell addSubview:ManuLabel];
+
             
             break;
         case 5:
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 20)];
+            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
             airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
             flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-            [self figureRegistration:airlineID];
+            
             
             arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
             departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+            
             scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
-            
-            [flightID setText:[NSString stringWithFormat:@"%@",[self figureRegistration_new:airlineID number:flightNumber]]];
+            //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+            
+            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
+            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
+            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
+            ManuLabel.numberOfLines = 0;
+            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
+            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
+                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
+            }
+            else{
+                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
+            }
+            
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
             [cell addSubview:ManuLabel];
+
             break;
         default:;
             break;
@@ -951,6 +1065,7 @@
         [self setupTestEnvironment];
         [self jsonArrival];
         [self enterToBackground];
+        [flightSchedule fire];
         enterBackgound = false;
     }
 }
@@ -965,6 +1080,7 @@
     if(!enterBackgound){
         dispatch_after(1, dispatch_get_main_queue(), ^(void){
             [self uninstallSetup];
+            [flightSchedule invalidate];
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(receive_harkeyCmd:) object:nil];
             NSLog(@"really go to background!!");
         });
@@ -980,24 +1096,23 @@
 -(void)jsonArrival{
     
     NSError *err = nil;
+    NSHTTPURLResponse *res = nil;
     NSURL *url = [NSURL URLWithString:[self currentDate]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
-
-    NSLog(@"get json data = %@",data);
-    if(data != nil){
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+    
+    NSLog(@"arrival status = %d",[res statusCode]);
+    if(data != nil && [res statusCode]==200 && err == nil){
         NSInputStream *inStream = [[NSInputStream alloc] initWithData:data];
         [inStream open];
         _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"Departure json : %@",_arrivalArray);
+        NSLog(@"arrival json : %@",_arrivalArray);
         [inStream close];
-        //    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:arrivalURL]];
-      
         [_tableView reloadData];
         noDatasLabelView.hidden = YES;
-        
     }
     else{
+        NSLog(@"error json = %@ and status code = %d",_arrivalArray,[res statusCode]);
         noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
         [noDatasLabelView setText:@"No Data....."];
         [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
@@ -1009,6 +1124,7 @@
 // refresh schedule
 -(void)refreshTable:(UIButton *)btn {
     NSLog(@"refresh schedule");
+    [self currentDate];
     [self jsonArrival];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
@@ -1171,12 +1287,7 @@ if(flightCode != nil){
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSError *err = nil;
     NSHTTPURLResponse *res =nil;
-     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
-    
-    
-    
-//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *err) {
-//        NSHTTPURLResponse *statusURL = (NSHTTPURLResponse *)response;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
         if([res statusCode] == 200 && err == nil && ![flightCode isEqualToString:@""]){
             _flightArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"flight json = %@",_flightArray);
@@ -1206,10 +1317,6 @@ if(flightCode != nil){
     
 }
 
--(NSString *)returnCode{
-    NSLog(@"flight name  in return = %@",airlineID_full);
-    return airlineID_full;
-}
 -(NSString *)translateIATA:(NSString *)airportCode{
     NSError *err = nil;
     NSLog(@"airport code = %@",airportCode);
