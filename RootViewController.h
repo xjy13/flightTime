@@ -93,6 +93,7 @@
 @property (nonatomic, retain)UIButton *departureBtn;
 
 @property (nonatomic, retain)NSMutableArray *arrivalArray;
+@property (nonatomic, retain)NSMutableArray *departureArray;
 @property (nonatomic, retain)NSMutableArray *airportArray;
 @property (nonatomic, retain)NSMutableArray *flightArray;
 

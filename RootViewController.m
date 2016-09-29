@@ -9,7 +9,7 @@
 #import "EADemoAppDelegate.h"
 
 
-#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
+#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24filter=FlightDate%20eq%20"
 #define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
 #define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
 #define arrival @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
@@ -85,6 +85,7 @@
     BOOL enterBackgound;
     BOOL enterFront;
     BOOL isConnect;
+    BOOL isArrival;
     NSURL* url_music;
     NSURL *recordPath;
     
@@ -142,8 +143,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    isArrival = true;
     [self jsonArrival];
+    [self jsonDeparture];
     [self initialTable];
     [self initView];
     [self setupTestEnvironment];
@@ -159,7 +161,7 @@
     
 }
 
--(NSString *)currentDate{
+-(NSString *)currentDateArrival{
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
@@ -171,15 +173,24 @@
     NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
     
     NSString *arrvalDate = [arrival stringByAppendingString:filter];
-    NSLog(@"new format Date = %@",arrvalDate);
+    NSLog(@"[arrival] new format Date = %@",arrvalDate);
     return  arrvalDate;
 }
+-(NSString *)currentDateDeparture{
 
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *nowDate = [NSDate date];
+    NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
+    NSString *topCountString = @"&%24top=6&%24format=JSON";
+    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
+    
+    NSString *departureDate = [departureURL stringByAppendingString:filter];
+    NSLog(@"[departure] new format Date = %@",departureDate);
+    return  departureDate;
 
--(void)viewDidAppear:(BOOL)animated{
-   // [super viewDidAppear:animated];
-    
-    
 }
 
 
@@ -290,10 +301,12 @@
     _arrivalBtn = [[UIButton alloc]initWithFrame:CGRectMake(0,80, 160, 45)];
     [_arrivalBtn setBackgroundColor:[UIColor colorWithRed:0.0 green:.2 blue:.3 alpha:.5]];
     [_arrivalBtn setTitle:@"Arrival" forState:UIControlStateNormal];
+    [_arrivalBtn addTarget:self action:@selector(arrivalTable:) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:_arrivalBtn];
     
     _departureBtn = [[UIButton alloc]initWithFrame:CGRectMake(160,80, 160, 45)];
     [_departureBtn setBackgroundColor:[UIColor colorWithRed:0.1 green:.3 blue:.2 alpha:.5]];
+    [_departureBtn addTarget:self action:@selector(departureTable:) forControlEvents:UIControlEventTouchUpInside];
     [_departureBtn setTitle:@"Departure" forState:UIControlStateNormal];
     [_scrollView addSubview:_departureBtn];
 
@@ -372,22 +385,53 @@
     
     switch (row) {
         case 0:
+            
+            /*
+             ActualDepartureTime = "2016-09-29T00:32";
+            * AirlineID = CX;
+            * ArrivalAirportID = HKG;
+             DepartureAirportID = TPE;
+             DepartureRemark = "\U51fa\U767cDEPARTED";
+            * FlightDate = "2016-09-29";
+            * FlightNumber = 495;
+             Gate = B7;
+            * ScheduleDepartureTime = "2016-09-28T13:25";
+             Terminal = 1;
+             UpdateTime = "2016-09-29T13:31:24+08:00";
+             
+             */
+            
+            
+            
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+           
+            
+            if(isArrival == true){
+                //入境的
+                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+            }
+            else{
+                //離境的
+                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
+                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
+                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+            }
+            
+            
           
-
-            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-          
-            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-            //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
+                   //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
-            [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+            [IDLabel setText:[NSString stringWithFormat:@"From(To) : %@",[self translateIATA:departureAirport]]];
            
             NSRange delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
             NSRange changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
@@ -411,17 +455,35 @@
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-            
-            
-            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-            
-            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+//            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+//            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+//            
+//            
+//            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+//            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+//            
+//            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            if(isArrival == true){
+                //入境的
+                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+            }
+            else{
+                //離境的
+                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
+                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
+                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+            }
+
+            
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             
@@ -450,17 +512,34 @@
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+//            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+//            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
             
             
-            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-            
-            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+//            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+//            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+//            
+//            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            if(isArrival == true){
+                //入境的
+                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+            }
+            else{
+                //離境的
+                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
+                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
+                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+            }
+
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             
@@ -491,17 +570,34 @@
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+//            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+//            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
             
             
-            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-            
-            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+//            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+//            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+//            
+//            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            if(isArrival == true){
+                //入境的
+                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+            }
+            else{
+                //離境的
+                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
+                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
+                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+            }
+
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             
@@ -532,17 +628,34 @@
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+//            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+//            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
             
             
-            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-            
-            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+//            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+//            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+//            
+//            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            if(isArrival == true){
+                //入境的
+                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+            }
+            else{
+                //離境的
+                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
+                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
+                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+            }
+
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             
@@ -561,9 +674,6 @@
             
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
-            
-            
-            
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
             [cell addSubview:ManuLabel];
@@ -574,17 +684,36 @@
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+//            airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+//            flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
             
             
-            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-            
-            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+//            arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+//            departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+//            
+//            scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
             //            gateNumber = [[arrivalArray objectAtIndex:row]objectForKey:@"Gate"];
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
+            
+            if(isArrival == true){
+                //入境的
+                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+            }
+            else{
+                //離境的
+                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
+                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
+                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
+                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+            }
+
+            
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
             [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
             
@@ -1097,7 +1226,7 @@
     
     NSError *err = nil;
     NSHTTPURLResponse *res = nil;
-    NSURL *url = [NSURL URLWithString:[self currentDate]];
+    NSURL *url = [NSURL URLWithString:[self currentDateArrival]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
     
@@ -1121,73 +1250,77 @@
     }
     
 }
+
+-(void)jsonDeparture{
+    NSError *err = nil;
+    NSHTTPURLResponse *res = nil;
+    NSURL *url = [NSURL URLWithString:[self currentDateDeparture]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+    
+    NSLog(@"departure status = %d",[res statusCode]);
+    if(data != nil && [res statusCode]==200 && err == nil){
+        NSInputStream *inStream = [[NSInputStream alloc] initWithData:data];
+        [inStream open];
+        _departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"departure json : %@",_departureArray);
+        [inStream close];
+        [_tableView reloadData];
+        noDatasLabelView.hidden = YES;
+    }
+    else{
+        NSLog(@"error json = %@ and status code = %d",_departureArray,[res statusCode]);
+        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
+        [noDatasLabelView setText:@"No Data....."];
+        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
+        [self.view addSubview:noDatasLabelView];
+        noDatasLabelView.hidden = NO;
+    }
+
+
+
+}
+
 // refresh schedule
 -(void)refreshTable:(UIButton *)btn {
     NSLog(@"refresh schedule");
-    [self currentDate];
-    [self jsonArrival];
+    [self currentDateArrival];
+    if(isArrival == true){
+         [self jsonArrival];
+    }else{
+         [self jsonDeparture];
+    }
+   
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
 }
 -(void)refreshTable{
     NSLog(@"refresh schedule");
-    [self jsonArrival];
+    if(isArrival == true){
+        [self jsonArrival];
+    }else{
+        [self jsonDeparture];
+    }
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
 }
 
+-(void)arrivalTable:(UIButton *)btn{
+    NSLog(@"show arrival table");
+    isArrival = true;
+    [self jsonArrival];
+    NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+    [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+}
 
-/*-(void)jsonDeparture{
- NSError *err = nil;
- NSURL *url = [NSURL URLWithString:departureURL];
- NSURLRequest *request = [NSURLRequest requestWithURL:url];
- NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
- 
- 
- NSMutableArray *departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
- NSLog(@"Departure json : %@",departureArray);
- //  NSDictionary
- NSString *airlineID = [[departureArray objectAtIndex:0] objectForKey:@"AirlineID"];
- NSString *airlineID_full;
- NSString *flightNumber = [[departureArray objectAtIndex:0] objectForKey:@"FlightNumber"];
- NSString *departureRemark = [[departureArray objectAtIndex:0] objectForKey:@" DepartureRemark"];
- NSString *scheduleDepartureTime = [[departureArray objectAtIndex:0]objectForKey:@"ScheduleDepartureTime"];
- NSString *gateNumber = [[departureArray objectAtIndex:0]objectForKey:@"Gate"];
- NSString *terminal = [[departureArray objectAtIndex:0]objectForKey:@"Terminal"];
- 
- NSLog(@"Flight ID: %@",airlineID);
- if([airlineID isEqualToString:@"CI"]){
- airlineID_full = [NSString stringWithFormat:@"中華航空-%@%@ ",airlineID,flightNumber];
- }
- else if([airlineID isEqualToString:@"BR"]){
- airlineID_full = [NSString stringWithFormat:@"長榮航空-%@%@ ",airlineID,flightNumber];
- }
- else if([airlineID isEqualToString:@"GE"]){
- airlineID_full = [NSString stringWithFormat:@"復興航空-%@%@ ",airlineID,flightNumber];
- }
- else if([airlineID isEqualToString:@"CX"]){
- airlineID_full = [NSString stringWithFormat:@"國泰航空-%@%@ ",airlineID,flightNumber];
- }
- else if([airlineID isEqualToString:@"MU"]){
- airlineID_full = [NSString stringWithFormat:@"中國東方-%@%@ ",airlineID,flightNumber];
- }
- else if([airlineID isEqualToString:@"CZ"]){
- airlineID_full = [NSString stringWithFormat:@"中國南方-%@%@ ",airlineID,flightNumber];
- }
- else if([airlineID isEqualToString:@"JL"]){
- airlineID_full = [NSString stringWithFormat:@"日本航空-%@%@ ",airlineID,flightNumber];
- }
- else if([airlineID isEqualToString:@"KE"]){
- airlineID_full = [NSString stringWithFormat:@"大韓民航-%@%@ ",airlineID,flightNumber];
- }
- else{
- airlineID_full = [NSString stringWithFormat:@"離開台灣-%@%@ ",airlineID,flightNumber];
- }
- 
- NSLog(@"airlineID_full departure = %@",airlineID_full);
- 
- 
- }*/
+-(void)departureTable:(UIButton *)btn{
+    NSLog(@"show departure table");
+    isArrival = false;
+    [self jsonDeparture];
+    NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+    [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+}
+
 
 -(void)figureRegistration:(NSString *)code{
     if([code isEqualToString:@"CI"]){
