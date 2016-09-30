@@ -55,10 +55,10 @@
 		04C04AC21D18E94C00708E7E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		04E572341D73D1DC005CE613 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* EADemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EADemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* FlightTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlightTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		28A0AAE50D9B0CCF005BE974 /* EADemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EADemo_Prefix.pch; sourceTree = "<group>"; };
+		28A0AAE50D9B0CCF005BE974 /* FlightTime_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightTime_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		309BCA6611DB0A0E000B4574 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		309BCA6711DB0A0E000B4574 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 		309BCA6A11DB0A0E000B4574 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		309BCA6B11DB0A0E000B4574 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		30B3DE3211ED1F7700C12546 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* EADemo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "EADemo-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* FlightTime-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FlightTime-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		C952826B0FB397D500E6CF4C /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		C98634590FB66A2200D461F2 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		C986345A0FB66A2200D461F2 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* EADemo.app */,
+				1D6058910D05DD3D006BFB54 /* FlightTime.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -115,10 +115,10 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				309BCA6511DB0A0E000B4574 /* Resources */,
-				28A0AAE50D9B0CCF005BE974 /* EADemo_Prefix.pch */,
+				28A0AAE50D9B0CCF005BE974 /* FlightTime_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				044ECEE81D2D01420073DA60 /* Storyboard.storyboard */,
-				8D1107310486CEB800E47090 /* EADemo-Info.plist */,
+				8D1107310486CEB800E47090 /* FlightTime-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -175,9 +175,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* EADemo */ = {
+		1D6058900D05DD3D006BFB54 /* FlightTime */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "EADemo" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "FlightTime" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -187,9 +187,9 @@
 			);
 			dependencies = (
 			);
-			name = EADemo;
+			name = FlightTime;
 			productName = EADemo;
-			productReference = 1D6058910D05DD3D006BFB54 /* EADemo.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* FlightTime.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -199,7 +199,7 @@
 			isa = PBXProject;
 			attributes = {
 			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "EADemo" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FlightTime" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -214,7 +214,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* EADemo */,
+				1D6058900D05DD3D006BFB54 /* FlightTime */,
 			);
 		};
 /* End PBXProject section */
@@ -274,11 +274,11 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = EADemo_Prefix.pch;
-				INFOPLIST_FILE = "EADemo-Info.plist";
+				GCC_PREFIX_HEADER = FlightTime_Prefix.pch;
+				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.flightTime;
-				PRODUCT_NAME = EADemo;
+				PRODUCT_NAME = FlightTime;
 			};
 			name = Debug;
 		};
@@ -290,11 +290,11 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = EADemo_Prefix.pch;
-				INFOPLIST_FILE = "EADemo-Info.plist";
+				GCC_PREFIX_HEADER = FlightTime_Prefix.pch;
+				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.flightTime;
-				PRODUCT_NAME = EADemo;
+				PRODUCT_NAME = FlightTime;
 			};
 			name = Release;
 		};
@@ -343,7 +343,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "EADemo" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "FlightTime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -352,7 +352,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "EADemo" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FlightTime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,

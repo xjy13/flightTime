@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
                BuildableName = "EADemo.app"
-               BlueprintName = "EADemo"
-               ReferencedContainer = "container:EADemo.xcodeproj">
+               BlueprintName = "FlightTime"
+               ReferencedContainer = "container:FlightTime.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
             BuildableName = "EADemo.app"
-            BlueprintName = "EADemo"
-            ReferencedContainer = "container:EADemo.xcodeproj">
+            BlueprintName = "FlightTime"
+            ReferencedContainer = "container:FlightTime.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "EADemo.app"
-            BlueprintName = "EADemo"
-            ReferencedContainer = "container:EADemo.xcodeproj">
+            BuildableName = "FlightTime.app"
+            BlueprintName = "FlightTime"
+            ReferencedContainer = "container:FlightTime.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -76,8 +76,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
             BuildableName = "EADemo.app"
-            BlueprintName = "EADemo"
-            ReferencedContainer = "container:EADemo.xcodeproj">
+            BlueprintName = "FlightTime"
+            ReferencedContainer = "container:FlightTime.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
