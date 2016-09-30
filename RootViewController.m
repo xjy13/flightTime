@@ -205,11 +205,11 @@
     commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
     
     //read music in resource folder
-    url_music = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle]pathForResource:@"happy" ofType:@"mp3"]];
-    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:nil];
-
-//    url_music = [[NSURL alloc] initFileURLWithPath:@"mms://bcr.media.hinet.net/RA000007"];
+//    url_music = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle]pathForResource:@"happy" ofType:@"mp3"]];
 //    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:nil];
+
+    url_music = [[NSURL alloc] initFileURLWithPath:@"http://stream.twatc.net:8000/RCTP_TWR2"];
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:nil];
     
     //flag for music is played or not
     isPlay = false;
@@ -234,6 +234,10 @@
     [self receive_harkeyCmd];
     [self volumeChanged];
     [self recoderInit];
+    
+    MPMusicPlayerController *musicPlayerController = [MPMusicPlayerController applicationMusicPlayer];
+    musicPlayerController.volume = 0.3;
+
     
     [audioPlayer play];
     [audioPlayer stop];
@@ -272,11 +276,11 @@
     _pauseMuzik.hidden = YES;
     
     
-    vol = [[UILabel alloc]initWithFrame:CGRectMake(240, 20, 110, 20)];
-    [vol setFont:[UIFont systemFontOfSize:15]];
+    vol = [[UILabel alloc]initWithFrame:CGRectMake(260, 25, 110, 20)];
+    [vol setFont:[UIFont systemFontOfSize:14]];
     [vol setTextColor:[UIColor blackColor]];
-    [vol setText:[NSString stringWithFormat:@"音量：%.0f",volValue*100]];
-   // [_scrollView addSubview:vol];
+    [vol setText:[NSString stringWithFormat:@"VOL:%.0f",volValue*100]];
+    [_scrollView addSubview:vol];
     
     volmeUp_label = [[UILabel alloc]initWithFrame:CGRectMake(counter.frame.origin.x, counter.frame.origin.y+25, 130, 20)];
     [volmeUp_label setFont:[UIFont systemFontOfSize:15]];
@@ -289,7 +293,7 @@
     
     [volumeView reloadInputViews];
     volumeView = [[MPVolumeView alloc] init];
-    [volumeView setFrame:CGRectMake(20.0, volumDown_label.frame.origin.y+20, 250.0, 20.0)];
+    [volumeView setFrame:CGRectMake(60, 25, 190.0, 20.0)];
     [_scrollView addSubview:volumeView];
     
     _refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -300,12 +304,14 @@
     
     _arrivalBtn = [[UIButton alloc]initWithFrame:CGRectMake(0,80, 160, 45)];
     [_arrivalBtn setBackgroundColor:[UIColor colorWithRed:0.0 green:.2 blue:.3 alpha:.5]];
+     [_arrivalBtn setTitleColor:[UIColor colorWithRed:251.0/255.0 green:176.0/255.0 blue:23.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     [_arrivalBtn setTitle:@"Arrival" forState:UIControlStateNormal];
     [_arrivalBtn addTarget:self action:@selector(arrivalTable:) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:_arrivalBtn];
-    
+   
     _departureBtn = [[UIButton alloc]initWithFrame:CGRectMake(160,80, 160, 45)];
     [_departureBtn setBackgroundColor:[UIColor colorWithRed:0.1 green:.3 blue:.2 alpha:.5]];
+    [_departureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_departureBtn addTarget:self action:@selector(departureTable:) forControlEvents:UIControlEventTouchUpInside];
     [_departureBtn setTitle:@"Departure" forState:UIControlStateNormal];
     [_scrollView addSubview:_departureBtn];
@@ -406,7 +412,7 @@
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
             IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
             ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-           
+        
             
             if(isArrival == true){
                 //入境的
@@ -415,6 +421,8 @@
                 arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
                 departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
                 scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+
             }
             else{
                 //離境的
@@ -423,6 +431,8 @@
                 arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
                 departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
                 scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[self translateIATA:departureAirport]]];
+
             }
             
             
@@ -431,11 +441,11 @@
             //            terminal = [[arrivalArray objectAtIndex:row]objectForKey:@"Terminal"];
             //NSLog(@"airlineID_full in tableCell = %@",airlineID_full);
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
-            [IDLabel setText:[NSString stringWithFormat:@"From(To) : %@",[self translateIATA:departureAirport]]];
            
+            
             NSRange delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
             NSRange changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-             NSRange cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
+            NSRange cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
             ManuLabel.numberOfLines = 0;
             ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
                        [ManuLabel setFont:[UIFont systemFontOfSize:16]];
@@ -473,6 +483,8 @@
                 arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
                 departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
                 scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+
             }
             else{
                 //離境的
@@ -481,6 +493,8 @@
                 arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
                 departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
                 scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[self translateIATA:departureAirport]]];
+
             }
 
             
@@ -530,6 +544,8 @@
                 arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
                 departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
                 scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+
             }
             else{
                 //離境的
@@ -538,6 +554,8 @@
                 arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
                 departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
                 scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[self translateIATA:departureAirport]]];
+
             }
 
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
@@ -588,6 +606,8 @@
                 arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
                 departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
                 scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+
             }
             else{
                 //離境的
@@ -596,6 +616,8 @@
                 arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
                 departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
                 scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[self translateIATA:departureAirport]]];
+
             }
 
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
@@ -646,6 +668,8 @@
                 arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
                 departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
                 scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+
             }
             else{
                 //離境的
@@ -654,6 +678,8 @@
                 arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
                 departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
                 scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[self translateIATA:departureAirport]]];
+
             }
 
             [flightID setText:[NSString stringWithFormat:@"%@", [self figureRegistration_new:airlineID number:flightNumber]]];
@@ -703,6 +729,8 @@
                 arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
                 departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
                 scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[self translateIATA:departureAirport]]];
+
             }
             else{
                 //離境的
@@ -711,6 +739,7 @@
                 arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
                 departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
                 scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[self translateIATA:departureAirport]]];
             }
 
             
@@ -941,8 +970,8 @@
         [vol setText:@" volume fail!!!!!!!!"];
         [self warningMessage:@"Volume"];
     }
-    [vol setText:[NSString stringWithFormat:@"音量：%.0f",volValue*100]];
-    //    [_scrollView addSubview:counter];
+    [vol setText:[NSString stringWithFormat:@"VOL:%.0f",volValue*100]];
+    [_scrollView addSubview:counter];
     [_scrollView addSubview:vol];
     
 }
@@ -1191,10 +1220,10 @@
 }
 -(void)toFront:(NSNotification *)noti{
     if(!enterFront){
-        [self setupTestEnvironment];
-        [self jsonArrival];
+     //   [self setupTestEnvironment];
+        [self refreshTable];
         [self enterToBackground];
-        [flightSchedule fire];
+       // [flightSchedule fire];
         enterBackgound = false;
     }
 }
@@ -1208,7 +1237,7 @@
 -(void)enterToBackground:(NSNotification *)nofi{
     if(!enterBackgound){
         dispatch_after(1, dispatch_get_main_queue(), ^(void){
-            [self uninstallSetup];
+           // [self uninstallSetup];
             [flightSchedule invalidate];
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(receive_harkeyCmd:) object:nil];
             NSLog(@"really go to background!!");
@@ -1232,22 +1261,40 @@
     
     NSLog(@"arrival status = %d",[res statusCode]);
     if(data != nil && [res statusCode]==200 && err == nil){
-        NSInputStream *inStream = [[NSInputStream alloc] initWithData:data];
-        [inStream open];
         _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"arrival json : %@",_arrivalArray);
-        [inStream close];
         [_tableView reloadData];
         noDatasLabelView.hidden = YES;
     }
     else{
-        NSLog(@"error json = %@ and status code = %d",_arrivalArray,[res statusCode]);
+        NSLog(@"error json = %@ and status code = %d error = %@",_arrivalArray,[res statusCode],[err description]);
         noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
         [noDatasLabelView setText:@"No Data....."];
         [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
         [self.view addSubview:noDatasLabelView];
         noDatasLabelView.hidden = NO;
     }
+    
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *err) {
+//        NSHTTPURLResponse *statusURL = (NSHTTPURLResponse *)response;
+//        NSLog(@"arrival status = %d",[statusURL statusCode]);
+//        if([statusURL statusCode] == 200 && err == nil ){
+//            _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
+//            NSLog(@"arrival json : %@",_arrivalArray);
+//            [_tableView reloadData];
+//        }
+//        else{
+//            NSLog(@"error json = %@ and status code = %d",_arrivalArray,[res statusCode]);
+//            noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
+//            [noDatasLabelView setText:@"No Data....."];
+//            [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
+//            [self.view addSubview:noDatasLabelView];
+//            noDatasLabelView.hidden = NO;
+//        }
+//    }];
+
+    
+    
     
 }
 
@@ -1269,7 +1316,7 @@
         noDatasLabelView.hidden = YES;
     }
     else{
-        NSLog(@"error json = %@ and status code = %d",_departureArray,[res statusCode]);
+        NSLog(@"error json = %@ and status code = %d error = %@",_departureArray,[res statusCode],[err description]);
         noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
         [noDatasLabelView setText:@"No Data....."];
         [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
@@ -1307,6 +1354,8 @@
 
 -(void)arrivalTable:(UIButton *)btn{
     NSLog(@"show arrival table");
+    [_arrivalBtn setTitleColor:[UIColor colorWithRed:251.0/255.0 green:176.0/255.0 blue:23.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [_departureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     isArrival = true;
     [self jsonArrival];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
@@ -1315,6 +1364,8 @@
 
 -(void)departureTable:(UIButton *)btn{
     NSLog(@"show departure table");
+    [_departureBtn setTitleColor:[UIColor colorWithRed:251.0/255.0 green:176.0/255.0 blue:23.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+     [_arrivalBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     isArrival = false;
     [self jsonDeparture];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
