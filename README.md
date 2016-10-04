@@ -1,4 +1,4 @@
 # flightTime
 
-It's a begining flight schedule App. I will build the correct flight time, can listen the airport tower broadcast.
-I also refer iOS EAAccessory API to detect lightning accessory and remote control
+We can use this App. to see flight schedule (arrival and departure) in Taoyuan internation airport in Taiwan. 
+In future, add tower radio and can change airport. Finally fine an API to search flight route on map.
