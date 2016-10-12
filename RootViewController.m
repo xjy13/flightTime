@@ -7,12 +7,15 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MPRemoteCommandEvent.h>
 #import "EADemoAppDelegate.h"
-
+#import "Toast+UIView.h"
 
 #define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24filter=FlightDate%20eq%20"
 #define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
 #define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
 #define arrival @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
+
+//DiQi API
+#define diqiURL @"https://asset.diqi.us/api/v1/users/profile/"
 
 @interface RootViewController(){
     UILabel *EAmaun ;
@@ -1334,6 +1337,7 @@
     [self currentDateArrival];
     if(isArrival == true){
          [self jsonArrival];
+          [self.view makeToast:@"哈哈哈哈哈哈哈哈" duration:2.0 position:@"center"];
     }else{
          [self jsonDeparture];
     }
