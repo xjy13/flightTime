@@ -101,6 +101,7 @@
     NSTimer *checkdB;
     NSTimer *flightSchedule;
     EADemoAppDelegate *EADemo;
+    MBProgressHUD *hudView;
    
 }
 @end
@@ -146,6 +147,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    hudView.delegate = self;
+    hudView = [[MBProgressHUD alloc]initWithView:self.view];
+    [self.view addSubview:hudView];
+    
     isArrival = true;
     [self jsonArrival];
     [self jsonDeparture];
@@ -774,6 +779,7 @@
     }
     
     return cell;
+  
 }
 
 
@@ -1334,16 +1340,23 @@
 // refresh schedule
 -(void)refreshTable:(UIButton *)btn {
     NSLog(@"refresh schedule");
+    
+    hudView.labelText = @"載入中";
+    [hudView show:YES];
+    
     [self currentDateArrival];
     if(isArrival == true){
-         [self jsonArrival];
-          [self.view makeToast:@"哈哈哈哈哈哈哈哈" duration:2.0 position:@"center"];
+        [self jsonArrival];
+   //     [hudView setHidden:YES];
+       //   [self.view makeToast:@"哈哈哈哈哈哈哈哈" duration:2.0 position:@"center"];
+        
     }else{
-         [self jsonDeparture];
+        [self jsonDeparture];
     }
-   
+    [hudView hide:YES afterDelay:100];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+
 }
 -(void)refreshTable{
     NSLog(@"refresh schedule");
@@ -1479,7 +1492,7 @@ if(flightCode != nil){
         if([res statusCode] == 200 && err == nil && ![flightCode isEqualToString:@""]){
             _flightArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"flight json = %@",_flightArray);
-            NSString *airlineCode = [NSString stringWithFormat:@"%@-%@%@(測試)",[[_flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],flightCode,flightNum];
+            NSString *airlineCode = [NSString stringWithFormat:@"%@-%@%@",[[_flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],flightCode,flightNum];
             NSLog(@"flight name  = %@",airlineCode);
             //[self returnCode];
             _scrollView.hidden = NO;

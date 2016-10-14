@@ -55,10 +55,11 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MPRemoteCommandCenter.h>
 #import "EADemoAppDelegate.h"
+#import "MBProgressHUD.h"
 @class EADSessionController;
 
 
-@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate> {
+@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate,MBProgressHUDDelegate> {
     
     NSMutableArray *_accessoryList;
     NSMutableArray *_accessoryOriginal;
