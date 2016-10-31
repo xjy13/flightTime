@@ -93,7 +93,7 @@
     [window setRootViewController:nav];
     [window makeKeyAndVisible];
        return YES;
-    [self jsonArrival];
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -124,13 +124,15 @@
 }
 
 
--(void)jsonArrival{
-    NSError *err = nil;
-    NSURL *url = [NSURL URLWithString:arrivalURL];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
-    _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    NSLog(@"Departure json : %@",_arrivalArray);
+-(void)jsonArrival:(NSString *)comeFrom{
+    if(![comeFrom isEqualToString:@""]){
+        NSError *err = nil;
+        NSURL *url = [NSURL URLWithString:arrivalURL];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
+        _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"Departure json from Delegate : %@",_arrivalArray);
+    }
     
 }
 

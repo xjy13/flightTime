@@ -13,6 +13,7 @@
 		044ECEE71D2D01180073DA60 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 044ECEE61D2D01180073DA60 /* back.png */; };
 		044ECEE91D2D01420073DA60 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044ECEE81D2D01420073DA60 /* Storyboard.storyboard */; };
 		045AEECB1D65EA7D0065CAE7 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 045AEECA1D65EA7D0065CAE7 /* refresh.png */; };
+		049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0498058F1DC2FC6700C42C5F /* GetSchedule.m */; };
 		04A0233F1D263C99002C989D /* playBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A0233D1D263C99002C989D /* playBtn.png */; };
 		04A023401D263C99002C989D /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A0233E1D263C99002C989D /* stop.png */; };
 		04A023431D265DDC002C989D /* stop_recording.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A023411D265DDC002C989D /* stop_recording.png */; };
@@ -50,6 +51,8 @@
 		044ECEE61D2D01180073DA60 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		044ECEE81D2D01420073DA60 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		045AEECA1D65EA7D0065CAE7 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
+		0498058E1DC2FC3D00C42C5F /* GetSchedule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSchedule.h; sourceTree = "<group>"; };
+		0498058F1DC2FC6700C42C5F /* GetSchedule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSchedule.m; sourceTree = "<group>"; };
 		04A0233D1D263C99002C989D /* playBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playBtn.png; sourceTree = "<group>"; };
 		04A0233E1D263C99002C989D /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop.png; sourceTree = "<group>"; };
 		04A023411D265DDC002C989D /* stop_recording.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop_recording.png; sourceTree = "<group>"; };
@@ -188,6 +191,8 @@
 				C986345A0FB66A2200D461F2 /* RootViewController.m */,
 				C9E1AB2C104EF18F002BECB8 /* EADSessionTransferViewController.h */,
 				C9E1AB2D104EF18F002BECB8 /* EADSessionTransferViewController.m */,
+				0498058E1DC2FC3D00C42C5F /* GetSchedule.h */,
+				0498058F1DC2FC6700C42C5F /* GetSchedule.m */,
 				043424E71DAFECC7003E7E2B /* ViewAssistance */,
 			);
 			name = ViewControllers;
@@ -287,6 +292,7 @@
 				C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */,
 				C986345F0FB66A3500D461F2 /* EADemoAppDelegate.m in Sources */,
 				C9E1AAB6104EBA61002BECB8 /* EADSessionController.m in Sources */,
+				049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */,
 				C9E1AB2E104EF18F002BECB8 /* EADSessionTransferViewController.m in Sources */,
 				043424E61DAFECB7003E7E2B /* MBProgressHUD.m in Sources */,
 			);

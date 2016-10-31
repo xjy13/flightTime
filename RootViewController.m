@@ -100,8 +100,9 @@
     NSString *recordChannel;
     NSTimer *checkdB;
     NSTimer *flightSchedule;
-    EADemoAppDelegate *EADemo;
+//    EADemoAppDelegate *EADemo;
     MBProgressHUD *hudView;
+  //  GetSchedule *sch;
    
 }
 @end
@@ -141,7 +142,6 @@
     UILabel *seperate = [[UILabel alloc]initWithFrame:CGRectMake(0,125, 320, 0.8)];
     [seperate setBackgroundColor:[UIColor colorWithRed:230.0/255.0 green:230.0/255.0 blue:230.0/255.0 alpha:1]];
     [_scrollView addSubview:seperate];
-    
     [self.view addSubview:_scrollView];
 }
 
@@ -152,8 +152,11 @@
     [self.view addSubview:hudView];
     
     isArrival = true;
+   
+  
+    //need to figre out 1031
+    [self.delegate jsonArrivalXD:@"root"];
     [self jsonArrival];
-    [self jsonDeparture];
     [self initialTable];
     [self initView];
     [self setupTestEnvironment];
