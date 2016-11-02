@@ -155,7 +155,7 @@
    
   
     //need to figre out 1031
-    [self.delegate jsonArrivalXD:@"root"];
+  
     [self jsonArrival];
     [self initialTable];
     [self initView];
@@ -170,6 +170,10 @@
     
    
     
+}
+-(void)test{
+ [self.rootdelegate jsonArrivalXD:self];
+
 }
 
 -(NSString *)currentDateArrival{
@@ -526,9 +530,7 @@
             }
             [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
             
-            
-            
-            
+                        
             [cell addSubview:flightID];
             [cell addSubview:IDLabel];
             [cell addSubview:ManuLabel];
@@ -1343,7 +1345,7 @@
 // refresh schedule
 -(void)refreshTable:(UIButton *)btn {
     NSLog(@"refresh schedule");
-    
+   
     hudView.labelText = @"載入中";
     [hudView show:YES];
     

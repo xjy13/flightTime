@@ -7,15 +7,15 @@
 //
 #import <Foundation/Foundation.h>
 #import "GetSchedule.h"
-#define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24top=6&%24format=JSON"
-#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
+//#define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24top=6&%24format=JSON"
+//#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
 //@interface GetSchedule:NSObject<rootDelegate>
 //
 //@end
 
 @implementation GetSchedule
--(void)jsonArrivalXD:(NSString *)comeFrom{
-    NSLog(@"comeFrom = %@",comeFrom);
+//-(void)jsonArrivalXD:(NSString *)comeFrom{
+//    NSLog(@"comeFrom = %@",comeFrom);
 ////          if(![comeFrom isEqualToString:@""]){
 //        NSError *err = nil;
 //        NSURL *url = [NSURL URLWithString:arrivalURL];
@@ -28,8 +28,12 @@
 //        //   }
 //        NSLog(@"JJJ pass!!");
         
-    }
+//    }
 
+- (void)jsonArrivalXD:(RootViewController *)rootView{
+    NSLog(@"comeFrom = XDDDDD");
+
+}
 
 
 

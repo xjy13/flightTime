@@ -49,7 +49,8 @@
 
 #import <UIKit/UIKit.h>
 #import "EADemoAppDelegate.h"
-
+#import "RootViewController.h"
+#import "GetSchedule.h"
 //int main(int argc, char *argv[]) {
     
 //    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
@@ -62,6 +63,13 @@
 int main(int argc, char *argv[]) {
 
     @autoreleasepool {
+        
+        RootViewController *root = [[RootViewController alloc] init];
+        GetSchedule *getS = [[GetSchedule alloc] init];
+        //set delegate value
+        root.rootdelegate = getS;
+        [root test];
+        
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([EADemoAppDelegate class]));
     }
     

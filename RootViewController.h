@@ -56,11 +56,13 @@
 #import <MediaPlayer/MPRemoteCommandCenter.h>
 #import "EADemoAppDelegate.h"
 #import "MBProgressHUD.h"
-@class EADSessionController;
 
+//@class EADSessionController;
+@class RootViewController;
 @protocol rootDelegate <NSObject>
 @optional
--(void)jsonArrivalXD:(NSString *)comeFrom;
+//-(void)jsonArrivalXD:(NSString *)comeFrom;
+- (void)jsonArrivalXD:(RootViewController *)rootView;
 
 @end
 
@@ -71,7 +73,7 @@
     NSMutableArray *_accessoryList;
     NSMutableArray *_accessoryOriginal;
     EAAccessory *_selectedAccessory;
-    EADSessionController *_eaSessionController;
+    //EADSessionController *_eaSessionController;
     NSMutableDictionary *accessoryInfo;
 
 
@@ -86,11 +88,11 @@
     MPRemoteCommandCenter *commandCenter;
     
 }
-
+@property(nonatomic,assign) id<rootDelegate>rootdelegate;
 @property(nonatomic,retain)UITableView *tableView;
 @property(nonatomic,strong)UIScrollView *scrollView;
 //@property (nonatomic,retain)id<TalkToMac> delegate;
-@property(nonatomic,assign) id<rootDelegate>delegate;
+
 //add for 20160712
 @property(nonatomic, retain)UIButton *playMuzik;
 @property(nonatomic, retain)UIButton *pauseMuzik;
