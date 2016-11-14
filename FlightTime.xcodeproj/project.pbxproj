@@ -20,6 +20,7 @@
 		04A023461D26600D002C989D /* recording.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A023451D26600D002C989D /* recording.png */; };
 		04A023491D2662A7002C989D /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A023471D2662A7002C989D /* pause.png */; };
 		04A0234A1D2662A7002C989D /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A023481D2662A7002C989D /* play.png */; };
+		04A42CCC1DDA234B00A769FB /* FlightTimeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A42CCB1DDA234B00A769FB /* FlightTimeDelegate.m */; };
 		04AEB3991D17E2C800687DBE /* happy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04AEB3981D17E2C800687DBE /* happy.mp3 */; };
 		04C04AC11D18E89E00708E7E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C04AC01D18E89D00708E7E /* AVFoundation.framework */; };
 		04C04AC31D18E94C00708E7E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C04AC21D18E94C00708E7E /* MediaPlayer.framework */; };
@@ -59,6 +60,8 @@
 		04A023451D26600D002C989D /* recording.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recording.png; sourceTree = "<group>"; };
 		04A023471D2662A7002C989D /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
 		04A023481D2662A7002C989D /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		04A42CCA1DDA232F00A769FB /* FlightTimeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightTimeDelegate.h; sourceTree = "<group>"; };
+		04A42CCB1DDA234B00A769FB /* FlightTimeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlightTimeDelegate.m; sourceTree = "<group>"; };
 		04AEB3981D17E2C800687DBE /* happy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = happy.mp3; sourceTree = "<group>"; };
 		04C04AC01D18E89D00708E7E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		04C04AC21D18E94C00708E7E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -129,6 +132,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				04A42CCA1DDA232F00A769FB /* FlightTimeDelegate.h */,
+				04A42CCB1DDA234B00A769FB /* FlightTimeDelegate.m */,
 				C9E1AAB4104EBA61002BECB8 /* EADSessionController.h */,
 				C9E1AAB5104EBA61002BECB8 /* EADSessionController.m */,
 				C986345D0FB66A3500D461F2 /* EADemoAppDelegate.h */,
@@ -290,6 +295,7 @@
 				04C5706D1DA6848A0097DA3A /* Toast+UIView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */,
+				04A42CCC1DDA234B00A769FB /* FlightTimeDelegate.m in Sources */,
 				C986345F0FB66A3500D461F2 /* EADemoAppDelegate.m in Sources */,
 				C9E1AAB6104EBA61002BECB8 /* EADSessionController.m in Sources */,
 				049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */,

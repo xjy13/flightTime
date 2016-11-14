@@ -6,7 +6,8 @@
 #import <MediaPlayer/MPMusicPlayerController.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MPRemoteCommandEvent.h>
-#import "EADemoAppDelegate.h"
+//#import "EADemoAppDelegate.h"
+#import "FlightTimeDelegate.h"
 #import "Toast+UIView.h"
 
 #define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24filter=FlightDate%20eq%20"
@@ -172,7 +173,7 @@
     
 }
 -(void)test{
- [self.rootdelegate jsonArrivalXD:self];
+    [self.rootdelegate jsonArrivalXD:self comeFrom:@"root"];
 
 }
 
@@ -1351,9 +1352,11 @@
     
     [self currentDateArrival];
     if(isArrival == true){
+        _refreshBtn.userInteractionEnabled = NO;
         [self jsonArrival];
    //     [hudView setHidden:YES];
        //   [self.view makeToast:@"哈哈哈哈哈哈哈哈" duration:2.0 position:@"center"];
+        
         
     }else{
         [self jsonDeparture];

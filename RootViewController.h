@@ -54,15 +54,18 @@
 #import <MediaPlayer/MPMusicPlayerController.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MPRemoteCommandCenter.h>
-#import "EADemoAppDelegate.h"
+//#import "EADemoAppDelegate.h"
+#import "FlightTimeDelegate.h"
 #import "MBProgressHUD.h"
 
 //@class EADSessionController;
 @class RootViewController;
+
+//他是老闆要叫getschedule這個class幫忙做事
 @protocol rootDelegate <NSObject>
 @optional
 //-(void)jsonArrivalXD:(NSString *)comeFrom;
-- (void)jsonArrivalXD:(RootViewController *)rootView;
+- (void)jsonArrivalXD:(RootViewController *)rootView:(NSString *)comeFrom;
 
 @end
 
