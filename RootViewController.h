@@ -66,7 +66,7 @@
 @optional
 //-(void)jsonArrivalXD:(NSString *)comeFrom;
 - (void)jsonArrivalXD:(RootViewController *)rootView:(NSString *)comeFrom;
-
+-(NSString *)returnTest:(RootViewController *)rootView comeFrom:(NSString *)from;
 @end
 
 

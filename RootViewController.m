@@ -173,9 +173,9 @@
     
 }
 -(void)test{
-    [self.rootdelegate jsonArrivalXD:self comeFrom:@"root"];
-
-}
+     [self.rootdelegate jsonArrivalXD:self comeFrom:@"root"];
+     [self.rootdelegate returnTest:self comeFrom:@"root"];
+   }
 
 -(NSString *)currentDateArrival{
     

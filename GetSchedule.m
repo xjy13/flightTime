@@ -44,7 +44,13 @@
             //        return airlineID;
             //   }
     //        NSLog(@"JJJ pass!!");
+    
 
+}
+-(NSString *)returnTest:(RootViewController *)rootView1 comeFrom:(NSString *)from{
+
+    NSLog(@"comefrom return Test = %@",from);
+   // return @"哈哈哈";
 
 }
 
