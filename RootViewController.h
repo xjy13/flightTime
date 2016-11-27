@@ -64,9 +64,9 @@
 //他是老闆要叫getschedule這個class幫忙做事
 @protocol rootDelegate <NSObject>
 @optional
-//-(void)jsonArrivalXD:(NSString *)comeFrom;
-- (void)jsonArrivalXD:(RootViewController *)rootView:(NSString *)comeFrom;
+- (NSMutableArray *)jsonArrivalXD:(RootViewController *)rootView comeFrom:(NSString *)from;
 -(NSString *)returnTest:(RootViewController *)rootView comeFrom:(NSString *)from;
+-(NSString *)getAirApiticket:(RootViewController *)rootView;
 @end
 
 

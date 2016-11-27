@@ -48,9 +48,10 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "EADemoAppDelegate.h"
+//#import "EADemoAppDelegate.h"
 #import "RootViewController.h"
 #import "GetSchedule.h"
+#import "FlightTimeDelegate.h"
 //int main(int argc, char *argv[]) {
     
 //    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
@@ -71,7 +72,7 @@ int main(int argc, char *argv[]) {
         [root test];
       //  [root test2];
         
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([EADemoAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([FlightTimeDelegate class]));
     }
     
 }

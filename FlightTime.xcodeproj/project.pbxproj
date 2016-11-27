@@ -39,7 +39,6 @@
 		30B3DE3311ED1F7700C12546 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 30B3DE3211ED1F7700C12546 /* iTunesArtwork */; };
 		C952826C0FB397D500E6CF4C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952826B0FB397D500E6CF4C /* ExternalAccessory.framework */; };
 		C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C986345A0FB66A2200D461F2 /* RootViewController.m */; };
-		C986345F0FB66A3500D461F2 /* EADemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C986345E0FB66A3500D461F2 /* EADemoAppDelegate.m */; };
 		C9E1AAB6104EBA61002BECB8 /* EADSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E1AAB5104EBA61002BECB8 /* EADSessionController.m */; };
 		C9E1AB2E104EF18F002BECB8 /* EADSessionTransferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E1AB2D104EF18F002BECB8 /* EADSessionTransferViewController.m */; };
 /* End PBXBuildFile section */
@@ -85,8 +84,6 @@
 		C952826B0FB397D500E6CF4C /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		C98634590FB66A2200D461F2 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		C986345A0FB66A2200D461F2 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		C986345D0FB66A3500D461F2 /* EADemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EADemoAppDelegate.h; sourceTree = "<group>"; };
-		C986345E0FB66A3500D461F2 /* EADemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EADemoAppDelegate.m; sourceTree = "<group>"; };
 		C9E1AAB4104EBA61002BECB8 /* EADSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EADSessionController.h; sourceTree = "<group>"; };
 		C9E1AAB5104EBA61002BECB8 /* EADSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EADSessionController.m; sourceTree = "<group>"; };
 		C9E1AB2C104EF18F002BECB8 /* EADSessionTransferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EADSessionTransferViewController.h; sourceTree = "<group>"; };
@@ -136,8 +133,6 @@
 				04A42CCB1DDA234B00A769FB /* FlightTimeDelegate.m */,
 				C9E1AAB4104EBA61002BECB8 /* EADSessionController.h */,
 				C9E1AAB5104EBA61002BECB8 /* EADSessionController.m */,
-				C986345D0FB66A3500D461F2 /* EADemoAppDelegate.h */,
-				C986345E0FB66A3500D461F2 /* EADemoAppDelegate.m */,
 				C98631FD0FB4B35000D461F2 /* ViewControllers */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -296,7 +291,6 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */,
 				04A42CCC1DDA234B00A769FB /* FlightTimeDelegate.m in Sources */,
-				C986345F0FB66A3500D461F2 /* EADemoAppDelegate.m in Sources */,
 				C9E1AAB6104EBA61002BECB8 /* EADSessionController.m in Sources */,
 				049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */,
 				C9E1AB2E104EF18F002BECB8 /* EADSessionTransferViewController.m in Sources */,

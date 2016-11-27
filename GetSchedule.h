@@ -14,6 +14,6 @@
 @interface GetSchedule : NSObject<rootDelegate>
 
 @property (nonatomic, retain)NSMutableArray *arrivalArray;
-
+@property (nonatomic, retain)NSMutableArray *tickGet;
 
 @end

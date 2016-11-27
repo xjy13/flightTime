@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RootViewController.m"
-            timestampString = "500837297.068423"
+            filePath = "GetSchedule.m"
+            timestampString = "501957266.175459"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1350"
-            endingLineNumber = "1350"
-            landmarkName = "-refreshTable:"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "-getAirApiticket:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

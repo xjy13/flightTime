@@ -41,6 +41,7 @@
     NSString *scheduleArrivalTime;
     NSString *gateNumber ;
     NSString *terminal;
+    NSString *ticketCode;
     
     UILabel *noDatasLabelView;
     UILabel *flightID;
@@ -172,9 +173,15 @@
    
     
 }
+#pragma mark delegate use
 -(void)test{
      [self.rootdelegate jsonArrivalXD:self comeFrom:@"root"];
+     NSMutableArray *scArray =  [self.rootdelegate jsonArrivalXD:self comeFrom:@"root"];
+     NSLog(@"at rootView scArray = %@",scArray);
      [self.rootdelegate returnTest:self comeFrom:@"root"];
+     [self.rootdelegate getAirApiticket:self ];
+     NSString *ticketCode = [NSString stringWithFormat:@"%@",[self.rootdelegate getAirApiticket:self ]];
+     NSLog(@"at rootView ticketCode= %@",ticketCode);
    }
 
 -(NSString *)currentDateArrival{
@@ -1517,7 +1524,6 @@ if(flightCode != nil){
             noDatasLabelView.hidden = NO;
         }
     
-    
     }else{
         NSLog(@"flight code is null");
         [self figureRegistration:flightCode];
@@ -1545,7 +1551,7 @@ if(flightCode != nil){
     
     NSLog(@"translateIATA status = %d",[response statusCode]);
     
-    if(data != nil ){
+    if(data != nil &&[response statusCode] ==200){
         _airportArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"Airport json : %@,  %d",_airportArray,[_airportArray count]);
         _scrollView.hidden = NO;
@@ -1557,12 +1563,13 @@ if(flightCode != nil){
         return  airportName;
     }
     else{
-        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
-        [noDatasLabelView setText:@"No Data....."];
-        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
-        [self.view addSubview:noDatasLabelView];
-        _scrollView.hidden = YES;
-        noDatasLabelView.hidden = NO;
+//        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
+//        [noDatasLabelView setText:@"No Data....."];
+//        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
+//        [self.view addSubview:noDatasLabelView];
+//        _scrollView.hidden = YES;
+//        noDatasLabelView.hidden = NO;
+        NSLog(@"Get problem The status code = %d",[response statusCode]);
     }
        //NSArray *portName = [[_airportArray objectAtIndex:4]objectForKey:@"AirportName"];
 }
