@@ -64,7 +64,7 @@
 int main(int argc, char *argv[]) {
 
     @autoreleasepool {
-        //for delegate 讓root老闆的工作移到get小弟那
+        //for delegate 讓root老闆的工作移到get小弟那邊
         RootViewController *root = [[RootViewController alloc] init];
         GetSchedule *getS = [[GetSchedule alloc] init];
         //set delegate value
