@@ -58,20 +58,23 @@ NSString *ticketCode;
 
 }
 
-- (NSMutableArray *)jsonArrivalXD:(RootViewController *)rootView comeFrom:(NSString *)from{
+- (NSMutableArray *)jsonArrival:(RootViewController *)rootView comeFrom:(NSString *)from{
     NSLog(@"comeFrom = %@",from);
-           //   if(![comeFrom isEqualToString:@""]){
-            NSError *err = nil;
-            NSURL *url = [NSURL URLWithString:arrivalURL];
-            NSURLRequest *request = [NSURLRequest requestWithURL:url];
-            NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
-            _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
-            NSLog(@"Departure json from Delegate : %@",_arrivalArray);
-            return _arrivalArray;
-            //        NSString *airlineID = [[_arrivalArray objectAtIndex:0] objectForKey:@"AirlineID"];
-            //        return airlineID;
-            //   }
-    //        NSLog(@"JJJ pass!!");
+    NSError *err = nil;
+    NSHTTPURLResponse *res = nil;
+    NSURL *url = [NSURL URLWithString:arrivalURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+    
+    NSLog(@"arrival status = %d",[res statusCode]);
+    if(data != nil && [res statusCode]==200 && err == nil){
+        _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"arrival json in GetSchedule: %@",_arrivalArray);
+    }
+    else{
+        NSLog(@"error json = %@ and status code = %d error = %@",_arrivalArray,[res statusCode],[err description]);
+    }
+    return _arrivalArray;
     
 
 }

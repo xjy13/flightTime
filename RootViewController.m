@@ -158,7 +158,7 @@
   
     //need to figre out 1031
   
-    [self jsonArrival];
+    //[self jsonArrival];
     [self initialTable];
     [self initView];
     [self setupTestEnvironment];
@@ -174,10 +174,10 @@
     
 }
 #pragma mark delegate use
--(void)test{
-     [self.rootdelegate jsonArrivalXD:self comeFrom:@"root"];
-     NSMutableArray *scArray =  [self.rootdelegate jsonArrivalXD:self comeFrom:@"root"];
-     NSLog(@"at rootView scArray = %@",scArray);
+-(void)getSchdule_delegation{
+     [self.rootdelegate jsonArrival:self comeFrom:@"root"];
+     _arrivalArray =  [self.rootdelegate jsonArrival:self comeFrom:@"root"];
+     NSLog(@"at rootView scArray = %@", _arrivalArray);
      [self.rootdelegate returnTest:self comeFrom:@"root"];
      [self.rootdelegate getAirApiticket:self ];
      NSString *ticketCode = [NSString stringWithFormat:@"%@",[self.rootdelegate getAirApiticket:self ]];
@@ -1377,6 +1377,7 @@
     NSLog(@"refresh schedule");
     if(isArrival == true){
         [self jsonArrival];
+       // _arrivalArray = [self.rootdelegate jsonArrivalXD:self comeFrom:@"root"];
     }else{
         [self jsonDeparture];
     }

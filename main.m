@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
         GetSchedule *getS = [[GetSchedule alloc] init];
         //set delegate value
         root.rootdelegate = getS;
-        [root test];
+        [root getSchdule_delegation];
       //  [root test2];
         
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([FlightTimeDelegate class]));
