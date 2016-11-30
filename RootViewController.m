@@ -1377,7 +1377,9 @@
     NSLog(@"refresh schedule");
     if(isArrival == true){
         [self jsonArrival];
-       // _arrivalArray = [self.rootdelegate jsonArrivalXD:self comeFrom:@"root"];
+        //[self getSchdule_delegation];
+        //NSLog(@"test refresh table for delegate = %@",[self.rootdelegate jsonArrival:self comeFrom:@"root"]);
+       // _arrivalArray = [self.rootdelegate jsonArrival:self comeFrom:@"root"];
     }else{
         [self jsonDeparture];
     }

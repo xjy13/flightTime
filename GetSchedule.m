@@ -7,7 +7,7 @@
 //
 #import <Foundation/Foundation.h>
 #import "GetSchedule.h"
-#define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24top=6&%24format=JSON"
+#define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
 //#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
 #define diqiURL @"https://asset.diqi.us/api/v1/users/profile/"
 #define ticketNumber @"http://ptx.transportdata.tw/MOTC/v2/Account/Login?UserData.account=xjy13&UserData.password=da3dbdA%23&%24format=JSON"
@@ -62,7 +62,7 @@ NSString *ticketCode;
     NSLog(@"comeFrom = %@",from);
     NSError *err = nil;
     NSHTTPURLResponse *res = nil;
-    NSURL *url = [NSURL URLWithString:arrivalURL];
+    NSURL *url = [NSURL URLWithString:[self currentDateArrival]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
     
@@ -78,6 +78,26 @@ NSString *ticketCode;
     
 
 }
+
+-(NSString *)currentDateArrival{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *nowDate = [NSDate date];
+    NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
+    NSString *topCountString = @"&%24top=6&%24format=JSON";
+    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
+    
+    NSString *arrvalDate = [arrivalURL stringByAppendingString:filter];
+    NSLog(@"[arrival] new format Date = %@",arrvalDate);
+    return  arrvalDate;
+}
+
+
+
+
 -(NSString *)returnTest:(RootViewController *)rootView comeFrom:(NSString *)from{
 
 //    NSLog(@"comefrom return Test = %@",from);
