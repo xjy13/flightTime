@@ -9,6 +9,7 @@
 //#import "EADemoAppDelegate.h"
 #import "FlightTimeDelegate.h"
 #import "Toast+UIView.h"
+#import "GetLocation.h"
 
 #define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24filter=FlightDate%20eq%20"
 #define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
@@ -105,6 +106,7 @@
 //    EADemoAppDelegate *EADemo;
     MBProgressHUD *hudView;
   //  GetSchedule *sch;
+//    GetLocation *locGet;
    
 }
 @end
@@ -149,6 +151,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+      [[GetLocation shareInstance]jsonLocation];
+    
     hudView.delegate = self;
     hudView = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:hudView];
@@ -170,7 +174,8 @@
     flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
     [flightSchedule fire];
     
-   
+    [self testCase];
+  
     
 }
 #pragma mark delegate use
@@ -1258,7 +1263,8 @@
 
 -(void)enterToBackground:(NSNotification *)nofi{
     if(!enterBackgound){
-        dispatch_after(1, dispatch_get_main_queue(), ^(void){
+        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1*NSEC_PER_MSEC));
+        dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
            // [self uninstallSetup];
             [flightSchedule invalidate];
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(receive_harkeyCmd:) object:nil];
@@ -1577,5 +1583,39 @@ if(flightCode != nil){
        //NSArray *portName = [[_airportArray objectAtIndex:4]objectForKey:@"AirportName"];
 }
 
+-(void)testCase{
+    
+    // 用global queue是可以利用多執行緒 不用照順序多工且可以在"背景"執行 ; 用main queue需要前一個執行完後 才能用執行下一個
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//        
+//            NSLog(@"dispatch sync");
+//        
+//        });
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"dispatch_1");
+        });
+        
+        //這個會在主線程等10秒後 執行
+        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC));
+        dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
+            NSLog(@"dispatch_delay_10S");
+        
+        });
+    //這個會先出來 FIFO
+    dispatch_queue_t serialQueue = dispatch_queue_create("testCase", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(serialQueue, ^{
+        NSLog(@"dispatch_serial");
+    
+    });
+    
+    });
+//    dispatch_sync(dispatch_get_main_queue(), ^(void){
+//        NSLog(@"dispatch_sync");
+//    });
+
+
+}
 
 @end
