@@ -11,3 +11,8 @@
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
 #endif
+
+
+#define locationURL @"https://opensky-network.org/api/states/all"
+#define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
+#define arrival_new @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival?$filter=hour(ScheduleArrivalTime)%20ge%20"

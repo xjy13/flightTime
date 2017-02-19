@@ -15,9 +15,9 @@
 #define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
 #define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
 #define arrival @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
+//#define arrival_new @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival?$"
+//http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival?$filter=hour(ScheduleArrivalTime)%20ge%2016&$orderby=ScheduleArrivalTime%20asc&$top=25&$format=JSON
 
-//DiQi API
-#define diqiURL @"https://asset.diqi.us/api/v1/users/profile/"
 
 @interface RootViewController(){
     UILabel *EAmaun ;
@@ -165,7 +165,7 @@
     //[self jsonArrival];
     [self initialTable];
     [self initView];
-    [self setupTestEnvironment];
+//    [self setupTestEnvironment];
     enterBackgound = false;
     enterFront = true;
     [self enterToFront];
@@ -174,38 +174,37 @@
     flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
     [flightSchedule fire];
     
-    [self testCase];
+
   
     
 }
 #pragma mark delegate use
 -(void)getSchdule_delegation{
-     [self.rootdelegate jsonArrival:self comeFrom:@"root"];
-     _arrivalArray =  [self.rootdelegate jsonArrival:self comeFrom:@"root"];
+//     [self.rootdelegate jsonArrival:self comeFrom:@"root"];
+    
+     _arrivalArray =  [GetSchedule jsonArrival:@"root"];;
      NSLog(@"at rootView scArray = %@", _arrivalArray);
-     [self.rootdelegate returnTest:self comeFrom:@"root"];
-     [self.rootdelegate getAirApiticket:self ];
-     NSString *ticketCode = [NSString stringWithFormat:@"%@",[self.rootdelegate getAirApiticket:self ]];
-     NSLog(@"at rootView ticketCode= %@",ticketCode);
+   //  [self.rootdelegate getAirApiticket:self ];
+//     NSString *ticketCode = [NSString stringWithFormat:@"%@",[self.rootdelegate getAirApiticket:self ]];
+//     NSLog(@"at rootView ticketCode= %@",ticketCode);
    }
 
--(NSString *)currentDateArrival{
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSDate *nowDate = [NSDate date];
-    NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
-    NSString *topCountString = @"&%24top=6&%24format=JSON";
-    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
-    
-    NSString *arrvalDate = [arrival stringByAppendingString:filter];
-    NSLog(@"[arrival] new format Date = %@",arrvalDate);
-    return  arrvalDate;
-}
+//-(NSString *)currentDateArrival{
+//    
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+//    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
+//    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+//    NSDate *nowDate = [NSDate date];
+//    NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
+//    NSString *topCountString = @"&%24top=6&%24format=JSON";
+//    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
+//    
+//    NSString *arrvalDate = [arrival stringByAppendingString:filter];
+//    NSLog(@"[arrival] new format Date = %@",arrvalDate);
+//    return  arrvalDate;
+//}
 -(NSString *)currentDateDeparture{
-
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
@@ -222,55 +221,6 @@
 }
 
 
-#pragma mark INITIAL parameters
--(void)setupTestEnvironment{
-    
-    //hsu jay make device not to in sleep mode
-    [[UIApplication sharedApplication]setIdleTimerDisabled:YES];
-    
-    //hsu jay can receive remote controller command
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
-    
-    //read music in resource folder
-//    url_music = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle]pathForResource:@"happy" ofType:@"mp3"]];
-//    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:nil];
-
-    url_music = [[NSURL alloc] initFileURLWithPath:@"http://stream.twatc.net:8000/RCTP_TWR2"];
-    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:nil];
-    
-    //flag for music is played or not
-    isPlay = false;
-    isRecord = false;
-    isPlayRecord = false;
-    // counter initialize
-    hardKeyTap_vol = 0 ;
-    volumeUp_count = 0;
-    volumeDown_count = 0;
-    hardKeyTap_play = 0 ;
-    hardKeyTap_pause = 0 ;
-    softKeyTap_play = 0;
-    softKeyTap_pause = 0;
-    recordEnd_count = 0;
-    recordStart_count = 0;
-    recordPlay_count = 0;
-    recordPlayend_count = 0;
-    volumeDown_count = 0;
-    volumeUp_count = 0;
-    firstVol = [[NSUserDefaults standardUserDefaults]floatForKey:@"before"];
-    
-    [self receive_harkeyCmd];
-    [self volumeChanged];
-    [self recoderInit];
-    
-    MPMusicPlayerController *musicPlayerController = [MPMusicPlayerController applicationMusicPlayer];
-    musicPlayerController.volume = 0.3;
-
-    
-    [audioPlayer play];
-    [audioPlayer stop];
-}
-
 
 
 
@@ -282,26 +232,12 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
     
-    [self uninstallSetup];
-    
+     
 }
 
 
 #pragma mark initial UI
 -(void)initView{
-    
-    _playMuzik =[UIButton buttonWithType:UIButtonTypeCustom];
-    _playMuzik = [[UIButton alloc]initWithFrame:CGRectMake(20,20, 32, 32)];
-    [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
-    [_playMuzik addTarget:self action:@selector(playMusic:) forControlEvents:UIControlEventTouchUpInside];
-    [_scrollView addSubview:_playMuzik];
-    
-    _pauseMuzik = [UIButton buttonWithType:UIButtonTypeCustom];
-    _pauseMuzik = [[UIButton alloc]initWithFrame:CGRectMake(20,20, 32, 32)];
-    [_pauseMuzik setBackgroundImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
-    [_pauseMuzik addTarget:self action:@selector(pauseMusic:) forControlEvents:UIControlEventTouchUpInside];
-    [_scrollView addSubview:_pauseMuzik];
-    _pauseMuzik.hidden = YES;
     
     
     vol = [[UILabel alloc]initWithFrame:CGRectMake(260, 25, 110, 20)];
@@ -420,19 +356,20 @@
     switch (row) {
         case 0:
             
-            /*
-             ActualDepartureTime = "2016-09-29T00:32";
-            * AirlineID = CX;
-            * ArrivalAirportID = HKG;
-             DepartureAirportID = TPE;
-             DepartureRemark = "\U51fa\U767cDEPARTED";
-            * FlightDate = "2016-09-29";
-            * FlightNumber = 495;
-             Gate = B7;
-            * ScheduleDepartureTime = "2016-09-28T13:25";
-             Terminal = 1;
-             UpdateTime = "2016-09-29T13:31:24+08:00";
-             
+        /*
+             "FlightDate": "2017-02-18",
+             "FlightNumber": "100",
+             "AirRouteType": 1,
+             "AirlineID": "JW",
+             "DepartureAirportID": "TPE",
+             "ArrivalAirportID": "NRT",
+             "ScheduleDepartureTime": "2017-02-18T02:05",
+             "ActualDepartureTime": "2017-02-18T02:44",
+             "DepartureRemark": "出發",
+             "DepartureTerminal": "1",
+             "DepartureGate": "A2",
+             "CheckCounter": "1",
+             "UpdateTime": "2017-02-18T14:56:06+08:00"
              */
             
             
@@ -802,207 +739,6 @@
 
 
 
-#pragma mark test play music on screen
--(void)playMusic:(UIButton *)sender{
-    _pauseMuzik.hidden = YES;
-    NSError *err = nil;
-    NSLog(@"JJJ mp3 url %@",audioPlayer.url);
-    if(err == nil){
-        if(!isPlay){
-            [audioPlayer play];
-            _playMuzik.hidden = YES;
-            _pauseMuzik.hidden = NO;
-            [audioPlayer setDelegate:self];
-            [_pauseMuzik setBackgroundImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
-            [_scrollView addSubview:_pauseMuzik];
-            isPlay = true;
-            softKeyTap_play++;
-            NSLog(@"JJJJ soft play %d times",softKeyTap_play);
-        }
-    }
-    else{
-        NSLog(@"JJJ print play mp3 err msg %@",err);
-        [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];        isPlay =  false;
-        //pop up fail time msg.
-        [self warningMessage:@"Soft Key play"];
-    }
-}
-#pragma mark pause/stop music
--(void)pauseMusic:(UIButton *)sender{
-    if(isPlay == true){
-        [audioPlayer pause];
-        softKeyTap_pause++;
-        NSLog(@"JJJJ soft pause %d times",softKeyTap_pause);
-        isPlay = false;
-    }
-    if(!audioPlayer.playing){
-        _pauseMuzik.hidden = YES;
-        _playMuzik.hidden = NO;
-        [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
-    }
-    else{
-        [self warningMessage:@"Soft Key pause"];
-    }
-    
-}
-
-#pragma mark detect hard key
--(void)receive_harkeyCmd{
-    NSLog(@"JJJ hard cmd start");
-    NSError *err = nil;
-    if(!isPlay){
-        MPRemoteCommand *playCmd = [commandCenter togglePlayPauseCommand];
-        audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_music error:&err];
-        // if we set loops to -1, it will play infinity.
-        [playCmd addTarget:self action:@selector(playAudioHardkey:)];
-    }
-    
-}
--(void)receive_harkeyCmdStop:(NSNotification *)noti{
-    
-    NSLog(@"JJJ hard cmd stop = %@",noti);
-    NSError *err = nil;
-    if(!isPlay){
-        MPRemoteCommand *pauseCmd = [commandCenter togglePlayPauseCommand];
-        [pauseCmd addTarget:self action:@selector(stopAudioHardkey:) ];
-    }
-}
-
-
-#pragma mark test by headset hard key
--(void)playAudioHardkey:(MPRemoteCommand *)cmd{
-    NSLog(@"JJJJ  remote command = %@",cmd);
-    
-    _pauseMuzik.hidden = YES;
-    NSError *err = nil;
-    if(err == nil && cmd !=nil){
-        if(!isPlay){
-            [audioPlayer play];
-            if(audioPlayer.playing){
-                _playMuzik.hidden = YES;
-                _pauseMuzik.hidden = NO;
-                [_pauseMuzik setBackgroundImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
-                [_scrollView addSubview:_pauseMuzik];
-                isPlay = true;
-                hardKeyTap_play++;
-                [audioPlayer setDelegate:self];
-                [hardkeyCounter_play setText:[NSString stringWithFormat:@"Play pass %d time",hardKeyTap_play]];
-                NSLog(@"JJJJ play %d times",hardKeyTap_play);
-            }
-        }
-        else{
-            [self stopAudioHardkey:cmd];
-        }
-    }
-    
-    else{
-        NSLog(@"JJJ print play mp3 err msg %@",err);
-        [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
-        isPlay =  false;
-        //pop up fail time msg
-        [self warningMessage:@"Hard Key"];
-    }
-}
-
-
-
-#pragma mark stop audio
--(void)stopAudioHardkey:(MPRemoteCommand *)cmd{
-    NSError *err = nil;
-    if(cmd != nil && err == nil){
-        [audioPlayer pause];
-        if(!audioPlayer.playing){
-            _playMuzik.hidden = NO;
-            _pauseMuzik.hidden = YES;
-            if(!audioPlayer.playing){
-                [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
-                isPlay =false;
-                hardKeyTap_pause++;
-                [hardkeyCounter_pause setText:[NSString stringWithFormat:@"Pause pass %d time",hardKeyTap_pause]];
-                NSLog(@"JJJJ pause %d times",hardKeyTap_pause);
-            }
-        }
-    }else{
-        NSLog(@"JJJ print play mp3 err msg %@",err);
-        [_playMuzik setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
-        isPlay =  false;
-        //pop up fail time msg
-        [self warningMessage:@"Hard Key"];
-    }
-}
-
-#pragma mark test music control
--(void)volumeChanged{
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(volumeChange:)
-                                                name:@"AVSystemController_SystemVolumeDidChangeNotification"
-                                              object:nil];
-}
-
-#pragma mark adjust volume up and down
--(void)volumeChange:(NSNotification *)notification{
-    
-    NSLog(@"JJJJ noti info %@",notification);
-    
-    [counter removeFromSuperview];
-    [vol removeFromSuperview];
-    
-    volValue = [[[notification userInfo] objectForKey:@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
-    if(notification){
-        if(hardKeyTap_vol == 0){
-            if(firstVol > volValue){
-                volumeDown_count++;
-                NSLog(@"volume down = %d",volumeDown_count);
-                //                    [volumDown_label setText:[NSString stringWithFormat:@"Vol down %d time(s)",volumeDown_count]];
-                //                    [_scrollView addSubview:volumDown_label];
-                audioPlayer.volume = volValue;
-            }
-            if(firstVol < volValue){
-                volumeUp_count++;
-                NSLog(@"volume up = %d",volumeUp_count);
-                //                    [volmeUp_label setText:[NSString stringWithFormat:@"Vol up %d time(s)",volumeUp_count]];
-                //                    [_scrollView addSubview:volmeUp_label];
-                audioPlayer.volume = volValue;
-            }
-        }
-        if(hardKeyTap_vol > 0){
-            if(audioPlayer.volume > volValue){
-                volumeDown_count++;
-                NSLog(@"volume down = %d",volumeDown_count);
-                //                    [volumDown_label setText:[NSString stringWithFormat:@"Vol down %d time(s)",volumeDown_count]];
-                //                    [_scrollView addSubview:volumDown_label];
-                audioPlayer.volume = volValue;
-            }
-            if(audioPlayer.volume < volValue){
-                volumeUp_count++;
-                NSLog(@"volume up = %d",volumeUp_count);
-                [volmeUp_label setText:[NSString stringWithFormat:@"Vol up %d time(s)",volumeUp_count]];
-                //    [_scrollView addSubview:volmeUp_label];
-                audioPlayer.volume = volValue;
-            }
-            //volume is 0 or 1 max min
-            else{
-                NSLog(@"MAX or MIN");
-            }
-        }
-        hardKeyTap_vol = volumeDown_count+volumeUp_count;
-        NSLog(@"JJJ get tap noti %d",hardKeyTap_vol);
-        NSString *count_string = [NSString stringWithFormat:@"Vol pass %d times",hardKeyTap_vol];
-        [counter setText:count_string];
-        [counter setTextColor:[UIColor blackColor]];
-        
-    }
-    else{
-        [counter setText:[NSString stringWithFormat:@"fail in %d",hardKeyTap_vol]];
-        [vol setText:@" volume fail!!!!!!!!"];
-        [self warningMessage:@"Volume"];
-    }
-    [vol setText:[NSString stringWithFormat:@"VOL:%.0f",volValue*100]];
-    [_scrollView addSubview:counter];
-    [_scrollView addSubview:vol];
-    
-}
-
 
 #pragma mark Warning message when get failure
 -(void)warningMessage:(NSString *)from{
@@ -1023,223 +759,6 @@
     [self presentViewController:failAlert animated:YES completion:nil];
 }
 
-#pragma mark Record setting
--(void)recoderInit{
-    NSError *err = nil;
-    NSArray *pathComponents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *componentsDir = [pathComponents objectAtIndex:0];
-    recordPath  = [NSURL fileURLWithPath:[componentsDir stringByAppendingPathComponent:@"test.m4a"]];
-    
-    // 設定錄音格式
-    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc]init];
-    [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
-    [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
-    [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
-    
-    
-    audioRecoder = [[AVAudioRecorder alloc] initWithURL:recordPath settings:recordSetting error:&err];
-    audioRecoder.delegate = self;
-    audioRecoder.meteringEnabled = YES;
-    
-    // [audioRecoder prepareToRecord];
-    //  audioSession = [[AVAudioSession sharedInstance]setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
-    
-    
-}
-#pragma mark recording
--(void)setStartRecord:(UIButton *)sender{
-    //  NSLog(@"sender = %@",sender);
-    NSError *err;
-    AVAudioSession *recordSession = [AVAudioSession sharedInstance];
-    [recordSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
-    
-    if(!isRecord){
-        if(!audioRecoder.recording){
-            [recordSession setActive:YES error:&err];
-            [audioRecoder record];
-            recordStart_count++;
-            NSLog(@"JJJJ record pass %d time",recordStart_count);
-            [audioRecoder updateMeters];
-            
-            [recordStart setText:[NSString stringWithFormat:@"Record %d times",recordStart_count]];
-            _startRecord.hidden = YES;
-            _stopRecord.hidden = NO;
-            [_stopRecord setBackgroundImage:[UIImage imageNamed:@"stop_recording"] forState:UIControlStateNormal];
-            isRecord = true;
-        }
-        else{
-            NSLog(@"JJJ start to record fail");
-            [audioRecoder stop];
-            [self warningMessage:@"Record fail"];
-            [recordSession setActive:false error:&err];
-            [_startRecord setBackgroundImage:[UIImage imageNamed:@"recording"] forState:UIControlStateNormal];
-            _stopRecord.hidden = YES;
-            isRecord = false;
-        }
-    }
-}
-#pragma mark stop recording
--(void)setStopRecord:(UIButton *)sender{
-    NSError *err;
-    AVAudioSession *recordSession = [AVAudioSession sharedInstance];
-    if(isRecord == true){
-        [audioRecoder stop];
-        [recordSession setActive:NO error:&err];
-        if(!audioRecoder.recording){
-            recordEnd_count++;
-            [recordEnd setText:[NSString stringWithFormat:@"Stop Record %d times",recordEnd_count]];
-            NSLog(@"JJJJ stop recording pass %d",recordEnd_count);
-            _startRecord.hidden = NO;
-            [_startRecord setBackgroundImage:[UIImage imageNamed:@"recording"] forState:UIControlStateNormal];
-            _stopRecord.hidden = YES;
-            isRecord = false;
-        }
-        else{
-            NSLog(@"JJJJ stop recording fail");
-            [recordSession setActive:NO error:&err];
-            [self warningMessage:@"Stop-record fail"];
-            _startRecord.hidden = NO;
-            [_stopRecord setBackgroundImage:[UIImage imageNamed:@"stop_recording"] forState:UIControlStateNormal];
-            isRecord = true;
-        }
-        
-    }
-    
-}
-#pragma mark play record file
--(void)playReord:(UIButton *)sender{
-    NSError *err = nil;
-    NSLog(@"JJJ record file url %@",audioRecoder.url);
-    if(audioRecoder.url == nil){
-        [self warningMessage:@"Record URL NULL"];
-    }
-    else{
-        if(err == nil){
-            if(!isPlayRecord){
-                recordPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioRecoder.url error:&err];
-                recordPlayer.meteringEnabled = true;
-                [recordPlayer play];
-                [recordPlayer setDelegate:self];
-                _playRecord.hidden = YES;
-                _stop_playRecord.hidden = NO;
-                [_stop_playRecord setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-                [_scrollView addSubview:_stop_playRecord];
-                isPlayRecord = true;
-                recordPlay_count++;
-                NSLog(@"JJJJ record play %d times",recordPlay_count);
-                [recordPlay setText:[NSString stringWithFormat:@"Play_R %d times",recordPlay_count]];
-            }
-        }
-        else{
-            NSLog(@"JJJ print play mp3 err msg %@",err);
-            [_playRecord setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-            isPlayRecord =  false;
-            //pop up fail time msg.
-            [self warningMessage:@"Play_Record"];
-        }
-    }
-}
-#pragma mark play record file
--(void)pauseRecordSound:(UIButton *)sender{
-    
-    if(isPlayRecord == true){
-        [recordPlayer stop];
-        recordPlayend_count++;
-        NSLog(@"JJJJ record pause %d times",recordPlayend_count);
-        [recordPlayend setText:[NSString stringWithFormat:@"Stop_R %d times",recordPlayend_count]];
-        isPlayRecord = false;
-    }
-    else{
-        [self warningMessage:@"Stop_Play_Record"];
-    }
-    
-}
-
-
--(void)test_dBFS{
-    [recordPlayer updateMeters];
-    float avgdB = [recordPlayer averagePowerForChannel:0];
-    float peakdB = [recordPlayer peakPowerForChannel:0];
-    long valueDBFS = 20*log10(fabs(avgdB)/44100);
-    float recordTime = [recordPlayer currentTime];
-    
-    NSLog(@"JJJ DB avg = %.2f and peak = %.2f and dBFS = %ld",avgdB,peakdB,valueDBFS);
-    
-}
-
-
-#pragma mark - AVAudioRecorderDelegate
-
-- (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
-    [_startRecord setBackgroundImage:[UIImage imageNamed:@"recording"] forState:UIControlStateNormal];
-}
-
-#pragma mark - AVAudioPlayerDelegate
-
-- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
-    NSString *failTitle = [NSString stringWithFormat:@"Finish!!"];
-    NSString *failTimes = [NSString stringWithFormat:@"Finish Playing "];
-    UIAlertController *finishPlay = [UIAlertController alertControllerWithTitle:failTitle message:failTimes preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *cancel){
-    }];
-    [finishPlay addAction:confirm];
-    [self presentViewController:finishPlay animated:YES completion:nil];
-    
-    // for recording play
-    if(isPlayRecord == true){
-        [checkdB invalidate];
-        checkdB = nil;
-        [checkdB release];
-        isPlayRecord = false;
-    }
-    if(!audioPlayer.playing){
-        recordPlayend_count++;
-        NSLog(@"JJJJ record pause %d times",recordPlayend_count);
-        [recordPlayend setText:[NSString stringWithFormat:@"Stop_R %d times",recordPlayend_count]];
-        _stop_playRecord.hidden = YES;
-        _playRecord.hidden = NO;
-        
-        [_playRecord setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-        
-    }
-    else{
-        [self warningMessage:@"Finish playing fail"];
-    }
-    
-}
-
-
-
--(void)uninstallSetup{
-    
-    hardKeyTap_vol = 0 ;
-    volumeUp_count = 0;
-    volumeDown_count = 0;
-    hardKeyTap_play = 0 ;
-    hardKeyTap_pause = 0 ;
-    softKeyTap_play = 0;
-    softKeyTap_pause = 0;
-    failTime = 0;
-    recordEnd_count = 0;
-    recordStart_count = 0;
-    recordPlay_count = 0;
-    recordPlayend_count = 0;
-    volumeUp_count = 0;
-    volumeDown_count = 0;
-    [audioPlayer stop];
-    [audioRecoder stop];
-    [recordPlayer stop];
-    volumeValueBefore = [NSUserDefaults standardUserDefaults];
-    NSLog(@"volume = %f",firstVol);
-    [volumeValueBefore setFloat:firstVol forKey:@"before"];
-    
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self name:@"MPMusicPlayerControllerPlaybackStateDidChangeNotification" object:nil];
-    [[MPMusicPlayerController applicationMusicPlayer]endGeneratingPlaybackNotifications];
-    
-}
 
 -(void)enterToFront{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(toFront:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -1279,30 +798,30 @@
 
 
 
--(void)jsonArrival{
-    
-    NSError *err = nil;
-    NSHTTPURLResponse *res = nil;
-    NSURL *url = [NSURL URLWithString:[self currentDateArrival]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
-    
-    NSLog(@"arrival status = %d",[res statusCode]);
-    if(data != nil && [res statusCode]==200 && err == nil){
-        _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"arrival json : %@",_arrivalArray);
-        [_tableView reloadData];
-        noDatasLabelView.hidden = YES;
-    }
-    else{
-        NSLog(@"error json = %@ and status code = %d error = %@",_arrivalArray,[res statusCode],[err description]);
-        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
-        [noDatasLabelView setText:@"No Data....."];
-        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
-        [self.view addSubview:noDatasLabelView];
-        noDatasLabelView.hidden = NO;
-    }
-    
+//-(void)jsonArrival{
+//    
+//    NSError *err = nil;
+//    NSHTTPURLResponse *res = nil;
+//    NSURL *url = [NSURL URLWithString:[self currentDateArrival]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+//    
+//    NSLog(@"arrival status = %d",[res statusCode]);
+//    if(data != nil && [res statusCode]==200 && err == nil){
+//        _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+//        NSLog(@"arrival json : %@",_arrivalArray);
+//        [_tableView reloadData];
+//        noDatasLabelView.hidden = YES;
+//    }
+//    else{
+//        NSLog(@"error json = %@ and status code = %d error = %@",_arrivalArray,[res statusCode],[err description]);
+//        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
+//        [noDatasLabelView setText:@"No Data....."];
+//        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
+//        [self.view addSubview:noDatasLabelView];
+//        noDatasLabelView.hidden = NO;
+//    }
+
 //    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *err) {
 //        NSHTTPURLResponse *statusURL = (NSHTTPURLResponse *)response;
 //        NSLog(@"arrival status = %d",[statusURL statusCode]);
@@ -1324,7 +843,7 @@
     
     
     
-}
+//}
 
 -(void)jsonDeparture{
     NSError *err = nil;
@@ -1363,10 +882,11 @@
     hudView.labelText = @"載入中";
     [hudView show:YES];
     
-    [self currentDateArrival];
+   // [self currentDateArrival];
+//    [self getSchdule_delegation];
     if(isArrival == true){
         _refreshBtn.userInteractionEnabled = NO;
-        [self jsonArrival];
+        [self getSchdule_delegation];
    //     [hudView setHidden:YES];
        //   [self.view makeToast:@"哈哈哈哈哈哈哈哈" duration:2.0 position:@"center"];
         
@@ -1382,8 +902,8 @@
 -(void)refreshTable{
     NSLog(@"refresh schedule");
     if(isArrival == true){
-        [self jsonArrival];
-        //[self getSchdule_delegation];
+       // [self jsonArrival];
+        [self getSchdule_delegation];
         //NSLog(@"test refresh table for delegate = %@",[self.rootdelegate jsonArrival:self comeFrom:@"root"]);
        // _arrivalArray = [self.rootdelegate jsonArrival:self comeFrom:@"root"];
     }else{
@@ -1398,7 +918,9 @@
     [_arrivalBtn setTitleColor:[UIColor colorWithRed:251.0/255.0 green:176.0/255.0 blue:23.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     [_departureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     isArrival = true;
-    [self jsonArrival];
+    //原本的
+    //[self jsonArrival];
+    [self getSchdule_delegation];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
 }
@@ -1413,94 +935,6 @@
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
 }
 
-
--(void)figureRegistration:(NSString *)code{
-    if([code isEqualToString:@"CI"]){
-        airlineID_full = [NSString stringWithFormat:@"中華航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"AE"]){
-        airlineID_full = [NSString stringWithFormat:@"華信航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"BR"]){
-        airlineID_full = [NSString stringWithFormat:@"長榮航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"B7"]){
-        airlineID_full = [NSString stringWithFormat:@"立榮航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"GE"]){
-        airlineID_full = [NSString stringWithFormat:@"復興航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"VZ"]){
-        airlineID_full = [NSString stringWithFormat:@"威航-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"FE"]){
-        airlineID_full = [NSString stringWithFormat:@"遠東航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"CX"]){
-        airlineID_full = [NSString stringWithFormat:@"國泰航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"KA"]){
-        airlineID_full = [NSString stringWithFormat:@"港龍航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"HX"]){
-        airlineID_full = [NSString stringWithFormat:@"香港航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"CA"]){
-        airlineID_full = [NSString stringWithFormat:@"中國國際-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"MU"]){
-        airlineID_full = [NSString stringWithFormat:@"中國東方-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"CZ"]){
-        airlineID_full = [NSString stringWithFormat:@"中國南方-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"JL"]){
-        airlineID_full = [NSString stringWithFormat:@"日本航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"NH"]){
-        airlineID_full = [NSString stringWithFormat:@"全日本空輸-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"VN"]){
-        airlineID_full = [NSString stringWithFormat:@"越南航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"SQ"]){
-        airlineID_full = [NSString stringWithFormat:@"新加坡航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"KE"]){
-        airlineID_full = [NSString stringWithFormat:@"大韓民航-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"OZ"]){
-        airlineID_full = [NSString stringWithFormat:@"韓亞航-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"UA"]){
-        airlineID_full = [NSString stringWithFormat:@"美國航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"DL"]){
-        airlineID_full = [NSString stringWithFormat:@"達美航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"KL"]){
-        airlineID_full = [NSString stringWithFormat:@"荷蘭航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"EK"]){
-        airlineID_full = [NSString stringWithFormat:@"阿聯酋航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"MH"]){
-        airlineID_full = [NSString stringWithFormat:@"馬來西亞航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"TG"]){
-        airlineID_full = [NSString stringWithFormat:@"泰國航空-%@%@ ",airlineID,flightNumber];
-    }
-    else if([code isEqualToString:@"PG"]){
-        airlineID_full = [NSString stringWithFormat:@"菲律賓航空-%@%@ ",airlineID,flightNumber];
-    }
-    else{
-        airlineID_full = [NSString stringWithFormat:@"來台灣-%@%@ ",airlineID,flightNumber];
-    }
-    
-    NSLog(@"airlineID_full departure = %@",airlineID_full);
-    
-    
-}
 
 #pragma mark 新的
 -(NSString *)figureRegistration_new:(NSString *)flightCode number:(NSString *)flightNum{
@@ -1583,39 +1017,6 @@ if(flightCode != nil){
        //NSArray *portName = [[_airportArray objectAtIndex:4]objectForKey:@"AirportName"];
 }
 
--(void)testCase{
-    
-    // 用global queue是可以利用多執行緒 不用照順序多工且可以在"背景"執行 ; 用main queue需要前一個執行完後 才能用執行下一個
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-//        dispatch_sync(dispatch_get_main_queue(), ^{
-//        
-//            NSLog(@"dispatch sync");
-//        
-//        });
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"dispatch_1");
-        });
-        
-        //這個會在主線程等10秒後 執行
-        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC));
-        dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
-            NSLog(@"dispatch_delay_10S");
-        
-        });
-    //這個會先出來 FIFO
-    dispatch_queue_t serialQueue = dispatch_queue_create("testCase", DISPATCH_QUEUE_SERIAL);
-    dispatch_async(serialQueue, ^{
-        NSLog(@"dispatch_serial");
-    
-    });
-    
-    });
-//    dispatch_sync(dispatch_get_main_queue(), ^(void){
-//        NSLog(@"dispatch_sync");
-//    });
 
-
-}
 
 @end

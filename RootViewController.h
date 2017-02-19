@@ -57,17 +57,16 @@
 //#import "EADemoAppDelegate.h"
 #import "FlightTimeDelegate.h"
 #import "MBProgressHUD.h"
-
+#import "GetSchedule.h"
 //@class EADSessionController;
 @class RootViewController;
 
 //他是老闆要叫getschedule這個class幫忙做事
-@protocol rootDelegate <NSObject>
-@optional
-- (NSMutableArray *)jsonArrival:(RootViewController *)rootView comeFrom:(NSString *)from;
--(NSString *)returnTest:(RootViewController *)rootView comeFrom:(NSString *)from;
--(NSString *)getAirApiticket:(RootViewController *)rootView;
-@end
+//@protocol rootDelegate <NSObject>
+//@optional
+//- (NSMutableArray *)jsonArrival:(RootViewController *)rootView comeFrom:(NSString *)from;
+////-(NSString *)getAirApiticket:(RootViewController *)rootView;
+//@end
 
 
 
@@ -91,18 +90,13 @@
     MPRemoteCommandCenter *commandCenter;
     
 }
-@property(nonatomic,assign) id<rootDelegate>rootdelegate;
+//@property(nonatomic,assign) id<rootDelegate>rootdelegate;
 @property(nonatomic,retain)UITableView *tableView;
 @property(nonatomic,strong)UIScrollView *scrollView;
 //@property (nonatomic,retain)id<TalkToMac> delegate;
 
 //add for 20160712
-@property(nonatomic, retain)UIButton *playMuzik;
-@property(nonatomic, retain)UIButton *pauseMuzik;
-@property (nonatomic, retain)UIButton *startRecord;
-@property (nonatomic, retain)UIButton *stopRecord;
-@property (nonatomic, retain)UIButton *playRecord;
-@property (nonatomic, retain)UIButton *stop_playRecord;
+
 @property(nonatomic, retain)UIButton *refreshBtn;
 @property (nonatomic, retain)UIButton *arrivalBtn;
 @property (nonatomic, retain)UIButton *departureBtn;
