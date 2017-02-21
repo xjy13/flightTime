@@ -12,11 +12,7 @@
 #import "GetLocation.h"
 
 #define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24filter=FlightDate%20eq%20"
-#define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
-#define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
-#define arrival @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
-//#define arrival_new @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival?$"
-//http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival?$filter=hour(ScheduleArrivalTime)%20ge%2016&$orderby=ScheduleArrivalTime%20asc&$top=25&$format=JSON
+
 
 
 @interface RootViewController(){
@@ -152,7 +148,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
       [[GetLocation shareInstance]jsonLocation];
-    
+    NSMutableArray *test = [GetSchedule jsonDepature:@"root"];
+    NSLog(@"at rootView scArray departure = %@",test);
+
     hudView.delegate = self;
     hudView = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:hudView];
@@ -184,7 +182,7 @@
     
      _arrivalArray =  [GetSchedule jsonArrival:@"root"];;
      NSLog(@"at rootView scArray = %@", _arrivalArray);
-   //  [self.rootdelegate getAirApiticket:self ];
+     //  [self.rootdelegate getAirApiticket:self ];
 //     NSString *ticketCode = [NSString stringWithFormat:@"%@",[self.rootdelegate getAirApiticket:self ]];
 //     NSLog(@"at rootView ticketCode= %@",ticketCode);
    }
@@ -219,9 +217,6 @@
     return  departureDate;
 
 }
-
-
-
 
 
 - (void)viewWillDisappear:(BOOL)animated

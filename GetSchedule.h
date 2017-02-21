@@ -26,5 +26,5 @@
 //@property (nonatomic, retain)NSMutableArray *tickGet;
 +(instancetype)shareInstance;
 +(NSMutableArray *)jsonArrival:(NSString *)from;
-
++(NSMutableArray *)jsonDepature:(NSString *)from;
 @end

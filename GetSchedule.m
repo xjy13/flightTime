@@ -13,6 +13,7 @@
 @interface GetSchedule()
 @end
 NSMutableArray *arrivalArray;
+NSMutableArray *departureArray;
 NSString *status;
 NSString *ticketCode;
 
@@ -73,8 +74,7 @@ NSString *ticketCode;
         NSLog(@"error json = %@ and status code = %d error = %@",arrivalArray,[res statusCode],[err description]);
     }
     return arrivalArray;
-    
-
+ 
 }
 
 +(NSString *)currentDateArrival{
@@ -97,6 +97,46 @@ NSString *ticketCode;
     return  filterURL;
 }
 
++(NSMutableArray *)jsonDepature:(NSString *)from{
+    NSLog(@"comeFrom = %@",from);
+    NSError *err = nil;
+    NSHTTPURLResponse *res = nil;
+    NSURL *url = [NSURL URLWithString:[self currentDateDeparture]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+    
+    NSLog(@"arrival status = %d",[res statusCode]);
+    if(data != nil && [res statusCode]==200 && err == nil){
+        departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"arrival json in GetSchedule: %@",departureArray);
+    }
+    else{
+        NSLog(@"error json = %@ and status code = %d error = %@",departureArray,[res statusCode],[err description]);
+    }
+    return departureArray;
+    
+}
+
+
+
+
++(NSString *)currentDateDeparture{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
+    // [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *nowDate = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:nowDate];
+    
+    NSString *frontURL = [departure_new stringByAppendingString:[NSString stringWithFormat:@"%d",[dateComponent hour]]];
+    NSString *backURL = @"&$orderby=ScheduleDepartureTime%20asc&$top=20&$format=JSON";
+    NSString *filterURL = [NSString stringWithFormat:@"%@%@",frontURL,backURL];
+    NSLog(@"URL current Time = %@",filterURL);
+    return  filterURL;
+
+}
 
 
 
