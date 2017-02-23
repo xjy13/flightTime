@@ -105,10 +105,10 @@ NSString *ticketCode;
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
     
-    NSLog(@"arrival status = %d",[res statusCode]);
+    NSLog(@"departure status = %d",[res statusCode]);
     if(data != nil && [res statusCode]==200 && err == nil){
         departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"arrival json in GetSchedule: %@",departureArray);
+        NSLog(@"departure json in GetSchedule: %@",departureArray);
     }
     else{
         NSLog(@"error json = %@ and status code = %d error = %@",departureArray,[res statusCode],[err description]);
@@ -116,9 +116,6 @@ NSString *ticketCode;
     return departureArray;
     
 }
-
-
-
 
 +(NSString *)currentDateDeparture{
     
@@ -138,6 +135,81 @@ NSString *ticketCode;
 
 }
 
++(NSString *)translateIATA:(NSString *)airportCode{
+    NSError *err = nil;
+    NSLog(@"airport code = %@",airportCode);
+    NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",airportInfo,airportCode];   //JFK?$format=JSON
+    NSURL *url = [NSURL URLWithString:IATAinfo];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSHTTPURLResponse *response = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+    
+    
+    NSLog(@"translateIATA status = %d",[response statusCode]);
+    
+    if(data != nil &&[response statusCode] ==200){
+        NSMutableArray *airportArray = [[NSMutableArray alloc]init];
+        airportArray = [NSMutableArray array];
+        airportArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"Airport json : %@,  %d",airportArray,[airportArray count]);
+        //_scrollView.hidden = NO;
+        //noDatasLabelView.hidden = YES;
+        NSString *airportName = [[airportArray objectForKey:@"AirportName"] objectForKey:@"Zh_tw"];
+        NSLog(@"airport name = %@",airportName);
+        if([airportName isEqualToString:@""]){
+            airportName = airportCode;
+        }
+        return  airportName;
+    }
+    else{
+        //        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
+        //        [noDatasLabelView setText:@"No Data....."];
+        //        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
+        //        [self.view addSubview:noDatasLabelView];
+        //        _scrollView.hidden = YES;
+        //        noDatasLabelView.hidden = NO;
+        NSLog(@"Get problem The status code = %d",[response statusCode]);
+    }
+    //NSArray *portName = [[_airportArray objectAtIndex:4]objectForKey:@"AirportName"];
+}
 
-
++(NSString *)figureRegistration:(NSString *)flightCode number:(NSString *)flightNum{
+    NSLog(@"airline code = %@",flightCode);
+    
+    if(flightCode != nil){
+        NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",flightInfo,flightCode];
+        NSURL *url = [NSURL URLWithString:IATAinfo];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        NSError *err = nil;
+        NSHTTPURLResponse *res =nil;
+        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+        if([res statusCode] == 200 && err == nil && ![flightCode isEqualToString:@""]){
+            NSMutableArray *flightArray = [[NSMutableArray alloc]init];
+            flightArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"flight json = %@",flightArray);
+            NSString *airlineCode = [NSString stringWithFormat:@"%@-%@%@",[[flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],flightCode,flightNum];
+            NSLog(@"flight name  = %@",airlineCode);
+            //[self returnCode];
+//            scrollView.hidden = NO;
+//            noDatasLabelView.hidden = YES;
+            return airlineCode;
+        }
+        else{
+            NSLog(@"err = %@ and response code = %d",err,[res statusCode]);
+//            noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
+//            [noDatasLabelView setText:@"No Data....."];
+//            [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
+//            [self.view addSubview:noDatasLabelView];
+//            _scrollView.hidden = YES;
+//            noDatasLabelView.hidden = NO;
+        }
+        
+    }else{
+        NSLog(@"flight code is null");
+        NSString *nullDisplayCode = [flightCode stringByAppendingString:flightNum];
+        return nullDisplayCode;
+    }
+    
+    
+}
 @end

@@ -27,4 +27,6 @@
 +(instancetype)shareInstance;
 +(NSMutableArray *)jsonArrival:(NSString *)from;
 +(NSMutableArray *)jsonDepature:(NSString *)from;
++(NSString *)translateIATA:(NSString *)airportCode;
++(NSString *)figureRegistration:(NSString *)flightCode number:(NSString *)flightNum;
 @end
