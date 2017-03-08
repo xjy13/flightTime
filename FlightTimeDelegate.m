@@ -8,6 +8,7 @@
 
 #import "FlightTimeDelegate.h"
 //#import "RootViewController.h"
+#import <GoogleMaps/GoogleMaps.h>
 #define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24top=6&%24format=JSON"
 #define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
 
