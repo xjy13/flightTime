@@ -10,14 +10,11 @@
 #import "FlightTimeDelegate.h"
 #import "Toast+UIView.h"
 #import "GetLocation.h"
-
+#import "MapGoogle.h"
 #define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24filter=FlightDate%20eq%20"
-
-
 
 @interface RootViewController(){
 
-    
     
     NSString *airlineID;
     NSString *airlineID_full;
@@ -226,6 +223,14 @@
     [_refreshBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
     [_refreshBtn addTarget:self action:@selector(refreshTable:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_refreshBtn];
+    
+    
+    _toMapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _toMapBtn = [[UIButton alloc]initWithFrame:CGRectMake(30,30, 28, 28)];
+    [_toMapBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+    [_toMapBtn addTarget:self action:@selector(setToMapBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_toMapBtn];
+
     
     _arrivalBtn = [[UIButton alloc]initWithFrame:CGRectMake(0,80, 160, 45)];
     [_arrivalBtn setBackgroundColor:[UIColor colorWithRed:0.0 green:.2 blue:.3 alpha:.5]];
@@ -822,84 +827,6 @@
 }
 
 
-
-//-(void)jsonArrival{
-//    
-//    NSError *err = nil;
-//    NSHTTPURLResponse *res = nil;
-//    NSURL *url = [NSURL URLWithString:[self currentDateArrival]];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
-//    
-//    NSLog(@"arrival status = %d",[res statusCode]);
-//    if(data != nil && [res statusCode]==200 && err == nil){
-//        _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-//        NSLog(@"arrival json : %@",_arrivalArray);
-//        [_tableView reloadData];
-//        noDatasLabelView.hidden = YES;
-//    }
-//    else{
-//        NSLog(@"error json = %@ and status code = %d error = %@",_arrivalArray,[res statusCode],[err description]);
-//        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
-//        [noDatasLabelView setText:@"No Data....."];
-//        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
-//        [self.view addSubview:noDatasLabelView];
-//        noDatasLabelView.hidden = NO;
-//    }
-
-//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *err) {
-//        NSHTTPURLResponse *statusURL = (NSHTTPURLResponse *)response;
-//        NSLog(@"arrival status = %d",[statusURL statusCode]);
-//        if([statusURL statusCode] == 200 && err == nil ){
-//            _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
-//            NSLog(@"arrival json : %@",_arrivalArray);
-//            [_tableView reloadData];
-//        }
-//        else{
-//            NSLog(@"error json = %@ and status code = %d",_arrivalArray,[res statusCode]);
-//            noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
-//            [noDatasLabelView setText:@"No Data....."];
-//            [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
-//            [self.view addSubview:noDatasLabelView];
-//            noDatasLabelView.hidden = NO;
-//        }
-//    }];
-
-    
-    
-    
-//}
-
-//-(void)jsonDeparture{
-//    NSError *err = nil;
-//    NSHTTPURLResponse *res = nil;
-//    NSURL *url = [NSURL URLWithString:[self currentDateDeparture]];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
-//    
-//    NSLog(@"departure status = %d",[res statusCode]);
-//    if(data != nil && [res statusCode]==200 && err == nil){
-//        NSInputStream *inStream = [[NSInputStream alloc] initWithData:data];
-//        [inStream open];
-//        _departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-//        NSLog(@"departure json : %@",_departureArray);
-//        [inStream close];
-//        [_tableView reloadData];
-//        noDatasLabelView.hidden = YES;
-//    }
-//    else{
-//        NSLog(@"error json = %@ and status code = %d error = %@",_departureArray,[res statusCode],[err description]);
-//        noDatasLabelView = [[UILabel alloc]initWithFrame:CGRectMake(115, 250, 240, 50)];
-//        [noDatasLabelView setText:@"No Data....."];
-//        [noDatasLabelView setFont:[UIFont systemFontOfSize:25]];
-//        [self.view addSubview:noDatasLabelView];
-//        noDatasLabelView.hidden = NO;
-//    }
-
-
-
-//}
-
 // refresh schedule
 -(void)refreshTable:(UIButton *)btn {
     NSLog(@"refresh schedule");
@@ -939,6 +866,20 @@
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
 }
+
+-(void)setToMapBtn:(UIButton *)btn{
+    [self performSegueWithIdentifier:@"googleMap" sender:btn];
+
+
+}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"googleMap"]) {
+        MapGoogle *mapView = [segue destinationViewController];
+      //  goodView.userUID = self.userUid;
+    }
+}
+
 
 -(void)arrivalTable:(UIButton *)btn{
     NSLog(@"show arrival table");

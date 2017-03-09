@@ -7,9 +7,9 @@
 //
 
 #import "FlightTimeDelegate.h"
-//#import "RootViewController.h"
-#define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24top=6&%24format=JSON"
-#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
+#import <GoogleMaps/GoogleMaps.h>
+//#define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24top=6&%24format=JSON"
+//#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
 
 @implementation FlightTimeDelegate
 
@@ -51,6 +51,7 @@
     // Override point for customization after application launch.
     [window setRootViewController:nav];
     [window makeKeyAndVisible];
+    [GMSServices provideAPIKey:@"AIzaSyCKer63TbIOPLbmlNLCamBdUB3ZZFoYvs0"];
     return YES;
     
 }

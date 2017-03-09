@@ -10,6 +10,7 @@
 		0422FF881E4A330700F6F867 /* GetLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422FF871E4A330700F6F867 /* GetLocation.m */; };
 		043424E61DAFECB7003E7E2B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 043424E51DAFECB7003E7E2B /* MBProgressHUD.m */; };
 		0448F3D31D2E474C00FF90DB /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 0448F3D21D2E474C00FF90DB /* warning.png */; };
+		0448F55A1E6DC38100944D93 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448F5591E6DC38100944D93 /* MapKit.framework */; };
 		044ECEE71D2D01180073DA60 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 044ECEE61D2D01180073DA60 /* back.png */; };
 		044ECEE91D2D01420073DA60 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044ECEE81D2D01420073DA60 /* Storyboard.storyboard */; };
 		045AEECB1D65EA7D0065CAE7 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 045AEECA1D65EA7D0065CAE7 /* refresh.png */; };
@@ -26,6 +27,9 @@
 		04C04AC31D18E94C00708E7E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C04AC21D18E94C00708E7E /* MediaPlayer.framework */; };
 		04C5706D1DA6848A0097DA3A /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5706B1DA6848A0097DA3A /* Toast+UIView.m */; };
 		04E572351D73D1DC005CE613 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E572341D73D1DC005CE613 /* Default-568h@2x.png */; };
+		04F808991E6FABF6002B9B2F /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F808981E6FABF6002B9B2F /* ExternalAccessory.framework */; };
+		04F808DD1E70F8C5002B9B2F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F808DC1E70F8C5002B9B2F /* Security.framework */; };
+		04F808E01E70FC45002B9B2F /* MapGoogle.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F808DF1E70FC45002B9B2F /* MapGoogle.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -37,10 +41,8 @@
 		309BCA7111DB0A0E000B4574 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6A11DB0A0E000B4574 /* Icon.png */; };
 		309BCA7211DB0A0E000B4574 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6B11DB0A0E000B4574 /* Icon@2x.png */; };
 		30B3DE3311ED1F7700C12546 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 30B3DE3211ED1F7700C12546 /* iTunesArtwork */; };
-		C952826C0FB397D500E6CF4C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952826B0FB397D500E6CF4C /* ExternalAccessory.framework */; };
+		A27A598DF5FC50FEE5255FF3 /* libPods-FlightTime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35498DAADEA7C65CF04D631D /* libPods-FlightTime.a */; };
 		C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C986345A0FB66A2200D461F2 /* RootViewController.m */; };
-		C9E1AAB6104EBA61002BECB8 /* EADSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E1AAB5104EBA61002BECB8 /* EADSessionController.m */; };
-		C9E1AB2E104EF18F002BECB8 /* EADSessionTransferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E1AB2D104EF18F002BECB8 /* EADSessionTransferViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,7 @@
 		043424E41DAFECB7003E7E2B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		043424E51DAFECB7003E7E2B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		0448F3D21D2E474C00FF90DB /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
+		0448F5591E6DC38100944D93 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		044ECEE61D2D01180073DA60 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		044ECEE81D2D01420073DA60 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		045AEECA1D65EA7D0065CAE7 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
@@ -68,9 +71,14 @@
 		04C5706B1DA6848A0097DA3A /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		04C5706C1DA6848A0097DA3A /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
 		04E572341D73D1DC005CE613 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		04F808981E6FABF6002B9B2F /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		04F808DC1E70F8C5002B9B2F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		04F808DE1E70FC2B002B9B2F /* MapGoogle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapGoogle.h; sourceTree = "<group>"; };
+		04F808DF1E70FC45002B9B2F /* MapGoogle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapGoogle.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* FlightTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlightTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2872C70C3ECFD4E9F3D0178C /* Pods-FlightTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime.release.xcconfig"; sourceTree = "<group>"; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* FlightTime_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightTime_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -81,14 +89,11 @@
 		309BCA6A11DB0A0E000B4574 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		309BCA6B11DB0A0E000B4574 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		30B3DE3211ED1F7700C12546 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		35498DAADEA7C65CF04D631D /* libPods-FlightTime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightTime.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1107310486CEB800E47090 /* FlightTime-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FlightTime-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		C952826B0FB397D500E6CF4C /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime.debug.xcconfig"; sourceTree = "<group>"; };
 		C98634590FB66A2200D461F2 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		C986345A0FB66A2200D461F2 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		C9E1AAB4104EBA61002BECB8 /* EADSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EADSessionController.h; sourceTree = "<group>"; };
-		C9E1AAB5104EBA61002BECB8 /* EADSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EADSessionController.m; sourceTree = "<group>"; };
-		C9E1AB2C104EF18F002BECB8 /* EADSessionTransferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EADSessionTransferViewController.h; sourceTree = "<group>"; };
-		C9E1AB2D104EF18F002BECB8 /* EADSessionTransferViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EADSessionTransferViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,12 +101,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04F808DD1E70F8C5002B9B2F /* Security.framework in Frameworks */,
+				04F808991E6FABF6002B9B2F /* ExternalAccessory.framework in Frameworks */,
+				0448F55A1E6DC38100944D93 /* MapKit.framework in Frameworks */,
 				04C04AC31D18E94C00708E7E /* MediaPlayer.framework in Frameworks */,
 				04C04AC11D18E89E00708E7E /* AVFoundation.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
-				C952826C0FB397D500E6CF4C /* ExternalAccessory.framework in Frameworks */,
+				A27A598DF5FC50FEE5255FF3 /* libPods-FlightTime.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,8 +151,6 @@
 			children = (
 				04A42CCA1DDA232F00A769FB /* FlightTimeDelegate.h */,
 				04A42CCB1DDA234B00A769FB /* FlightTimeDelegate.m */,
-				C9E1AAB4104EBA61002BECB8 /* EADSessionController.h */,
-				C9E1AAB5104EBA61002BECB8 /* EADSessionController.m */,
 				C98631FD0FB4B35000D461F2 /* ViewControllers */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -153,6 +159,7 @@
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				044ECEE81D2D01420073DA60 /* Storyboard.storyboard */,
 				8D1107310486CEB800E47090 /* FlightTime-Info.plist */,
+				3F5AF01567F8D482E4DD1689 /* Pods */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -160,12 +167,15 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04F808DC1E70F8C5002B9B2F /* Security.framework */,
+				04F808981E6FABF6002B9B2F /* ExternalAccessory.framework */,
+				0448F5591E6DC38100944D93 /* MapKit.framework */,
 				04C04AC21D18E94C00708E7E /* MediaPlayer.framework */,
 				04C04AC01D18E89D00708E7E /* AVFoundation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
-				C952826B0FB397D500E6CF4C /* ExternalAccessory.framework */,
+				35498DAADEA7C65CF04D631D /* libPods-FlightTime.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -195,13 +205,22 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		3F5AF01567F8D482E4DD1689 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */,
+				2872C70C3ECFD4E9F3D0178C /* Pods-FlightTime.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		C98631FD0FB4B35000D461F2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				C98634590FB66A2200D461F2 /* RootViewController.h */,
 				C986345A0FB66A2200D461F2 /* RootViewController.m */,
-				C9E1AB2C104EF18F002BECB8 /* EADSessionTransferViewController.h */,
-				C9E1AB2D104EF18F002BECB8 /* EADSessionTransferViewController.m */,
+				04F808DE1E70FC2B002B9B2F /* MapGoogle.h */,
+				04F808DF1E70FC45002B9B2F /* MapGoogle.m */,
 				0422FF851E4A322F00F6F867 /* GetData */,
 				043424E71DAFECC7003E7E2B /* ViewAssistance */,
 			);
@@ -215,9 +234,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "FlightTime" */;
 			buildPhases = (
+				D958DF7C0F9D477318ECF4EB /* [CP] Check Pods Manifest.lock */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				CCAA2BEBE684710C975214D4 /* [CP] Embed Pods Frameworks */,
+				17E36EB7FD19AAD2F7D52121 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -255,6 +277,7 @@
 				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -292,19 +315,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		17E36EB7FD19AAD2F7D52121 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CCAA2BEBE684710C975214D4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D958DF7C0F9D477318ECF4EB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0422FF881E4A330700F6F867 /* GetLocation.m in Sources */,
+				04F808E01E70FC45002B9B2F /* MapGoogle.m in Sources */,
 				04C5706D1DA6848A0097DA3A /* Toast+UIView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */,
 				04A42CCC1DDA234B00A769FB /* FlightTimeDelegate.m in Sources */,
-				C9E1AAB6104EBA61002BECB8 /* EADSessionController.m in Sources */,
 				049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */,
-				C9E1AB2E104EF18F002BECB8 /* EADSessionTransferViewController.m in Sources */,
 				043424E61DAFECB7003E7E2B /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,6 +384,7 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -326,6 +397,7 @@
 				GCC_PREFIX_HEADER = FlightTime_Prefix.pch;
 				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
 			};
@@ -333,6 +405,7 @@
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2872C70C3ECFD4E9F3D0178C /* Pods-FlightTime.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -343,6 +416,7 @@
 				GCC_PREFIX_HEADER = FlightTime_Prefix.pch;
 				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
 			};
