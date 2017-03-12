@@ -112,8 +112,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-      [[GetLocation shareInstance]jsonLocation];
-   
+     // [[GetLocation shareInstance]jsonLocation];
+    [GetLocation jsonLocation];
     hudView.delegate = self;
     hudView = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:hudView];
@@ -127,10 +127,10 @@
     [self initialTable];
     [self initView];
 //    [self setupTestEnvironment];
-    enterBackgound = false;
-    enterFront = true;
-    [self enterToFront];
-    [self enterToBackground];
+//    enterBackgound = false;
+//    enterFront = true;
+//    [self enterToFront];
+//    [self enterToBackground];
    
     flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
     [flightSchedule fire];
@@ -790,41 +790,41 @@
 }
 
 
--(void)enterToFront{
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(toFront:) name:UIApplicationWillEnterForegroundNotification object:nil];
-    
-}
--(void)toFront:(NSNotification *)noti{
-    if(!enterFront){
-     //   [self setupTestEnvironment];
-        [self refreshTable];
-        [self enterToBackground];
-       // [flightSchedule fire];
-        enterBackgound = false;
-    }
-}
+//-(void)enterToFront{
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(toFront:) name:UIApplicationWillEnterForegroundNotification object:nil];
+//    
+//}
+//-(void)toFront:(NSNotification *)noti{
+//    if(!enterFront){
+//     //   [self setupTestEnvironment];
+//        [self refreshTable];
+//        [self enterToBackground];
+//       // [flightSchedule fire];
+//        enterBackgound = false;
+//    }
+//}
 
 
--(void)enterToBackground{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterToBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    
-}
+//-(void)enterToBackground{
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterToBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+//    
+//}
 
--(void)enterToBackground:(NSNotification *)nofi{
-    if(!enterBackgound){
-        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1*NSEC_PER_MSEC));
-        dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
-           // [self uninstallSetup];
-            [flightSchedule invalidate];
-            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(receive_harkeyCmd:) object:nil];
-            NSLog(@"really go to background!!");
-        });
-        
-        enterBackgound = true;
-        enterFront = false;
-    }
-    
-}
+//-(void)enterToBackground:(NSNotification *)nofi{
+//    if(!enterBackgound){
+//        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1*NSEC_PER_MSEC));
+//        dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
+//           // [self uninstallSetup];
+//            [flightSchedule invalidate];
+//            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(receive_harkeyCmd:) object:nil];
+//            NSLog(@"really go to background!!");
+//        });
+//        
+//        enterBackgound = true;
+//        enterFront = false;
+//    }
+//    
+//}
 
 
 // refresh schedule

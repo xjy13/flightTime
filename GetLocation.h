@@ -9,6 +9,6 @@
 @class GetLocation;
 
 @interface GetLocation : NSObject
-+(instancetype)shareInstance;
--(void)jsonLocation;
+//+(instancetype)shareInstance;
++(NSMutableArray *)jsonLocation;
 @end
