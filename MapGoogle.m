@@ -10,7 +10,7 @@
 #import "MapGoogle.h"
 #import "GetLocation.h"
 
-@interface MapGoogle(){
+@interface MapGoogle()<GMSMapViewDelegate>{
 
 
 }
@@ -20,6 +20,7 @@
 GMSMapView *mapView_;
 NSSet *markers;
 UIButton *backBtn;
+NSTimer *refreshRoute;
 - (void)viewDidLoad {
     // Create a GMSCameraPosition that tells the map to display the
     // coordinate -33.86,151.20 at zoom level 6. //-33.86 151.20
@@ -48,9 +49,13 @@ UIButton *backBtn;
     [backBtn setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchDragInside];
     [self.view addSubview:backBtn];
-    [self testUse];
-    
-    
+    refreshRoute = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(testUse) userInfo:nil repeats:YES];
+    [refreshRoute fire];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [refreshRoute invalidate];
+
 }
 -(void)backAction:(UIButton *)btn{
 
@@ -68,9 +73,15 @@ UIButton *backBtn;
     NSString *latitude = [[point objectAtIndex:0] objectAtIndex:6];
     NSString *flight = [[point objectAtIndex:0] objectAtIndex:1];
     GMSMarker *marker3 = [[GMSMarker alloc] init];
-    marker3.position = CLLocationCoordinate2DMake([latitude floatValue],[longitude floatValue]);
+    if(latitude !=nil && longitude != nil){
+     marker3.position = CLLocationCoordinate2DMake([latitude floatValue],[longitude floatValue]);
+        marker3.snippet = flight;
+        marker3.icon = [UIImage imageNamed:@"airplane"];
+        marker3.tracksInfoWindowChanges = YES;
+    }
+   
   //  marker3.title = flight;
-    marker3.snippet = flight;
+  
     marker3.map = mapView_;
     
     /*
