@@ -189,7 +189,7 @@
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
-    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshTable) object:nil];
      
 }
 
