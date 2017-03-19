@@ -29,9 +29,11 @@ double x,y;
     // Create a GMSCameraPosition that tells the map to display the
     // coordinate -33.86,151.20 at zoom level 6. //-33.86 151.20
     
- //   [self getFlightLocation];
+    [self getFlightLocation];
   
-    mapView_ = [GMSMapView mapWithFrame:CGRectMake(0,30,320,320) camera:camera];
+    mapView_ = [GMSMapView mapWithFrame:CGRectMake(0,70,320,320) camera:camera];
+    [self.view addSubview:mapView_];
+    
     mapView_.myLocationEnabled = YES;
     mapView_.settings.compassButton = YES;
     mapView_.settings.zoomGestures = YES;
@@ -56,11 +58,11 @@ double x,y;
 
     
     backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn = [[UIButton alloc]initWithFrame:CGRectMake(30,30, 28, 28)];
+    backBtn = [[UIButton alloc]initWithFrame:CGRectMake(10,30, 28, 28)];
     [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
-    refreshRoute = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(realTime) userInfo:nil repeats:YES];
+    refreshRoute = [NSTimer scheduledTimerWithTimeInterval:25.0 target:self selector:@selector(realTime) userInfo:nil repeats:YES];
     [refreshRoute fire];
 }
 
@@ -100,8 +102,6 @@ double x,y;
 
 -(void)realTime{
     //[mapView_ clear];
-    [mapView_ removeFromSuperview];
-    [self.view addSubview:mapView_];
     [mapView_ clear];
     NSString *longitude;
     NSString *latitude;
@@ -122,8 +122,24 @@ double x,y;
                                                       zoom:10];
             marker3 = [[GMSMarker alloc] init];
             marker3.position = CLLocationCoordinate2DMake([latitude doubleValue],[longitude doubleValue]);
-            marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:254.0/255.0 green:227.0/255.0 blue:72.0/255.0 alpha:1.0]];
-            marker3.snippet = flight;
+            if([flight hasPrefix:@"CAL"] || [flight  hasPrefix:@"MDA"] ){
+             marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:185.0/255.0 green:173.0/255.0 blue:200.0/255.0 alpha:1.0]];
+                 marker3.snippet = flight;
+            }
+            if([flight hasPrefix:@"EVA"] || [flight hasPrefix:@"UIA"]){
+                 marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:46.0/255.0 green:141.0/255.0 blue:57.0/255.0 alpha:1.0]];
+                   marker3.snippet = flight;
+            }
+            if([flight hasPrefix:@"FE"]){
+              marker3.icon = [GMSMarker markerImageWithColor:[UIColor redColor]];
+                   marker3.snippet = flight;
+            }
+            if([flight hasPrefix:@"TTW"]){
+             marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:254.0/255.0 green:227.0/255.0 blue:72.0/255.0 alpha:1.0]];
+                   marker3.snippet = flight;
+            }
+           
+         
             marker3.tracksInfoWindowChanges = YES;
             marker3.tracksViewChanges = YES;
             marker3.flat = YES;
