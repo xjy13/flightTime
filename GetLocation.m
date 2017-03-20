@@ -46,7 +46,7 @@ NSMutableArray *filterArray;
       //  NSLog(@"location json_1= %@",add);
         filterArray = [NSMutableArray array];
         for(int i = 0 ; i < add.count ; i++){
-            if([[[add objectAtIndex:i] objectAtIndex:2]isEqualToString:@"Taiwan"] && [[add objectAtIndex:i] objectAtIndex:5] != [NSNull null] && [[add objectAtIndex:i]objectAtIndex:6]!= [NSNull null] && [[add objectAtIndex:i] objectAtIndex:1]!= [NSNull null] ){
+            if([[[add objectAtIndex:i] objectAtIndex:2]isEqualToString:@"United States"] && [[add objectAtIndex:i] objectAtIndex:5] != [NSNull null] && [[add objectAtIndex:i]objectAtIndex:6]!= [NSNull null] && [[add objectAtIndex:i] objectAtIndex:1]!= [NSNull null] ){
                 [filterArray addObject:[add objectAtIndex:i]];
             }
                    }
