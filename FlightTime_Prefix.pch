@@ -1,6 +1,3 @@
-//
-// Prefix header for all source files of the 'EADemo' target in the 'EADemo' project
-//
 #import <Availability.h>
 
 #ifndef __IPHONE_3_0
@@ -20,3 +17,4 @@
 #define departure_new @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure?$filter=hour(ScheduleDepartureTime)%20ge%20"
 #define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
 #define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
+#define XDD @"AIzaSyCKer63TbIOPLbmlNLCamBdUB3ZZFoYvs0"

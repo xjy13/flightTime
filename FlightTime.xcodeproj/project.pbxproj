@@ -15,6 +15,7 @@
 		044ECEE91D2D01420073DA60 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044ECEE81D2D01420073DA60 /* Storyboard.storyboard */; };
 		045AEECB1D65EA7D0065CAE7 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 045AEECA1D65EA7D0065CAE7 /* refresh.png */; };
 		045B13E21E763C1A0038659A /* airplane.png in Resources */ = {isa = PBXBuildFile; fileRef = 045B13E11E763C1A0038659A /* airplane.png */; };
+		047C827C1E86528F0098EB57 /* libPods-flightTimeNew.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047C827B1E86528F0098EB57 /* libPods-flightTimeNew.a */; };
 		0488540C1E7FCD3300FD1277 /* airPort.png in Resources */ = {isa = PBXBuildFile; fileRef = 0488540B1E7FCD3300FD1277 /* airPort.png */; };
 		049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0498058F1DC2FC6700C42C5F /* GetSchedule.m */; };
 		04A0233F1D263C99002C989D /* playBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A0233D1D263C99002C989D /* playBtn.png */; };
@@ -43,7 +44,6 @@
 		309BCA7111DB0A0E000B4574 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6A11DB0A0E000B4574 /* Icon.png */; };
 		309BCA7211DB0A0E000B4574 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6B11DB0A0E000B4574 /* Icon@2x.png */; };
 		30B3DE3311ED1F7700C12546 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 30B3DE3211ED1F7700C12546 /* iTunesArtwork */; };
-		A27A598DF5FC50FEE5255FF3 /* libPods-FlightTime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35498DAADEA7C65CF04D631D /* libPods-FlightTime.a */; };
 		C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C986345A0FB66A2200D461F2 /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +58,7 @@
 		044ECEE81D2D01420073DA60 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		045AEECA1D65EA7D0065CAE7 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		045B13E11E763C1A0038659A /* airplane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airplane.png; sourceTree = "<group>"; };
+		047C827B1E86528F0098EB57 /* libPods-flightTimeNew.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPods-flightTimeNew.a"; sourceTree = "<group>"; };
 		0488540B1E7FCD3300FD1277 /* airPort.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airPort.png; sourceTree = "<group>"; };
 		0498058E1DC2FC3D00C42C5F /* GetSchedule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSchedule.h; sourceTree = "<group>"; };
 		0498058F1DC2FC6700C42C5F /* GetSchedule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSchedule.m; sourceTree = "<group>"; };
@@ -93,7 +94,6 @@
 		309BCA6A11DB0A0E000B4574 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		309BCA6B11DB0A0E000B4574 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		30B3DE3211ED1F7700C12546 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
-		35498DAADEA7C65CF04D631D /* libPods-FlightTime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightTime.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1107310486CEB800E47090 /* FlightTime-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FlightTime-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime.debug.xcconfig"; sourceTree = "<group>"; };
 		C98634590FB66A2200D461F2 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -108,12 +108,12 @@
 				04F808DD1E70F8C5002B9B2F /* Security.framework in Frameworks */,
 				04F808991E6FABF6002B9B2F /* ExternalAccessory.framework in Frameworks */,
 				0448F55A1E6DC38100944D93 /* MapKit.framework in Frameworks */,
+				047C827C1E86528F0098EB57 /* libPods-flightTimeNew.a in Frameworks */,
 				04C04AC31D18E94C00708E7E /* MediaPlayer.framework in Frameworks */,
 				04C04AC11D18E89E00708E7E /* AVFoundation.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
-				A27A598DF5FC50FEE5255FF3 /* libPods-FlightTime.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +171,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				047C827B1E86528F0098EB57 /* libPods-flightTimeNew.a */,
 				04F808DC1E70F8C5002B9B2F /* Security.framework */,
 				04F808981E6FABF6002B9B2F /* ExternalAccessory.framework */,
 				0448F5591E6DC38100944D93 /* MapKit.framework */,
@@ -179,7 +180,6 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
-				35498DAADEA7C65CF04D631D /* libPods-FlightTime.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -405,7 +405,7 @@
 				GCC_PREFIX_HEADER = FlightTime_Prefix.pch;
 				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
 			};
@@ -424,7 +424,7 @@
 				GCC_PREFIX_HEADER = FlightTime_Prefix.pch;
 				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
 			};
@@ -459,7 +459,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PRODUCT_NAME = EADemo;
+				PRODUCT_NAME = FlightTime;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv6";
@@ -495,7 +495,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
-				PRODUCT_NAME = EADemo;
+				PRODUCT_NAME = FlightTime;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv6";

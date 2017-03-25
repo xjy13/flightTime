@@ -51,7 +51,8 @@
     // Override point for customization after application launch.
     [window setRootViewController:nav];
     [window makeKeyAndVisible];
-    [GMSServices provideAPIKey:@"AIzaSyCKer63TbIOPLbmlNLCamBdUB3ZZFoYvs0"];
+    [GMSServices provideAPIKey:@""];
+    //is XDD
     return YES;
     
 }
