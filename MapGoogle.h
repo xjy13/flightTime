@@ -17,6 +17,7 @@
 //    UIA = 3,
 //    FET = 4
 //};
-@property(nonatomic,retain)UIPickerView *pickers;
 
+@property (retain, nonatomic) IBOutlet UIPickerView *pickers;
+@property(strong,nonatomic)NSArray *pickerData;
 @end

@@ -67,7 +67,7 @@ NSString *ticketCode;
     
     NSLog(@"arrival status = %d",[res statusCode]);
     if(data != nil && [res statusCode]==200 && err == nil){
-        arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
         NSLog(@"arrival json in GetSchedule: %@",arrivalArray);
     }
     else{

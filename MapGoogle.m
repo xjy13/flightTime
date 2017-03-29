@@ -10,9 +10,9 @@
 #import "MapGoogle.h"
 #import "GetLocation.h"
 #import <MapKit/MapKit.h>
-@interface MapGoogle()<GMSMapViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,CLLocationManagerDelegate>{
-
-
+@interface MapGoogle()<GMSMapViewDelegate,CLLocationManagerDelegate,UIPickerViewDelegate,UIPickerViewDataSource>{
+    
+    
 }
 @end
 @implementation MapGoogle
@@ -24,38 +24,38 @@ NSTimer *refreshRoute;
 GMSCameraPosition *camera;
 GMSMarker *marker3;
 NSUserDefaults *oldLocation;
-//_airways *type;
-NSArray *pickerData ;
+BOOL ishidden;
+NSString *loc;
 
 - (void)viewDidLoad {
     // Create a GMSCameraPosition that tells the map to display the
     // coordinate -33.86,151.20 at zoom level 6. //-33.86 151.20
     
-//    [self getFlightLocation];
+    //    [self getFlightLocation];
     [self initalView];
-       refreshRoute = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(realTime) userInfo:nil repeats:YES];
+    loc = @"Taiwan";
+   // [self realTime:loc];
+    refreshRoute = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(realTime:) userInfo:loc repeats:YES];
     [refreshRoute fire];
 }
 
 -(void)initalView{
-
-    CLLocationManager *locationManager;
-    locationManager = [[ CLLocationManager alloc]init];
-    //locationManager.desiredAccuracy =
-    [locationManager startUpdatingLocation];
-    float latitude = locationManager.location.coordinate.latitude;
-    float longitude = locationManager.location.coordinate.longitude;
     
-    camera = [GMSCameraPosition cameraWithLatitude: latitude longitude: longitude zoom:10];
+    CLLocationManager *locationCurrent = [[CLLocationManager alloc]init];
+    locationCurrent.delegate = self;
+    locationCurrent.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    float currentLatitude = locationCurrent.location.coordinate.latitude;
+    float currentLongitude = locationCurrent.location.coordinate.longitude;
+    mapView_ = [[GMSMapView alloc]init];
+    camera = [GMSCameraPosition cameraWithLatitude:currentLatitude longitude:currentLongitude zoom:10];
     mapView_ = [GMSMapView mapWithFrame:CGRectMake(0,70,320,320) camera:camera];
-    [self.view addSubview:mapView_];
-    
     mapView_.myLocationEnabled = YES;
     mapView_.settings.compassButton = YES;
     mapView_.settings.zoomGestures = YES;
     mapView_.settings.scrollGestures = YES;
-    // [self.view addSubview:mapView_];
+
     
+    [self.view addSubview:mapView_];
     // Creates a marker in the center of the map.
 //    GMSMarker *marker = [[GMSMarker alloc] init];
 //    marker.position = CLLocationCoordinate2DMake(25.0796514,121.2320283);
@@ -86,77 +86,75 @@ NSArray *pickerData ;
 //    marker4.map = mapView_;
     
     
+    
     backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn = [[UIButton alloc]initWithFrame:CGRectMake(10,30, 28, 28)];
     [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
-
-    pickerData = [[NSArray alloc]init];
-    pickerData = [NSArray arrayWithObjects:@"XD",@"XDD",@"XDDD",@"XDDDD",nil];
+    
+    UIButton *pickerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+   pickerBtn = [[UIButton alloc]initWithFrame:CGRectMake(290, 30, 28, 28)];
+    [pickerBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [pickerBtn addTarget:self action:@selector(pickerHide:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:pickerBtn];
+    
+    self.pickerData = @[@"Taiwan",@"Japan",@"China",@"Korea",@"United States",@"United Kingdom",@"Germany"];
+    
     self.pickers.dataSource = self;
     self.pickers.delegate = self;
-    self.pickers  = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 450, self.view.frame.size.width, 200)];
-    self.pickers.showsSelectionIndicator = YES;
-   // [self.view addSubview:self.pickers];
+//    self.pickers = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 400, self.view.frame.size.width, 200)];
+  //  [self.view addSubview:self.pickers];
+    
+    
 
 }
+//- (BOOL)canBecomeFirstResponder {
+//    
+//    return YES;
+//}
 
-- (int)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return pickerData.count;
-}
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
 
-- (int)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
     return 1;
+
 }
-- (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-//    NSString *testString;
-//    testString = pickerData[row];
-//    NSLog(@"testString = %@",testString);
-    return [pickerData objectAtIndex:row];
+    return self.pickerData.count;
+   
 }
 
-- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component{
-
-    return self.view.frame.size.width/2;
-
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+    
+    return self.view.frame.size.width/2.0;
 }
 
-- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component{
-
-
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component __TVOS_PROHIBITED {
+    
     return 40;
 }
-
-
-- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view  {
+- (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
-    UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 100, 40)];
-    //[label setText:<#(NSString * _Nullable)#>]
-    label.text = [pickerData objectAtIndex:row];
-    
-    return label;
+    return self.pickerData[row];
 }
 
-- (void)pickerView:(UIPickerView *)thePickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
-    //Here, like the table view you can get the each section of each row if you've multiple sections
-    NSLog(@"Selected Color: %@. Index of selected color: %i", [pickerData objectAtIndex:row], row);
+        loc = self.pickerData[row];
+        dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2*NSEC_PER_SEC));
+       dispatch_after(delay, dispatch_get_main_queue(), ^{
     
-    //Now, if you want to navigate then;
-    // Say, OtherViewController is the controller, where you want to navigate:
-//    OtherViewController *objOtherViewController = [OtherViewController new];
-//    [self.navigationController pushViewController:objOtherViewController animated:YES];
     
-    UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 100, 40)];
-    label.text = [pickerData objectAtIndex:row];
-    //return label;
+            loc = [NSString stringWithFormat:@"%@",self.pickerData[row]];
+            [refreshRoute invalidate];
+            refreshRoute = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(realTime:) userInfo:loc repeats:YES];
+            [refreshRoute fire];
+            
+        });
+
     
 }
-
 
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -164,52 +162,61 @@ NSArray *pickerData ;
     [mapView_ clear];
     [mapView_ removeFromSuperview];
     
-  
+    
 }
 -(void)backAction:(UIButton *)btn{
-
+    
     [self.navigationController popViewControllerAnimated:YES];
-
+    
 }
--(void)getFlightLocation{
+-(void)pickerHide:(UIButton *)btn{
 
-    NSMutableArray *pointFirst = [[NSMutableArray alloc] init];
-    [pointFirst addObjectsFromArray:[GetLocation jsonLocation]];
-  //  NSLog(@"point array is =%@",pointFirst);
+    if(!ishidden){
+        _pickers.hidden = NO;
+        ishidden = YES;
+        
+    }
+    else{
+        _pickers.hidden = YES;
+        ishidden = NO;
+    }
     
-    NSString *longitude = [[pointFirst objectAtIndex:4] objectAtIndex:5];
-    NSString *latitude = [[pointFirst objectAtIndex:4] objectAtIndex:6];
-    NSString *flightName = [[pointFirst objectAtIndex:4]objectAtIndex:1];
     
-  
-    
-    oldLocation = [NSUserDefaults standardUserDefaults];
-    [oldLocation setObject:flightName forKey:@"flight"];
-    [oldLocation setDouble:[latitude doubleValue] forKey:@"latitude"];
-    [oldLocation setDouble:[longitude doubleValue] forKey:@"longitude"];
-
-
 }
 
--(void)realTime{
-//    _airways type;
-//    switch (type) {
-//        case CAL:
-//            NSLog(@"哇係華航");
-//            break;
-//            
-//        default:
-//            break;
-//    }
-    
+//-(void)getFlightLocation{
+//    
+//    NSMutableArray *pointFirst = [[NSMutableArray alloc] init];
+//    [pointFirst addObjectsFromArray:[GetLocation jsonLocation]];
+//    //  NSLog(@"point array is =%@",pointFirst);
+//    
+//    NSString *longitude = [[pointFirst objectAtIndex:4] objectAtIndex:5];
+//    NSString *latitude = [[pointFirst objectAtIndex:4] objectAtIndex:6];
+//    NSString *flightName = [[pointFirst objectAtIndex:4]objectAtIndex:1];
+//    
+//    camera = [GMSCameraPosition cameraWithLatitude: [latitude floatValue]
+//                                         longitude: [longitude floatValue]
+//                                              zoom:10];
+//    
+//    oldLocation = [NSUserDefaults standardUserDefaults];
+//    [oldLocation setObject:flightName forKey:@"flight"];
+//    [oldLocation setDouble:[latitude doubleValue] forKey:@"latitude"];
+//    [oldLocation setDouble:[longitude doubleValue] forKey:@"longitude"];
+//    
+//    
+//}
+
+-(void)realTime:(NSTimer *)country{
     [mapView_ clear];
-   // [self initalView];
+    // [self initalView];
+    loc = country.userInfo;
+    NSLog(@"loc = %@",loc);
     NSString *longitude;
     NSString *latitude;
     NSString *flight;
-   // NSLog(@"Get in MapGoogle = %@",[GetLocation jsonLocation]);
+    // NSLog(@"Get in MapGoogle = %@",[GetLocation jsonLocation]);
     NSMutableArray *point = [[NSMutableArray alloc] init];
-    [point addObjectsFromArray:[GetLocation jsonLocation]];
+    [point addObjectsFromArray:[GetLocation jsonLocation:loc]];
     NSLog(@"point array count = %d",point.count);
     NSLog(@"point array is =%@",point);
     for (int i = 0 ; i < point.count ; i++){
@@ -217,83 +224,83 @@ NSArray *pickerData ;
         latitude = [[point objectAtIndex:i] objectAtIndex:6];
         flight = [[point objectAtIndex:i] objectAtIndex:1];
         if(latitude !=nil && longitude != nil && ![flight isEqualToString:@""]){
-          //  [mapView_ clear];
+            //  [mapView_ clear];
             camera = [GMSCameraPosition cameraWithLatitude: [latitude doubleValue]
                                                  longitude: [longitude doubleValue]
                                                       zoom:10];
             marker3 = [[GMSMarker alloc] init];
             marker3.position = CLLocationCoordinate2DMake([latitude doubleValue],[longitude doubleValue]);
-       
-        
+            
             if([flight hasPrefix:@"CAL"] || [flight  hasPrefix:@"MDA"] ){
-             marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:175.0/255.0 green:173.0/255.0 blue:210.0/255.0 alpha:1.0]];
-            marker3.snippet = [NSString stringWithFormat:@"%@ ",flight];
+                marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:175.0/255.0 green:173.0/255.0 blue:200.0/255.0 alpha:1.0]];
+                
+                marker3.snippet = [NSString stringWithFormat:@"%@ ",flight];
             }
             if([flight hasPrefix:@"EVA"] || [flight hasPrefix:@"UIA"]){
-                 marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:46.0/255.0 green:141.0/255.0 blue:57.0/255.0 alpha:1.0]];
-                   marker3.snippet = flight;
+                marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:46.0/255.0 green:141.0/255.0 blue:57.0/255.0 alpha:1.0]];
+                marker3.snippet = flight;
             }
-            if([flight hasPrefix:@"FE"]||[flight hasPrefix:@""]){
-              marker3.icon = [GMSMarker markerImageWithColor:[UIColor redColor]];
-                   marker3.snippet = flight;
+            if([flight hasPrefix:@"FE"]){
+                marker3.icon = [GMSMarker markerImageWithColor:[UIColor redColor]];
+                marker3.snippet = flight;
             }
             if([flight hasPrefix:@"TTW"]){
-             marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:254.0/255.0 green:227.0/255.0 blue:72.0/255.0 alpha:1.0]];
-                   marker3.snippet = flight;
+                marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:254.0/255.0 green:227.0/255.0 blue:72.0/255.0 alpha:1.0]];
+                marker3.snippet = flight;
             }
-//            else{
-//                marker3.icon = [GMSMarker markerImageWithColor:[UIColor cyanColor]];
-//                marker3.snippet = flight;
-//            }
-           
-         
+            else{
+                marker3.icon = [GMSMarker markerImageWithColor:[UIColor cyanColor]];
+                marker3.snippet = flight;
+            }
+            
+            
             marker3.tracksInfoWindowChanges = YES;
             marker3.tracksViewChanges = YES;
-            marker3.flat = NO;
+            marker3.flat = YES;
             marker3.map = mapView_;
-       
+            
             
         }
-
+        
     }
-      //GMSMarker *marker3 = [[GMSMarker alloc] init];
-//    if(latitude !=nil && longitude != nil && flight !=nil){
-       // [mapView_ clear];
-//        [mapView_ reloadInputViews];
-     //   marker3.icon = [UIImage imageNamed:@"airplane"];
-     
-//        if([flight isEqualToString:[oldLocation stringForKey:@"flight"]]){
-//            NSLog(@"old flight = %@",[oldLocation stringForKey:@"flight"]);
-//            [mapView_ clear];
-//            marker3.position = CLLocationCoordinate2DMake([latitude floatValue],[longitude floatValue]);
-//            marker3.snippet = flight;
-//          
-//            GMSMutablePath *path = [GMSMutablePath path];
-//            [path addCoordinate:CLLocationCoordinate2DMake([latitude doubleValue],[longitude doubleValue])];
-//            [path addCoordinate:CLLocationCoordinate2DMake([oldLocation doubleForKey:@"latitude"], [oldLocation doubleForKey: @"longitude"])];
-//            GMSPolyline *line = [GMSPolyline polylineWithPath:path];
-//            line.strokeWidth = 1.f;
-//            line.strokeColor = [UIColor colorWithRed:220.0/255.0 green:220.0/255.0 blue:220.0/255.0 alpha:.8];
-//            line.geodesic = YES;
-//            line.map = mapView_;
-//            marker3.map = mapView_;
-//
-//            
-//        }
-      
-
-       
-        //self.view= mapView_;
-//        [self.view reloadInputViews];
-
-//    }
-   
-  //  marker3.title = flight;
-  
+    //GMSMarker *marker3 = [[GMSMarker alloc] init];
+    //    if(latitude !=nil && longitude != nil && flight !=nil){
+    // [mapView_ clear];
+    //        [mapView_ reloadInputViews];
+    //   marker3.icon = [UIImage imageNamed:@"airplane"];
     
-      // mapView_ = [GMSMapView mapWithFrame:CGRectMake(0,70,320,300) camera:camera];
-
-   // mapView_.reloadInputViews;
+    //        if([flight isEqualToString:[oldLocation stringForKey:@"flight"]]){
+    //            NSLog(@"old flight = %@",[oldLocation stringForKey:@"flight"]);
+    //            [mapView_ clear];
+    //            marker3.position = CLLocationCoordinate2DMake([latitude floatValue],[longitude floatValue]);
+    //            marker3.snippet = flight;
+    //
+    //            GMSMutablePath *path = [GMSMutablePath path];
+    //            [path addCoordinate:CLLocationCoordinate2DMake([latitude doubleValue],[longitude doubleValue])];
+    //            [path addCoordinate:CLLocationCoordinate2DMake([oldLocation doubleForKey:@"latitude"], [oldLocation doubleForKey: @"longitude"])];
+    //            GMSPolyline *line = [GMSPolyline polylineWithPath:path];
+    //            line.strokeWidth = 1.f;
+    //            line.strokeColor = [UIColor colorWithRed:220.0/255.0 green:220.0/255.0 blue:220.0/255.0 alpha:.8];
+    //            line.geodesic = YES;
+    //            line.map = mapView_;
+    //            marker3.map = mapView_;
+    //
+    //
+    //        }
+    
+    
+    
+    //self.view= mapView_;
+    //        [self.view reloadInputViews];
+    
+    //    }
+    
+    //  marker3.title = flight;
+    
+    
+    // mapView_ = [GMSMapView mapWithFrame:CGRectMake(0,70,320,300) camera:camera];
+    
+    // mapView_.reloadInputViews;
     
     /*
      899015,
@@ -313,7 +320,7 @@ NSArray *pickerData ;
      "<null>",
      0,
      0
-
+     
      
      
      */
@@ -334,4 +341,8 @@ NSArray *pickerData ;
 //
 //}
 
+//- (void)dealloc {
+//    [_pickers release];
+//    [super dealloc];
+//}
 @end

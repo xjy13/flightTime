@@ -113,7 +113,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
      // [[GetLocation shareInstance]jsonLocation];
-    [GetLocation jsonLocation];
+   // [GetLocation jsonLocation];
     hudView.delegate = self;
     hudView = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:hudView];
@@ -150,21 +150,6 @@
 //     NSLog(@"at rootView ticketCode= %@",ticketCode);
    }
 
-//-(NSString *)currentDateArrival{
-//    
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-//    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
-//    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-//    NSDate *nowDate = [NSDate date];
-//    NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
-//    NSString *topCountString = @"&%24top=6&%24format=JSON";
-//    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
-//    
-//    NSString *arrvalDate = [arrival stringByAppendingString:filter];
-//    NSLog(@"[arrival] new format Date = %@",arrvalDate);
-//    return  arrvalDate;
-//}
 -(NSString *)currentDateDeparture{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
@@ -196,7 +181,6 @@
 
 #pragma mark initial UI
 -(void)initView{
-    
     
     vol = [[UILabel alloc]initWithFrame:CGRectMake(260, 25, 110, 20)];
     [vol setFont:[UIFont systemFontOfSize:14]];

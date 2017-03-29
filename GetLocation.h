@@ -10,5 +10,5 @@
 
 @interface GetLocation : NSObject
 //+(instancetype)shareInstance;
-+(NSMutableArray *)jsonLocation;
++(NSMutableArray *)jsonLocation:(NSString *)country;
 @end
