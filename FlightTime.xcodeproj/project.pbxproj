@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0422FF881E4A330700F6F867 /* GetLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422FF871E4A330700F6F867 /* GetLocation.m */; };
 		043424E61DAFECB7003E7E2B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 043424E51DAFECB7003E7E2B /* MBProgressHUD.m */; };
+		043EADBF1E8D217D001BC635 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 043EADBE1E8D217D001BC635 /* search.png */; };
+		043EADC11E8D306A001BC635 /* place.png in Resources */ = {isa = PBXBuildFile; fileRef = 043EADC01E8D306A001BC635 /* place.png */; };
 		0448F3D31D2E474C00FF90DB /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 0448F3D21D2E474C00FF90DB /* warning.png */; };
 		0448F55A1E6DC38100944D93 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448F5591E6DC38100944D93 /* MapKit.framework */; };
 		044ECEE71D2D01180073DA60 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 044ECEE61D2D01180073DA60 /* back.png */; };
@@ -52,6 +54,8 @@
 		0422FF871E4A330700F6F867 /* GetLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetLocation.m; sourceTree = "<group>"; };
 		043424E41DAFECB7003E7E2B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		043424E51DAFECB7003E7E2B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		043EADBE1E8D217D001BC635 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		043EADC01E8D306A001BC635 /* place.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = place.png; sourceTree = "<group>"; };
 		0448F3D21D2E474C00FF90DB /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
 		0448F5591E6DC38100944D93 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		044ECEE61D2D01180073DA60 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
@@ -187,6 +191,8 @@
 		309BCA6511DB0A0E000B4574 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				043EADC01E8D306A001BC635 /* place.png */,
+				043EADBE1E8D217D001BC635 /* search.png */,
 				0488540B1E7FCD3300FD1277 /* airPort.png */,
 				045B13E11E763C1A0038659A /* airplane.png */,
 				04E572341D73D1DC005CE613 /* Default-568h@2x.png */,
@@ -304,6 +310,7 @@
 				04AEB3991D17E2C800687DBE /* happy.mp3 in Resources */,
 				0448F3D31D2E474C00FF90DB /* warning.png in Resources */,
 				044ECEE91D2D01420073DA60 /* Storyboard.storyboard in Resources */,
+				043EADBF1E8D217D001BC635 /* search.png in Resources */,
 				045AEECB1D65EA7D0065CAE7 /* refresh.png in Resources */,
 				309BCA6E11DB0A0E000B4574 /* Icon-Small-50.png in Resources */,
 				309BCA6F11DB0A0E000B4574 /* Icon-Small.png in Resources */,
@@ -316,6 +323,7 @@
 				045B13E21E763C1A0038659A /* airplane.png in Resources */,
 				04A023461D26600D002C989D /* recording.png in Resources */,
 				04A023491D2662A7002C989D /* pause.png in Resources */,
+				043EADC11E8D306A001BC635 /* place.png in Resources */,
 				309BCA7211DB0A0E000B4574 /* Icon@2x.png in Resources */,
 				30B3DE3311ED1F7700C12546 /* iTunesArtwork in Resources */,
 			);

@@ -7,6 +7,7 @@
 //
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import <MapKit/MapKit.h>
 @class MapGoogle;
 @interface MapGoogle : UIViewController
 
@@ -20,4 +21,6 @@
 
 @property (retain, nonatomic) IBOutlet UIPickerView *pickers;
 @property(strong,nonatomic)NSArray *pickerData;
+@property (strong,nonatomic)UIButton *cancelBtn;
+@property (strong,nonatomic)UIButton *certainBtn;
 @end

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MapGoogle.h"
 #import "GetLocation.h"
-#import <MapKit/MapKit.h>
+#import "Toast+UIView.h"
 @interface MapGoogle()<GMSMapViewDelegate,CLLocationManagerDelegate,UIPickerViewDelegate,UIPickerViewDataSource>{
     
     
@@ -22,7 +22,6 @@ NSSet *markers;
 UIButton *backBtn;
 NSTimer *refreshRoute;
 GMSCameraPosition *camera;
-GMSMarker *marker3;
 NSUserDefaults *oldLocation;
 BOOL ishidden;
 NSString *loc;
@@ -35,7 +34,7 @@ NSString *loc;
     [self initalView];
     loc = @"Taiwan";
    // [self realTime:loc];
-    refreshRoute = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(realTime:) userInfo:loc repeats:YES];
+    refreshRoute = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(realTime:) userInfo:loc repeats:YES];
     [refreshRoute fire];
 }
 
@@ -47,7 +46,7 @@ NSString *loc;
     float currentLatitude = locationCurrent.location.coordinate.latitude;
     float currentLongitude = locationCurrent.location.coordinate.longitude;
     mapView_ = [[GMSMapView alloc]init];
-    camera = [GMSCameraPosition cameraWithLatitude:currentLatitude longitude:currentLongitude zoom:10];
+    camera = [GMSCameraPosition cameraWithLatitude:currentLatitude longitude:currentLongitude zoom:8];
     mapView_ = [GMSMapView mapWithFrame:CGRectMake(0,70,320,320) camera:camera];
     mapView_.myLocationEnabled = YES;
     mapView_.settings.compassButton = YES;
@@ -94,8 +93,8 @@ NSString *loc;
     [self.view addSubview:backBtn];
     
     UIButton *pickerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-   pickerBtn = [[UIButton alloc]initWithFrame:CGRectMake(290, 30, 28, 28)];
-    [pickerBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+   pickerBtn = [[UIButton alloc]initWithFrame:CGRectMake(280, 30, 28, 28)];
+    [pickerBtn setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
     [pickerBtn addTarget:self action:@selector(pickerHide:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:pickerBtn];
     
@@ -106,13 +105,29 @@ NSString *loc;
 //    self.pickers = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 400, self.view.frame.size.width, 200)];
   //  [self.view addSubview:self.pickers];
     
+    self.certainBtn = [[UIButton alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height-45, 160, 45)];
+    [self.certainBtn setBackgroundColor:[UIColor lightGrayColor]];
+    [self.certainBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.certainBtn setTitle:@"Certain" forState:UIControlStateNormal];
+    [self.view addSubview:self.certainBtn];
+    self.certainBtn.hidden = YES;
     
+    self.cancelBtn = [[UIButton alloc]initWithFrame:CGRectMake(160,self.view.frame.size.height-45, 160, 45)];
+    [self.cancelBtn setBackgroundColor:[UIColor colorWithRed:0.5 green:.3 blue:.2 alpha:1]];
+    [self.cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //[self.cancelBtn addTarget:self action:@selector(departureTable:) forControlEvents:UIControlEventTouchUpInside];
+    [self.cancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
+    [self.view addSubview:self.cancelBtn];
+    
+    self.cancelBtn.hidden = YES;
+  
+
 
 }
-//- (BOOL)canBecomeFirstResponder {
-//    
-//    return YES;
-//}
+- (BOOL)canBecomeFirstResponder {
+    
+    return YES;
+}
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
 
@@ -127,11 +142,10 @@ NSString *loc;
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
     
-    return self.view.frame.size.width/2.0;
+    return self.view.frame.size.width;
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component __TVOS_PROHIBITED {
-    
     return 40;
 }
 - (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
@@ -141,19 +155,20 @@ NSString *loc;
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
-        loc = self.pickerData[row];
-        dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2*NSEC_PER_SEC));
-       dispatch_after(delay, dispatch_get_main_queue(), ^{
-    
-    
-            loc = [NSString stringWithFormat:@"%@",self.pickerData[row]];
-            [refreshRoute invalidate];
-            refreshRoute = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(realTime:) userInfo:loc repeats:YES];
-            [refreshRoute fire];
-            
-        });
+         // loc = [NSString stringWithFormat:@"%@",self.pickerData[row]];
+         NSLog(@"loc XDD1 = %@",self.pickerData[row]);
+    dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5*NSEC_PER_SEC));
+    dispatch_after(delay, dispatch_get_main_queue(), ^{
+               NSLog(@"loc XDD2 = %@",self.pickerData[row]);
+        [self.cancelBtn addTarget:self action:@selector(pickerHide:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view makeToast: @"Loading.." duration:.5 position:@"center"];
+        [self.view setUserInteractionEnabled:NO];
+        [refreshRoute invalidate];
+        refreshRoute = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(realTime:) userInfo:self.pickerData[row] repeats:YES];
+        [refreshRoute fire];
+        
+    });
 
-    
 }
 
 
@@ -161,6 +176,7 @@ NSString *loc;
     [refreshRoute invalidate];
     [mapView_ clear];
     [mapView_ removeFromSuperview];
+  
     
     
 }
@@ -173,13 +189,23 @@ NSString *loc;
 
     if(!ishidden){
         _pickers.hidden = NO;
+        self.cancelBtn.hidden = NO;
+        self.certainBtn.hidden = NO;
+        //  [self.cancelBtn addTarget:self action:@selector(setCertainBtn:) forControlEvents:UIControlEventTouchUpInside];
         ishidden = YES;
         
     }
     else{
         _pickers.hidden = YES;
+        self.cancelBtn.hidden = YES;
+        self.certainBtn.hidden = YES;
         ishidden = NO;
     }
+    
+    
+}
+
+-(void)setCertainBtn:(UIButton *)btn {
     
     
 }
@@ -207,10 +233,10 @@ NSString *loc;
 //}
 
 -(void)realTime:(NSTimer *)country{
+  
     [mapView_ clear];
     // [self initalView];
     loc = country.userInfo;
-    NSLog(@"loc = %@",loc);
     NSString *longitude;
     NSString *latitude;
     NSString *flight;
@@ -224,32 +250,33 @@ NSString *loc;
         latitude = [[point objectAtIndex:i] objectAtIndex:6];
         flight = [[point objectAtIndex:i] objectAtIndex:1];
         if(latitude !=nil && longitude != nil && ![flight isEqualToString:@""]){
-            //  [mapView_ clear];
+            [self.view setUserInteractionEnabled:YES];
             camera = [GMSCameraPosition cameraWithLatitude: [latitude doubleValue]
                                                  longitude: [longitude doubleValue]
-                                                      zoom:10];
-            marker3 = [[GMSMarker alloc] init];
+                                                      zoom:8];
+            GMSMarker *marker3 = [[GMSMarker alloc] init];
             marker3.position = CLLocationCoordinate2DMake([latitude doubleValue],[longitude doubleValue]);
-            
+            marker3.map = nil;
+            marker3.icon = [UIImage imageNamed:@"airplane"];
             if([flight hasPrefix:@"CAL"] || [flight  hasPrefix:@"MDA"] ){
-                marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:175.0/255.0 green:173.0/255.0 blue:200.0/255.0 alpha:1.0]];
+              //  marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:175.0/255.0 green:173.0/255.0 blue:200.0/255.0 alpha:1.0]];
                 
                 marker3.snippet = [NSString stringWithFormat:@"%@ ",flight];
             }
             if([flight hasPrefix:@"EVA"] || [flight hasPrefix:@"UIA"]){
-                marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:46.0/255.0 green:141.0/255.0 blue:57.0/255.0 alpha:1.0]];
+            //    marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:46.0/255.0 green:141.0/255.0 blue:57.0/255.0 alpha:1.0]];
                 marker3.snippet = flight;
             }
             if([flight hasPrefix:@"FE"]){
-                marker3.icon = [GMSMarker markerImageWithColor:[UIColor redColor]];
+              //  marker3.icon = [GMSMarker markerImageWithColor:[UIColor redColor]];
                 marker3.snippet = flight;
             }
             if([flight hasPrefix:@"TTW"]){
-                marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:254.0/255.0 green:227.0/255.0 blue:72.0/255.0 alpha:1.0]];
+            //    marker3.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:254.0/255.0 green:227.0/255.0 blue:72.0/255.0 alpha:1.0]];
                 marker3.snippet = flight;
             }
             else{
-                marker3.icon = [GMSMarker markerImageWithColor:[UIColor cyanColor]];
+           //     marker3.icon = [GMSMarker markerImageWithColor:[UIColor cyanColor]];
                 marker3.snippet = flight;
             }
             
@@ -261,7 +288,7 @@ NSString *loc;
             
             
         }
-        
+       
     }
     //GMSMarker *marker3 = [[GMSMarker alloc] init];
     //    if(latitude !=nil && longitude != nil && flight !=nil){

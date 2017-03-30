@@ -210,8 +210,8 @@
     
     
     _toMapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _toMapBtn = [[UIButton alloc]initWithFrame:CGRectMake(30,30, 28, 28)];
-    [_toMapBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+    _toMapBtn = [[UIButton alloc]initWithFrame:CGRectMake(28,30, 30, 30)];
+    [_toMapBtn setBackgroundImage:[UIImage imageNamed:@"place"] forState:UIControlStateNormal];
     [_toMapBtn addTarget:self action:@selector(setToMapBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_toMapBtn];
 
