@@ -17,4 +17,4 @@
 #define departure_new @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure?$filter=hour(ScheduleDepartureTime)%20ge%20"
 #define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
 #define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
-#define XDD @"AIzaSyCKer63TbIOPLbmlNLCamBdUB3ZZFoYvs0"
+#define hahaha @"AIzaSyCKer63TbIOPLbmlNLCamBdUB3ZZFoYvs0"

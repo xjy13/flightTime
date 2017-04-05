@@ -53,10 +53,10 @@
 @property (nonatomic, retain)UIButton *departureBtn;
 @property (nonatomic, retain)UIButton *toMapBtn;
 
-@property (nonatomic, retain)NSMutableArray *arrivalArray;
-@property (nonatomic, retain)NSMutableArray *departureArray;
-@property (nonatomic, retain)NSMutableArray *airportArray;
-@property (nonatomic, retain)NSMutableArray *flightArray;
+@property (nonatomic, strong)NSMutableArray *arrivalArray;
+@property (nonatomic, strong)NSMutableArray *departureArray;
+@property (nonatomic, strong)NSMutableArray *airportArray;
+@property (nonatomic, strong)NSMutableArray *flightArray;
 
 // from UIActionSheetDelegate
 //- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;

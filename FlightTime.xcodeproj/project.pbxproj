@@ -124,7 +124,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0422FF851E4A322F00F6F867 /* GetData */ = {
+		0422FF851E4A322F00F6F867 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				0498058E1DC2FC3D00C42C5F /* GetSchedule.h */,
@@ -132,7 +132,7 @@
 				0422FF861E4A32F500F6F867 /* GetLocation.h */,
 				0422FF871E4A330700F6F867 /* GetLocation.m */,
 			);
-			name = GetData;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		043424E71DAFECC7003E7E2B /* ViewAssistance */ = {
@@ -233,7 +233,7 @@
 				C986345A0FB66A2200D461F2 /* RootViewController.m */,
 				04F808DE1E70FC2B002B9B2F /* MapGoogle.h */,
 				04F808DF1E70FC45002B9B2F /* MapGoogle.m */,
-				0422FF851E4A322F00F6F867 /* GetData */,
+				0422FF851E4A322F00F6F867 /* Model */,
 				043424E71DAFECC7003E7E2B /* ViewAssistance */,
 			);
 			name = ViewControllers;
@@ -444,6 +444,7 @@
 				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD_32_BIT)";
 				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -481,6 +482,7 @@
 				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD_32_BIT)";
 				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;

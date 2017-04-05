@@ -9,7 +9,7 @@
 #import "GetSchedule.h"
 //#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
 //#define diqiURL @"https://asset.diqi.us/api/v1/users/profile/"
-#define ticketNumber @"http://ptx.transportdata.tw/MOTC/v2/Account/Login?UserData.account=xjy13&UserData.password=da3dbdA%23&%24format=JSON"
+//#define ticketNumber @"http://ptx.transportdata.tw/MOTC/v2/Account/Login?UserData.account=xjy13&UserData.password=da3dbdA%23&%24format=JSON"
 @interface GetSchedule()
 @end
 NSMutableArray *arrivalArray;
@@ -56,6 +56,17 @@ NSString *ticketCode;
 //     return ticketCode;
 //
 //}
+
+static GetSchedule *_instance = nil;
++(instancetype)shareInstance{
+
+    dispatch_once_t oneCall;
+    dispatch_once(&oneCall, ^{
+        _instance = [[GetSchedule allocWithZone:NULL]init];
+    });
+    return _instance;
+
+}
 
 +(NSMutableArray *)jsonArrival:(NSString *)from{
     NSLog(@"comeFrom = %@",from);
@@ -148,13 +159,13 @@ NSString *ticketCode;
     NSLog(@"translateIATA status = %d",[response statusCode]);
     
     if(data != nil &&[response statusCode] ==200){
-        NSMutableArray *airportArray = [[NSMutableArray alloc]init];
-        airportArray = [NSMutableArray array];
-        airportArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"Airport json : %@,  %d",airportArray,[airportArray count]);
+        NSDictionary *airportDictionary = [[NSDictionary alloc]init];
+        //airportArray = [NSMutableArray array];
+        airportDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"Airport json : %@,  %d",airportDictionary,[airportDictionary count]);
         //_scrollView.hidden = NO;
         //noDatasLabelView.hidden = YES;
-        NSString *airportName = [[airportArray objectForKey:@"AirportName"] objectForKey:@"Zh_tw"];
+        NSString *airportName = [[airportDictionary objectForKey:@"AirportName"] objectForKey:@"Zh_tw"];
         NSLog(@"airport name = %@",airportName);
         if([airportName isEqualToString:@""]){
             airportName = airportCode;
@@ -184,7 +195,7 @@ NSString *ticketCode;
         NSHTTPURLResponse *res =nil;
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
         if([res statusCode] == 200 && err == nil && ![flightCode isEqualToString:@""]){
-            NSMutableArray *flightArray = [[NSMutableArray alloc]init];
+            NSDictionary *flightArray = [[NSDictionary alloc]init];
             flightArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"flight json = %@",flightArray);
             NSString *airlineCode = [NSString stringWithFormat:@"%@-%@%@",[[flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],flightCode,flightNum];

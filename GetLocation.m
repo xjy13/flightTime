@@ -17,10 +17,21 @@ NSMutableArray *filterArray;
 
 
 @implementation GetLocation : NSObject
-//+ (instancetype)shareInstance
-//{
-//   return [[[self class] alloc] init];
-//}
+static GetLocation *_instance = nil;
+
++(instancetype)shareInstance{
+
+    static dispatch_once_t onceCall;
+    dispatch_once(&onceCall, ^{
+    
+        _instance = [[GetLocation allocWithZone:NULL]init];
+    
+    });
+    return _instance;
+
+}
+
+
 +(NSString *)currentLocationTime{
   NSString *currentTime =[NSString stringWithFormat:@"/?time=%.0f",[[NSDate date] timeIntervalSince1970]];
     NSString *locactionURL = [locationURL stringByAppendingString:currentTime];
@@ -75,7 +86,6 @@ NSMutableArray *filterArray;
         NSLog(@"status code = %d error = %@",[res statusCode],[err description]);
         
     }
-   // return _arrivalArray;
 
 
 

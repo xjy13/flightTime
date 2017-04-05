@@ -74,11 +74,11 @@
 
 @implementation RootViewController
 
-- (void)dealloc
-{
-    [super dealloc];
-    
-}
+//- (void)dealloc
+//{
+//    [super dealloc];
+//    
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -299,9 +299,9 @@
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
-    }
+//    if (cell == nil) {
+//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+//    }
     
     switch (row) {
         case 0:
@@ -828,7 +828,7 @@
         
         
     }else{
-        [self jsonDeparture];
+      //  [self jsonDeparture];
     }
     [hudView hide:YES afterDelay:100];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];

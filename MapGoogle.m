@@ -98,25 +98,26 @@ NSString *loc;
     [pickerBtn addTarget:self action:@selector(pickerHide:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:pickerBtn];
     
-    self.pickerData = @[@"Taiwan",@"Japan",@"China",@"Korea",@"United States",@"United Kingdom",@"Germany"];
+    self.pickerData = @[@"Taiwan",@"Japan",@"China",@"France",@"United States",@"United Kingdom",@"Germany"];
     
     self.pickers.dataSource = self;
     self.pickers.delegate = self;
 //    self.pickers = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 400, self.view.frame.size.width, 200)];
   //  [self.view addSubview:self.pickers];
     
-    self.certainBtn = [[UIButton alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height-45, 160, 45)];
-    [self.certainBtn setBackgroundColor:[UIColor lightGrayColor]];
-    [self.certainBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.certainBtn setTitle:@"Certain" forState:UIControlStateNormal];
-    [self.view addSubview:self.certainBtn];
-    self.certainBtn.hidden = YES;
+//    self.certainBtn = [[UIButton alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height-45, 160, 45)];
+//    [self.certainBtn setBackgroundColor:[UIColor lightGrayColor]];
+//    [self.certainBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [self.certainBtn setTitle:@"Certain" forState:UIControlStateNormal];
+//    [self.view addSubview:self.certainBtn];
+//    self.certainBtn.hidden = YES;
     
-    self.cancelBtn = [[UIButton alloc]initWithFrame:CGRectMake(160,self.view.frame.size.height-45, 160, 45)];
-    [self.cancelBtn setBackgroundColor:[UIColor colorWithRed:0.5 green:.3 blue:.2 alpha:1]];
+    self.cancelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height-60, 320, 70)];
+    [self.cancelBtn setBackgroundColor:[UIColor colorWithRed:250.0/255.0 green:209.0/255.0 blue:27.0/255.0 alpha:1]];
     [self.cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.cancelBtn setFont:[UIFont systemFontOfSize:20]];
     //[self.cancelBtn addTarget:self action:@selector(departureTable:) forControlEvents:UIControlEventTouchUpInside];
-    [self.cancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
+    [self.cancelBtn setTitle:@"Certain" forState:UIControlStateNormal];
     [self.view addSubview:self.cancelBtn];
     
     self.cancelBtn.hidden = YES;
@@ -156,10 +157,10 @@ NSString *loc;
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
          // loc = [NSString stringWithFormat:@"%@",self.pickerData[row]];
-         NSLog(@"loc XDD1 = %@",self.pickerData[row]);
+        // NSLog(@"loc XDD1 = %@",self.pickerData[row]);
     dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5*NSEC_PER_SEC));
     dispatch_after(delay, dispatch_get_main_queue(), ^{
-               NSLog(@"loc XDD2 = %@",self.pickerData[row]);
+          //     NSLog(@"loc XDD2 = %@",self.pickerData[row]);
         [self.cancelBtn addTarget:self action:@selector(pickerHide:) forControlEvents:UIControlEventTouchUpInside];
         [self.view makeToast: @"Loading.." duration:.5 position:@"center"];
         [self.view setUserInteractionEnabled:NO];

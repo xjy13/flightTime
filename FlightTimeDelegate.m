@@ -13,37 +13,6 @@
 
 @implementation FlightTimeDelegate
 
-//@synthesize window;
-//@synthesize navigationController;
-
-//- (void)applicationDidFinishLaunching:(UIApplication *)application {
-
-// Override point for customization after app launch
-
-
-//	[window addSubview:[navigationController view]];
-
-
-// 在ios 9.x 要用下面這個 ref. by http://goo.gl/O18DYG
-//    [window setRootViewController:navigationController];
-//    [window makeKeyAndVisible];
-
-
-//}
-
-//- (void)applicationWillTerminate:(UIApplication *)application {
-// Save data if appropriate
-//}
-
-//- (void)dealloc {
-//	[navigationController release];
-//	[window release];
-//	[super dealloc];
-//}
-
-
-
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -51,7 +20,7 @@
     // Override point for customization after application launch.
     [window setRootViewController:nav];
     [window makeKeyAndVisible];
-    [GMSServices provideAPIKey:@"AIzaSyCKer63TbIOPLbmlNLCamBdUB3ZZFoYvs0"];
+    [GMSServices provideAPIKey:hahaha];
     return YES;
     
 }
@@ -98,11 +67,11 @@
 
 
 
-- (void)dealloc {
-    [UINavigationController release];
-    [window release];
-    [super dealloc];
-}
+//- (void)dealloc {
+//    [UINavigationController release];
+//    [window release];
+//    [super dealloc];
+//}
 
 
 @end
