@@ -23,11 +23,11 @@
 
 @interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate,MBProgressHUDDelegate> {
     
-    NSMutableArray *_accessoryList;
-    NSMutableArray *_accessoryOriginal;
-    EAAccessory *_selectedAccessory;
+//    NSMutableArray *_accessoryList;
+//    NSMutableArray *_accessoryOriginal;
+//    EAAccessory *_selectedAccessory;
     //EADSessionController *_eaSessionController;
-    NSMutableDictionary *accessoryInfo;
+   // NSMutableDictionary *accessoryInfo;
 
 
   //  UIView *_noExternalAccessoriesPosterView;
@@ -48,11 +48,11 @@
 
 //add for 20160712
 
-@property(nonatomic, retain)UIButton *refreshBtn;
-@property (nonatomic, retain)UIButton *arrivalBtn;
-@property (nonatomic, retain)UIButton *departureBtn;
-@property (nonatomic, retain)UIButton *toMapBtn;
-
+@property(nonatomic, strong)UIButton *refreshBtn;
+@property (nonatomic, strong)UIButton *arrivalBtn;
+@property (nonatomic, strong)UIButton *departureBtn;
+@property (nonatomic, strong)UIButton *toMapBtn;
+@property (nonatomic, strong)UIRefreshControl *refresh;
 @property (nonatomic, strong)NSMutableArray *arrivalArray;
 @property (nonatomic, strong)NSMutableArray *departureArray;
 @property (nonatomic, strong)NSMutableArray *airportArray;

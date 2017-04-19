@@ -18,48 +18,9 @@ NSString *status;
 NSString *ticketCode;
 
 @implementation GetSchedule
-//-(void)jsonArrivalXD:(NSString *)comeFrom{
-//    NSLog(@"comeFrom = %@",comeFrom);
-////          if(![comeFrom isEqualToString:@""]){
-//        NSError *err = nil;
-//        NSURL *url = [NSURL URLWithString:arrivalURL];
-//        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&err];
-//        _arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-//        NSLog(@"Departure json from Delegate : %@",_arrivalArray);
-//        //        NSString *airlineID = [[_arrivalArray objectAtIndex:0] objectForKey:@"AirlineID"];
-//        //        return airlineID;
-//        //   }
-//        NSLog(@"JJJ pass!!");
-        
-//    }
-
-//-(NSString *)getAirApiticket:(RootViewController *)rootView {
-//    NSError *err = nil;
-//    NSHTTPURLResponse *res = nil;
-//    NSURL *url = [NSURL URLWithString:ticketNumber];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    NSData *ticketData = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
-//
-//    _tickGet = [NSJSONSerialization JSONObjectWithData:ticketData options:NSJSONReadingMutableContainers error:&err];
-//    NSLog(@"_ticketGet = %@",_tickGet);
-//    if(ticketData !=nil && [res statusCode] == 200){
-//         status = [_tickGet valueForKey:@"Status"];
-//         ticketCode = [_tickGet valueForKey:@"Ticket"];
-//         NSLog(@"ticketCode = %@",ticketCode);
-//    }
-//    else{
-//        NSLog(@"getTicker status_code = %d",[res statusCode]);
-//        ticketCode = nil;
-//    }
-//    
-//     return ticketCode;
-//
-//}
 
 static GetSchedule *_instance = nil;
 +(instancetype)shareInstance{
-
     dispatch_once_t oneCall;
     dispatch_once(&oneCall, ^{
         _instance = [[GetSchedule allocWithZone:NULL]init];

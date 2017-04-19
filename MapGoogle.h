@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import <MapKit/MapKit.h>
+#import "FlightInfoView.h"
 @class MapGoogle;
 @interface MapGoogle : UIViewController
 
@@ -23,4 +24,5 @@
 @property(strong,nonatomic)NSArray *pickerData;
 @property (strong,nonatomic)UIButton *cancelBtn;
 @property (strong,nonatomic)UIButton *certainBtn;
+
 @end

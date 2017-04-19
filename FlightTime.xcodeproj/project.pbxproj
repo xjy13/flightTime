@@ -17,6 +17,8 @@
 		044ECEE91D2D01420073DA60 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044ECEE81D2D01420073DA60 /* Storyboard.storyboard */; };
 		045AEECB1D65EA7D0065CAE7 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 045AEECA1D65EA7D0065CAE7 /* refresh.png */; };
 		045B13E21E763C1A0038659A /* airplane.png in Resources */ = {isa = PBXBuildFile; fileRef = 045B13E11E763C1A0038659A /* airplane.png */; };
+		045FCF431EA22D6E004C3958 /* FlightInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045FCF421EA22D6E004C3958 /* FlightInfoView.m */; };
+		045FCF471EA2379F004C3958 /* FlightInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045FCF461EA2379F004C3958 /* FlightInfoView.xib */; };
 		047C827C1E86528F0098EB57 /* libPods-flightTimeNew.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047C827B1E86528F0098EB57 /* libPods-flightTimeNew.a */; };
 		0488540C1E7FCD3300FD1277 /* airPort.png in Resources */ = {isa = PBXBuildFile; fileRef = 0488540B1E7FCD3300FD1277 /* airPort.png */; };
 		049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0498058F1DC2FC6700C42C5F /* GetSchedule.m */; };
@@ -62,6 +64,9 @@
 		044ECEE81D2D01420073DA60 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		045AEECA1D65EA7D0065CAE7 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		045B13E11E763C1A0038659A /* airplane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airplane.png; sourceTree = "<group>"; };
+		045FCF411EA22D57004C3958 /* FlightInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightInfoView.h; sourceTree = "<group>"; };
+		045FCF421EA22D6E004C3958 /* FlightInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlightInfoView.m; sourceTree = "<group>"; };
+		045FCF461EA2379F004C3958 /* FlightInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FlightInfoView.xib; sourceTree = "<group>"; };
 		047C827B1E86528F0098EB57 /* libPods-flightTimeNew.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPods-flightTimeNew.a"; sourceTree = "<group>"; };
 		0488540B1E7FCD3300FD1277 /* airPort.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airPort.png; sourceTree = "<group>"; };
 		0498058E1DC2FC3D00C42C5F /* GetSchedule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSchedule.h; sourceTree = "<group>"; };
@@ -135,15 +140,18 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		043424E71DAFECC7003E7E2B /* ViewAssistance */ = {
+		043424E71DAFECC7003E7E2B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				045FCF411EA22D57004C3958 /* FlightInfoView.h */,
+				045FCF421EA22D6E004C3958 /* FlightInfoView.m */,
+				045FCF461EA2379F004C3958 /* FlightInfoView.xib */,
 				04C5706C1DA6848A0097DA3A /* Toast+UIView.h */,
 				04C5706B1DA6848A0097DA3A /* Toast+UIView.m */,
 				043424E41DAFECB7003E7E2B /* MBProgressHUD.h */,
 				043424E51DAFECB7003E7E2B /* MBProgressHUD.m */,
 			);
-			name = ViewAssistance;
+			name = View;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -234,7 +242,7 @@
 				04F808DE1E70FC2B002B9B2F /* MapGoogle.h */,
 				04F808DF1E70FC45002B9B2F /* MapGoogle.m */,
 				0422FF851E4A322F00F6F867 /* Model */,
-				043424E71DAFECC7003E7E2B /* ViewAssistance */,
+				043424E71DAFECC7003E7E2B /* View */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -319,6 +327,7 @@
 				04E572351D73D1DC005CE613 /* Default-568h@2x.png in Resources */,
 				0488540C1E7FCD3300FD1277 /* airPort.png in Resources */,
 				309BCA7011DB0A0E000B4574 /* Icon-Small@2x.png in Resources */,
+				045FCF471EA2379F004C3958 /* FlightInfoView.xib in Resources */,
 				309BCA7111DB0A0E000B4574 /* Icon.png in Resources */,
 				045B13E21E763C1A0038659A /* airplane.png in Resources */,
 				04A023461D26600D002C989D /* recording.png in Resources */,
@@ -387,6 +396,7 @@
 				0422FF881E4A330700F6F867 /* GetLocation.m in Sources */,
 				04F808E01E70FC45002B9B2F /* MapGoogle.m in Sources */,
 				04C5706D1DA6848A0097DA3A /* Toast+UIView.m in Sources */,
+				045FCF431EA22D6E004C3958 /* FlightInfoView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */,
 				04A42CCC1DDA234B00A769FB /* FlightTimeDelegate.m in Sources */,

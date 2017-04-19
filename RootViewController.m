@@ -64,21 +64,12 @@
     NSString *recordChannel;
     NSTimer *checkdB;
     NSTimer *flightSchedule;
-//    EADemoAppDelegate *EADemo;
     MBProgressHUD *hudView;
-  //  GetSchedule *sch;
-//    GetLocation *locGet;
-   
+
 }
 @end
 
 @implementation RootViewController
-
-//- (void)dealloc
-//{
-//    [super dealloc];
-//    
-//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -87,6 +78,39 @@
 }
 
 
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+     // [[GetLocation shareInstance]jsonLocation];
+   // [GetLocation jsonLocation];
+    hudView.delegate = self;
+    hudView = [[MBProgressHUD alloc]initWithView:self.view];
+    [self.view addSubview:hudView];
+    
+    isArrival = true;
+    self.refresh = [[UIRefreshControl alloc]init];
+    [self.refresh addTarget:self action:@selector(refreshXD) forControlEvents:UIControlEventValueChanged];
+    [_tableView addSubview:self.refresh];
+    [self initialTable];
+    [self initView];
+//    [self setupTestEnvironment];
+//    enterBackgound = false;
+//    enterFront = true;
+//    [self enterToFront];
+//    [self enterToBackground];
+   
+    flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
+    [flightSchedule fire];
+    
+}
+
+-(void)refreshXD{
+
+    
+    NSLog(@"refresh~~~~");
+
+}
+
 -(void)initialTable{
     
     _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 80, 320, 568)];
@@ -94,7 +118,7 @@
     _scrollView.contentSize = CGSizeMake(320, 1150);
     [_scrollView reloadInputViews];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 1000)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 1030)];
     _tableView.scrollEnabled = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     _tableView.dataSource = self;
@@ -110,35 +134,7 @@
     [self.view addSubview:_scrollView];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-     // [[GetLocation shareInstance]jsonLocation];
-   // [GetLocation jsonLocation];
-    hudView.delegate = self;
-    hudView = [[MBProgressHUD alloc]initWithView:self.view];
-    [self.view addSubview:hudView];
-    
-    isArrival = true;
-   
-  
-    //need to figre out 1031
-  
-    //[self jsonArrival];
-    [self initialTable];
-    [self initView];
-//    [self setupTestEnvironment];
-//    enterBackgound = false;
-//    enterFront = true;
-//    [self enterToFront];
-//    [self enterToBackground];
-   
-    flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
-    [flightSchedule fire];
-    
 
-  
-    
-}
 #pragma mark delegate use
 -(void)getSchdule_delegation{
      self.arrivalArray =  [GetSchedule jsonArrival:@"root"];
@@ -265,7 +261,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 10;
+    return [self.arrivalArray count];
     
 }
 
@@ -817,12 +813,10 @@
    
     hudView.labelText = @"載入中";
     [hudView show:YES];
-    
-   // [self currentDateArrival];
-//    [self getSchdule_delegation];
     if(isArrival == true){
         _refreshBtn.userInteractionEnabled = NO;
         [self getSchdule_delegation];
+        
    //     [hudView setHidden:YES];
        //   [self.view makeToast:@"哈哈哈哈哈哈哈哈" duration:2.0 position:@"center"];
         
@@ -830,9 +824,12 @@
     }else{
       //  [self jsonDeparture];
     }
-    [hudView hide:YES afterDelay:100];
+    [hudView hide:YES afterDelay:20];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+//    [self.tableView beginUpdates];
+//    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject: [NSIndexPath indexPathForRow:[self.arrivalArray count]-1 inSection:10]] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [self.tableView endUpdates];
 
 }
 -(void)refreshTable{
