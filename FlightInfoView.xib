@@ -30,7 +30,7 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" red="0.94838452660000006" green="1" blue="0.1141185545" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.90255784989999999" green="0.28409546279999998" blue="0.26892286920000003" alpha="1" colorSpace="calibratedRGB"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="title" destination="rVt-cE-GwA" id="MJQ-Fu-f0y"/>

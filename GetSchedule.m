@@ -184,4 +184,25 @@ static GetSchedule *_instance = nil;
     
     
 }
+
++(NSMutableArray *)flightDestination{
+
+    NSString *IATAinfo = [NSString stringWithFormat:@"%@%@",flight_info,@"MU2048"];   //JFK?$format=JSON
+    NSURL *url = [NSURL URLWithString:IATAinfo];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSError *err = nil;
+    NSHTTPURLResponse *res =nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+    if([res statusCode] == 200 && err == nil){
+        NSDictionary *routeDictionary = [[NSDictionary alloc]init];
+        routeDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"route json = %@",routeDictionary);
+        NSMutableArray *routeArray = [[NSMutableArray alloc]init];
+        [routeArray addObjectsFromArray:routeDictionary[@"response"]];
+     //   NSString *
+//        NSString *departureSite = [NSString stringWithFormat:@"%@",[[routeArray objectAtIndex:0] objectForKey:@"departure"]];
+//        NSString *arrivalSite = [NSString stringWithFormat:@"%@",[[routeArray objectAtIndex:0] objectForKey:@"arrival"]];
+        return routeArray;
+    }
+}
 @end

@@ -27,7 +27,7 @@ NSUserDefaults *oldLocation;
 BOOL ishidden;
 NSString *loc;
 GMSMarker *marker3;
-FlightInfoView *xd;
+FlightInfoView *extendView;
 - (void)viewDidLoad {
     // Create a GMSCameraPosition that tells the map to display the
     // coordinate -33.86,151.20 at zoom level 6. //-33.86 151.20
@@ -38,6 +38,7 @@ FlightInfoView *xd;
    // [self realTime:loc];
     refreshRoute = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(realTime:) userInfo:loc repeats:YES];
     [refreshRoute fire];
+    mapView_.delegate = self;
 }
 
 -(void)initalView{
@@ -94,10 +95,10 @@ FlightInfoView *xd;
     [self.view addSubview:self.cancelBtn];
     
     self.cancelBtn.hidden = YES;
- 
-    xd = [[FlightInfoView alloc]initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, 50)];
-    [self.view addSubview:xd];
-    xd.hidden = YES;
+
+    extendView = [[FlightInfoView alloc]initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, 50)];
+    [self.view addSubview:extendView];
+    extendView.hidden = YES;
 }
 - (BOOL)canBecomeFirstResponder {
     
@@ -165,7 +166,7 @@ FlightInfoView *xd;
         _pickers.hidden = NO;
         self.cancelBtn.hidden = NO;
         self.certainBtn.hidden = NO;
-        xd.hidden = NO;
+        extendView.hidden = NO;
         //  [self.cancelBtn addTarget:self action:@selector(setCertainBtn:) forControlEvents:UIControlEventTouchUpInside];
         ishidden = YES;
         
@@ -174,7 +175,7 @@ FlightInfoView *xd;
         _pickers.hidden = YES;
         self.cancelBtn.hidden = YES;
         self.certainBtn.hidden = YES;
-        xd.hidden = YES;
+        extendView.hidden = YES;
         ishidden = NO;
     }
     
@@ -210,6 +211,8 @@ FlightInfoView *xd;
     marker4.snippet = @"RMQ";
     marker4.icon = [UIImage imageNamed:@"airPort"];
     marker4.map = mapView_;
+    
+   
 
 
 }
@@ -277,68 +280,7 @@ FlightInfoView *xd;
         }
        
     }
-    //GMSMarker *marker3 = [[GMSMarker alloc] init];
-    //    if(latitude !=nil && longitude != nil && flight !=nil){
-    // [mapView_ clear];
-    //        [mapView_ reloadInputViews];
-    //   marker3.icon = [UIImage imageNamed:@"airplane"];
-    
-    //        if([flight isEqualToString:[oldLocation stringForKey:@"flight"]]){
-    //            NSLog(@"old flight = %@",[oldLocation stringForKey:@"flight"]);
-    //            [mapView_ clear];
-    //            marker3.position = CLLocationCoordinate2DMake([latitude floatValue],[longitude floatValue]);
-    //            marker3.snippet = flight;
-    //
-    //            GMSMutablePath *path = [GMSMutablePath path];
-    //            [path addCoordinate:CLLocationCoordinate2DMake([latitude doubleValue],[longitude doubleValue])];
-    //            [path addCoordinate:CLLocationCoordinate2DMake([oldLocation doubleForKey:@"latitude"], [oldLocation doubleForKey: @"longitude"])];
-    //            GMSPolyline *line = [GMSPolyline polylineWithPath:path];
-    //            line.strokeWidth = 1.f;
-    //            line.strokeColor = [UIColor colorWithRed:220.0/255.0 green:220.0/255.0 blue:220.0/255.0 alpha:.8];
-    //            line.geodesic = YES;
-    //            line.map = mapView_;
-    //            marker3.map = mapView_;
-    //
-    //
-    //        }
-    
-    
-    
-    //self.view= mapView_;
-    //        [self.view reloadInputViews];
-    
-    //    }
-    
-    //  marker3.title = flight;
-    
-    
-    // mapView_ = [GMSMapView mapWithFrame:CGRectMake(0,70,320,300) camera:camera];
-    
-    // mapView_.reloadInputViews;
-    
-    /*
-     899015,
-     "CAL5509 ",
-     Taiwan,
-     1489338159,
-     1489338159,
-     "9.48",
-     "49.9266",
-     "7315.2",
-     0,
-     "223.02",
-     "260.84",
-     0,
-     "<null>",
-     "7315.2",
-     "<null>",
-     0,
-     0
-     
-     
-     
-     */
-    
+      
     
 }
 
@@ -359,19 +301,14 @@ FlightInfoView *xd;
                          marker3.tracksViewChanges = NO;
                      }];
 }
-//-(void)testUse{
-//
-//    if ([[UIApplication sharedApplication] canOpenURL:
-//         [NSURL URLWithString:@"comgooglemaps://"]]) {
-//        [[UIApplication sharedApplication] openURL:
-//         [NSURL URLWithString:@"comgooglemaps://?center=25.0049048,121.5066303&zoom=14&views=traffic"]];
-//    } else {
-//        NSLog(@"Can't use comgooglemaps://");
-//    }
-//
-//
-//}
+- (void)mapView:(GMSMapView *)mapView didTapInfoWindowOfMarker:(GMSMarker *)marker{
 
+    
+    NSLog(@"tap = %@",marker.snippet);
+   
+
+
+}
 //- (void)dealloc {
 //    [_pickers release];
 //    [super dealloc];

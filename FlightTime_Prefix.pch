@@ -18,3 +18,4 @@
 #define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
 #define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
 #define hahaha @"AIzaSyCKer63TbIOPLbmlNLCamBdUB3ZZFoYvs0"
+#define flight_info @"https://iatacodes.org/api/v6/routes?api_key=ff2ef22c-068a-47ba-805a-572ccf772056111&flight_number="

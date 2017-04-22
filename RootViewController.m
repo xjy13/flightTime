@@ -65,6 +65,7 @@
     NSTimer *checkdB;
     NSTimer *flightSchedule;
     MBProgressHUD *hudView;
+    GetSchedule *Get;
 
 }
 @end
@@ -86,7 +87,8 @@
     hudView.delegate = self;
     hudView = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:hudView];
-    
+    Get = [[GetSchedule alloc]init];
+   // [Get testDestination];
     isArrival = true;
     self.refresh = [[UIRefreshControl alloc]init];
     [self.refresh addTarget:self action:@selector(refreshXD) forControlEvents:UIControlEventValueChanged];
