@@ -7,15 +7,15 @@
 //
 #import <Foundation/Foundation.h>
 #import "GetSchedule.h"
-//#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24top=6&%24format=JSON"
-//#define diqiURL @"https://asset.diqi.us/api/v1/users/profile/"
-//#define ticketNumber @"http://ptx.transportdata.tw/MOTC/v2/Account/Login?UserData.account=xjy13&UserData.password=da3dbdA%23&%24format=JSON"
+
+
 @interface GetSchedule()
 @end
 NSMutableArray *arrivalArray;
 NSMutableArray *departureArray;
 NSString *status;
 NSString *ticketCode;
+NSString *IATACodeCompelete;
 
 @implementation GetSchedule
 
@@ -185,9 +185,16 @@ static GetSchedule *_instance = nil;
     
 }
 
-+(NSMutableArray *)flightDestination{
-
-    NSString *IATAinfo = [NSString stringWithFormat:@"%@%@",flight_info,@"MU2048"];   //JFK?$format=JSON
++(void)flightDestination:(NSString *)code{
+    NSString *IATAinfo;
+    NSLog(@"IATACodeCompelete 2 = %@",code);
+    if([code isEqualToString:@""]||code == NULL || code == nil){
+        IATAinfo = [NSString stringWithFormat:@"%@%@",flight_info,@"MU2048"];
+    }
+    else{
+        IATAinfo = [NSString stringWithFormat:@"%@%@",flight_info,code];   //JFK?$format=JSON
+    }
+    
     NSURL *url = [NSURL URLWithString:IATAinfo];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSError *err = nil;
@@ -199,10 +206,52 @@ static GetSchedule *_instance = nil;
         NSLog(@"route json = %@",routeDictionary);
         NSMutableArray *routeArray = [[NSMutableArray alloc]init];
         [routeArray addObjectsFromArray:routeDictionary[@"response"]];
-     //   NSString *
-//        NSString *departureSite = [NSString stringWithFormat:@"%@",[[routeArray objectAtIndex:0] objectForKey:@"departure"]];
-//        NSString *arrivalSite = [NSString stringWithFormat:@"%@",[[routeArray objectAtIndex:0] objectForKey:@"arrival"]];
-        return routeArray;
+        NSLog(@"routeArray = %@",routeArray);
+//        if([routeArray count] > 0){
+//            return routeArray;
+//        }
+//        else{
+//            return nil;
+//        }
     }
+
+
+
+}
+
++(void)flightCodeConverter:(NSString *)code{
+    
+    //http://ptx.transportdata.tw/MOTC/v2/Air/Airline?$filter=AirlineICAO%20eq%20'JAL'&$format=JSON"
+    NSString *IACOcode = [code substringWithRange:NSMakeRange(0, 3)];
+    int codeNumber = [[code substringWithRange:NSMakeRange(3, 4)] intValue];
+    NSLog(@"IACO code = %@",IACOcode);
+    
+    
+    NSString *flightCode = [NSString stringWithFormat:@"%@'%@'&$format=JSON",flightcodeConverter,IACOcode];
+    NSURL *url = [NSURL URLWithString:flightCode];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSError *err = nil;
+    NSHTTPURLResponse *res =nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+    if([res statusCode] == 200 && err == nil){
+        //NSDictionary *test = [[NSDictionary alloc]init];
+        NSMutableArray *converterCode = [[NSMutableArray alloc]init];
+        converterCode = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+//        NSLog(@"IATA code convert json = %@",converterCode);
+        NSString *IATAcode = [NSString stringWithFormat:@"%@",[[converterCode objectAtIndex:0] objectForKey:@"AirlineIATA"]];
+        NSLog(@"Convert result = %@",IATAcode);
+        NSString *IATACodeCompelete = [NSString stringWithFormat:@"%@%d",IATAcode,codeNumber];
+        NSLog(@"IATAcompelete 1 = %@",IATACodeCompelete);
+        //return IATACodeCompelete;
+        [self flightDestination:IATACodeCompelete];
+    }
+    else{
+        NSLog(@"IATA code convert error = %@",err.description);
+    
+    }
+
+
+
+
 }
 @end

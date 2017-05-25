@@ -413,6 +413,9 @@
 			baseConfigurationReference = A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 9Z8T7EX858;
@@ -426,6 +429,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
+				VALID_ARCHS = "armv7 armv6 arm64";
 			};
 			name = Debug;
 		};
@@ -434,6 +438,10 @@
 			baseConfigurationReference = 2872C70C3ECFD4E9F3D0178C /* Pods-FlightTime.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = 9Z8T7EX858;
@@ -445,6 +453,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
+				VALID_ARCHS = "armv7 armv6 arm64";
 			};
 			name = Release;
 		};

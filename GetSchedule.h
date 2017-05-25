@@ -29,5 +29,6 @@
 +(NSMutableArray *)jsonDepature:(NSString *)from;
 +(NSString *)translateIATA:(NSString *)airportCode;
 +(NSString *)figureRegistration:(NSString *)flightCode number:(NSString *)flightNum;
-+(NSMutableArray *)flightDestination;
++(NSMutableArray *)flightDestination:(NSString *)code;
++(void)flightCodeConverter:(NSString *)code;
 @end

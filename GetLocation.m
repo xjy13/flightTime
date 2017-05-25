@@ -84,7 +84,7 @@ static GetLocation *_instance = nil;
          }
     else{
         NSLog(@"status code = %d error = %@",[res statusCode],[err description]);
-        
+        return nil;
     }
 
 
