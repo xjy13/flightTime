@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RootViewController.h"
-
+#import "FlightInfoView.h"
 
 //接收root那邊老闆的指示做事
 //@interface GetSchedule : NSObject<rootDelegate>
@@ -29,6 +29,6 @@
 +(NSMutableArray *)jsonDepature:(NSString *)from;
 +(NSString *)translateIATA:(NSString *)airportCode;
 +(NSString *)figureRegistration:(NSString *)flightCode number:(NSString *)flightNum;
-+(NSMutableArray *)flightDestination:(NSString *)code;
++(void)flightDestination:(NSString *)code;
 +(void)flightCodeConverter:(NSString *)code;
 @end

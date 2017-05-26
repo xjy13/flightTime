@@ -13,6 +13,7 @@
 @end
 NSMutableArray *arrivalArray;
 NSMutableArray *departureArray;
+NSMutableArray *routeArray;
 NSString *status;
 NSString *ticketCode;
 NSString *IATACodeCompelete;
@@ -204,9 +205,13 @@ static GetSchedule *_instance = nil;
         NSDictionary *routeDictionary = [[NSDictionary alloc]init];
         routeDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"route json = %@",routeDictionary);
-        NSMutableArray *routeArray = [[NSMutableArray alloc]init];
+        routeArray = [[NSMutableArray alloc]init];
         [routeArray addObjectsFromArray:routeDictionary[@"response"]];
-        NSLog(@"routeArray = %@",routeArray);
+        if([routeArray count] > 0){
+           NSLog(@"routeArray = %@",[routeArray objectAtIndex:0]);
+            [FlightInfoView getRouteArray:routeArray];
+        }
+       
 //        if([routeArray count] > 0){
 //            return routeArray;
 //        }
@@ -218,6 +223,7 @@ static GetSchedule *_instance = nil;
 
 
 }
+
 
 +(void)flightCodeConverter:(NSString *)code{
     

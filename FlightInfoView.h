@@ -11,5 +11,6 @@
 @property(weak,nonatomic)IBOutlet UILabel *title;
 @property(weak,nonatomic)IBOutlet UILabel *title2;
 @property(weak,nonatomic)IBOutlet UIButton *btn;
++(void)getRouteArray:(NSMutableArray *)array;
 
 @end

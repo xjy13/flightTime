@@ -122,9 +122,6 @@ FlightInfoView *extendView;
     
     self.cancelBtn.hidden = YES;
     
-    extendView = [[FlightInfoView alloc]initWithFrame:CGRectMake(0, 300, self.view.frame.size.width, 100)];
-    [self.view addSubview:extendView];
-    extendView.hidden = YES;
     
     
 }
@@ -308,6 +305,9 @@ FlightInfoView *extendView;
 }
 
 - (void)mapView:(GMSMapView *)mapView didTapInfoWindowOfMarker:(GMSMarker *)marker{
+    extendView = [[FlightInfoView alloc]initWithFrame:CGRectMake(0, 420, self.view.frame.size.width, 100)];
+      // extendView.hidden = YES;
+
     if(!isClick){
         NSLog(@"marker tapping = %@",marker.snippet);
         if([marker.snippet isEqualToString:@""]||marker.snippet == nil){
@@ -316,6 +316,7 @@ FlightInfoView *extendView;
         [GetSchedule flightCodeConverter:marker.snippet];
       //  [GetSchedule flightDestination:IATACode];
         extendView.hidden = NO;
+        [self.view addSubview:extendView];
         isClick = true;
     }
     else{

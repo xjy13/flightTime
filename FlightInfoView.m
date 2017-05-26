@@ -9,35 +9,49 @@
 #import <Foundation/Foundation.h>
 #import "FlightInfoView.h"
 
-
+NSString *departureSite;
+NSString *arrivalSite;
 @implementation FlightInfoView
 
+
++(void)getRouteArray:(NSMutableArray *)array{
+    NSMutableArray *rounteArray = [[NSMutableArray alloc]init];
+    [rounteArray addObjectsFromArray:array];
+    departureSite = [NSString stringWithFormat:@"%@",[[rounteArray objectAtIndex:0] objectForKey:@"departure"]];
+    arrivalSite = [NSString stringWithFormat:@"%@",[[rounteArray objectAtIndex:0] objectForKey:@"arrival"]];
+
+}
 
 -(instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         self = [[[NSBundle mainBundle]loadNibNamed:@"FlightInfoView" owner:self options:nil]lastObject];
-                 self.frame = frame;
+        self.frame = frame;
         
-        //NSMutableArray *rounteArray = [[NSMutableArray alloc]init];
-      //  [rounteArray addObjectsFromArray:[GetSchedule flightDestination]];
-        //NSString *departureSite = [NSString stringWithFormat:@"%@",[[rounteArray objectAtIndex:0] objectForKey:@"departure"]];
-        //NSString *arrivalSite = [NSString stringWithFormat:@"%@",[[rounteArray objectAtIndex:0] objectForKey:@"arrival"]];
-        //[self.title setText:[NSString stringWithFormat:@"%@",departureSite]];
-        //[self.title setFont:[UIFont systemFontOfSize:13]];
-        //[self.title setTextColor:[UIColor redColor]];
+       // UILabel *title3 = [[UILabel alloc]initWithFrame:CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)]
         
-        //[self.title2 setText:[NSString stringWithFormat:@"%@",arrivalSite]];
-        //[self.title2 setFont:[UIFont systemFontOfSize:13]];
-        //[self.title2 setTextColor:[UIColor greenColor]];
+        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5*NSEC_PER_SEC));
+        dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+            [self.title setText:[NSString stringWithFormat:@"出發：%@",departureSite]];
+            [self.title2 setText:[NSString stringWithFormat:@"抵達：%@",arrivalSite]];
+        
+        });
+        
+        [self.title setFont:[UIFont systemFontOfSize:13]];
+        [self.title setTextColor:[UIColor blackColor]];
         
       
-      //  [self.frame addSubview:test];
+        [self.title2 setFont:[UIFont systemFontOfSize:13]];
+        [self.title2 setTextColor:[UIColor blackColor]];
+        
+        
+        //  [self.frame addSubview:test];
         NSLog(@"小圖示XDDD");
         
     }
     return self;
 }
+
 
 @end
