@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "FlightInfoView.h"
-
+#import "MapGoogle.h"
+#import "GetSchedule.h"
 NSString *departureSite;
 NSString *arrivalSite;
 @implementation FlightInfoView
@@ -19,6 +20,8 @@ NSString *arrivalSite;
     [rounteArray addObjectsFromArray:array];
     departureSite = [NSString stringWithFormat:@"%@",[[rounteArray objectAtIndex:0] objectForKey:@"departure"]];
     arrivalSite = [NSString stringWithFormat:@"%@",[[rounteArray objectAtIndex:0] objectForKey:@"arrival"]];
+    departureSite = [GetSchedule translateIATA:departureSite];
+    arrivalSite = [GetSchedule translateIATA:arrivalSite];
 
 }
 
@@ -46,12 +49,13 @@ NSString *arrivalSite;
         [self.title2 setTextColor:[UIColor blackColor]];
         
         
-        //  [self.frame addSubview:test];
         NSLog(@"小圖示XDDD");
         
     }
     return self;
 }
-
+-(IBAction)setCloseBtn:(id)sender{
+    [MapGoogle closeExtension];
+}
 
 @end

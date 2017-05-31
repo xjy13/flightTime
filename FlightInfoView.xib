@@ -29,14 +29,26 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkO-MN-q1d">
+                    <rect key="frame" x="285" y="1" width="32" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="close.png"/>
+                    <connections>
+                        <action selector="setCloseBtn:" destination="dPP-0j-V37" eventType="touchUpInside" id="dWg-EH-8WC"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.61262175429999999" green="0.91041666669999999" blue="0.75410352469999997" alpha="1" colorSpace="calibratedRGB"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="closeBtn" destination="pkO-MN-q1d" id="aGX-dd-OmA"/>
                 <outlet property="title" destination="rVt-cE-GwA" id="MJQ-Fu-f0y"/>
                 <outlet property="title2" destination="LKn-a5-MEZ" id="BgQ-Ky-Rg0"/>
             </connections>
-            <point key="canvasLocation" x="-335" y="613"/>
+            <point key="canvasLocation" x="-542" y="614"/>
         </view>
     </objects>
+    <resources>
+        <image name="close.png" width="32" height="32"/>
+    </resources>
 </document>

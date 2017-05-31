@@ -326,4 +326,11 @@ FlightInfoView *extendView;
  
 }
 
++(void)closeExtension{
+    if(isClick == true){
+        extendView.hidden = YES;
+    }
+
+}
+
 @end

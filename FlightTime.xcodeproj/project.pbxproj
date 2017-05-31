@@ -33,6 +33,7 @@
 		04C04AC11D18E89E00708E7E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C04AC01D18E89D00708E7E /* AVFoundation.framework */; };
 		04C04AC31D18E94C00708E7E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C04AC21D18E94C00708E7E /* MediaPlayer.framework */; };
 		04C5706D1DA6848A0097DA3A /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5706B1DA6848A0097DA3A /* Toast+UIView.m */; };
+		04D243311EDE59F600C461B5 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D243301EDE59F600C461B5 /* close.png */; };
 		04E572351D73D1DC005CE613 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E572341D73D1DC005CE613 /* Default-568h@2x.png */; };
 		04F808991E6FABF6002B9B2F /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F808981E6FABF6002B9B2F /* ExternalAccessory.framework */; };
 		04F808DD1E70F8C5002B9B2F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F808DC1E70F8C5002B9B2F /* Security.framework */; };
@@ -84,6 +85,7 @@
 		04C04AC21D18E94C00708E7E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		04C5706B1DA6848A0097DA3A /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		04C5706C1DA6848A0097DA3A /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
+		04D243301EDE59F600C461B5 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		04E572341D73D1DC005CE613 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		04F808981E6FABF6002B9B2F /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		04F808DC1E70F8C5002B9B2F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -199,6 +201,7 @@
 		309BCA6511DB0A0E000B4574 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				04D243301EDE59F600C461B5 /* close.png */,
 				043EADC01E8D306A001BC635 /* place.png */,
 				043EADBE1E8D217D001BC635 /* search.png */,
 				0488540B1E7FCD3300FD1277 /* airPort.png */,
@@ -324,6 +327,7 @@
 				309BCA6F11DB0A0E000B4574 /* Icon-Small.png in Resources */,
 				04A0234A1D2662A7002C989D /* play.png in Resources */,
 				044ECEE71D2D01180073DA60 /* back.png in Resources */,
+				04D243311EDE59F600C461B5 /* close.png in Resources */,
 				04E572351D73D1DC005CE613 /* Default-568h@2x.png in Resources */,
 				0488540C1E7FCD3300FD1277 /* airPort.png in Resources */,
 				309BCA7011DB0A0E000B4574 /* Icon-Small@2x.png in Resources */,

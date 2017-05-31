@@ -24,5 +24,6 @@
 @property(strong,nonatomic)NSArray *pickerData;
 @property (strong,nonatomic)UIButton *cancelBtn;
 @property (strong,nonatomic)UIButton *certainBtn;
++(void)closeExtension;
 
 @end
