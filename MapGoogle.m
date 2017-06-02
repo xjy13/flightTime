@@ -247,7 +247,7 @@ FlightInfoView *extendView;
     NSMutableArray *point = [[NSMutableArray alloc] init];
     [point addObjectsFromArray:[GetLocation jsonLocation:loc]];
     NSLog(@"point array count = %d",point.count);
-    NSLog(@"point array is =%@",point);
+   // NSLog(@"point array is =%@",point);  --->有需要再開 log有點大
     for (int i = 0 ; i < point.count ; i++){
         longitude = [[point objectAtIndex:i] objectAtIndex:5];
         latitude = [[point objectAtIndex:i] objectAtIndex:6];

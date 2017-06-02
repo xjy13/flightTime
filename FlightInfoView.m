@@ -20,9 +20,14 @@ NSString *arrivalSite;
     [rounteArray addObjectsFromArray:array];
     departureSite = [NSString stringWithFormat:@"%@",[[rounteArray objectAtIndex:0] objectForKey:@"departure"]];
     arrivalSite = [NSString stringWithFormat:@"%@",[[rounteArray objectAtIndex:0] objectForKey:@"arrival"]];
-    departureSite = [GetSchedule translateIATA:departureSite];
-    arrivalSite = [GetSchedule translateIATA:arrivalSite];
+    if( ![departureSite isEqualToString:@""] && ![arrivalSite isEqualToString:@""]){
+       
+        departureSite = [GetSchedule translateIATA:departureSite];
+        arrivalSite = [GetSchedule translateIATA:arrivalSite];
 
+    }
+    
+   
 }
 
 -(instancetype)initWithFrame:(CGRect)frame
@@ -56,6 +61,8 @@ NSString *arrivalSite;
 }
 -(IBAction)setCloseBtn:(id)sender{
     [MapGoogle closeExtension];
+    departureSite = @"瓦窯溝國際雞場";
+    arrivalSite =   @"福美路冠強炸雞坊";
 }
 
 @end

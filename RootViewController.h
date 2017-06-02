@@ -9,7 +9,7 @@
 #import "FlightTimeDelegate.h"
 #import "MBProgressHUD.h"
 #import "GetSchedule.h"
-
+#import "ScheduleTableCell.h"
 @class RootViewController;
 
 //他是老闆要叫getschedule這個class幫忙做事
@@ -21,17 +21,8 @@
 
 
 
-@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate,MBProgressHUDDelegate> {
+@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate,MBProgressHUDDelegate,ScheduleCellDelegate> {
     
-//    NSMutableArray *_accessoryList;
-//    NSMutableArray *_accessoryOriginal;
-//    EAAccessory *_selectedAccessory;
-    //EADSessionController *_eaSessionController;
-   // NSMutableDictionary *accessoryInfo;
-
-
-  //  UIView *_noExternalAccessoriesPosterView;
-   
     
     //add for 20160712
     AVAudioPlayer *audioPlayer;
@@ -47,7 +38,6 @@
 //@property (nonatomic,retain)id<TalkToMac> delegate;
 
 //add for 20160712
-
 @property(nonatomic, strong)UIButton *refreshBtn;
 @property (nonatomic, strong)UIButton *arrivalBtn;
 @property (nonatomic, strong)UIButton *departureBtn;

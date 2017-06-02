@@ -34,6 +34,8 @@
 		04C04AC31D18E94C00708E7E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C04AC21D18E94C00708E7E /* MediaPlayer.framework */; };
 		04C5706D1DA6848A0097DA3A /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5706B1DA6848A0097DA3A /* Toast+UIView.m */; };
 		04D243311EDE59F600C461B5 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D243301EDE59F600C461B5 /* close.png */; };
+		04D243341EDFC2A500C461B5 /* ScheduleTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D243331EDFC2A500C461B5 /* ScheduleTableCell.m */; };
+		04D243391EE05F7000C461B5 /* SchduleTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D243351EDFC5D700C461B5 /* SchduleTableCell.xib */; };
 		04E572351D73D1DC005CE613 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E572341D73D1DC005CE613 /* Default-568h@2x.png */; };
 		04F808991E6FABF6002B9B2F /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F808981E6FABF6002B9B2F /* ExternalAccessory.framework */; };
 		04F808DD1E70F8C5002B9B2F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F808DC1E70F8C5002B9B2F /* Security.framework */; };
@@ -86,6 +88,9 @@
 		04C5706B1DA6848A0097DA3A /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		04C5706C1DA6848A0097DA3A /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
 		04D243301EDE59F600C461B5 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
+		04D243321EDFC28800C461B5 /* ScheduleTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleTableCell.h; sourceTree = "<group>"; };
+		04D243331EDFC2A500C461B5 /* ScheduleTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleTableCell.m; sourceTree = "<group>"; };
+		04D243351EDFC5D700C461B5 /* SchduleTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SchduleTableCell.xib; sourceTree = "<group>"; };
 		04E572341D73D1DC005CE613 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		04F808981E6FABF6002B9B2F /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		04F808DC1E70F8C5002B9B2F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -152,6 +157,9 @@
 				04C5706B1DA6848A0097DA3A /* Toast+UIView.m */,
 				043424E41DAFECB7003E7E2B /* MBProgressHUD.h */,
 				043424E51DAFECB7003E7E2B /* MBProgressHUD.m */,
+				04D243321EDFC28800C461B5 /* ScheduleTableCell.h */,
+				04D243331EDFC2A500C461B5 /* ScheduleTableCell.m */,
+				04D243351EDFC5D700C461B5 /* SchduleTableCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -314,6 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D243391EE05F7000C461B5 /* SchduleTableCell.xib in Resources */,
 				04A0233F1D263C99002C989D /* playBtn.png in Resources */,
 				04A023401D263C99002C989D /* stop.png in Resources */,
 				04A023431D265DDC002C989D /* stop_recording.png in Resources */,
@@ -402,6 +411,7 @@
 				04C5706D1DA6848A0097DA3A /* Toast+UIView.m in Sources */,
 				045FCF431EA22D6E004C3958 /* FlightInfoView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				04D243341EDFC2A500C461B5 /* ScheduleTableCell.m in Sources */,
 				C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */,
 				04A42CCC1DDA234B00A769FB /* FlightTimeDelegate.m in Sources */,
 				049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */,

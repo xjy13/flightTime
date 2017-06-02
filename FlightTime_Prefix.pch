@@ -9,6 +9,7 @@
     #import <UIKit/UIKit.h>
 #endif
 
+#define scheduleIdentify @"scheduleIdentifier"
 
 #define locationURL @"https://opensky-network.org/api/states/all"
 #define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
@@ -20,3 +21,5 @@
 #define hahaha @"AIzaSyCKer63TbIOPLbmlNLCamBdUB3ZZFoYvs0"
 #define flight_info @"https://iatacodes.org/api/v6/routes?api_key=ff2ef22c-068a-47ba-805a-572ccf772056&flight_number="
 #define flightcodeConverter @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline?$filter=AirlineICAO%20eq%20"
+#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24filter=FlightDate%20eq%20"
+//#define cellIdentifier @"scheduleCell";

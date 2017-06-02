@@ -54,7 +54,7 @@ static GetLocation *_instance = nil;
     if(data != nil && [res statusCode]==200 && err == nil){
        // NSMutableArray *json = [[NSMutableArray alloc]init];
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"location json = %@",json);
+      //  NSLog(@"location json = %@",json);  --->Log有點大 有需要再開吧
         NSMutableArray *add = [[NSMutableArray alloc]init];
         [add addObjectsFromArray:json[@"states"]];
       //  NSLog(@"location json_1= %@",add);
@@ -83,8 +83,9 @@ static GetLocation *_instance = nil;
            return filterArray;
          }
     else{
-        NSLog(@"status code = %d error = %@",[res statusCode],[err description]);
-        return nil;
+        NSLog(@"status code = %ld error = %@",[res statusCode],[err description]);
+        return [self jsonLocation:@"Taiwan"];
+        //return nil;
     }
 
 

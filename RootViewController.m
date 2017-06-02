@@ -6,12 +6,11 @@
 #import <MediaPlayer/MPMusicPlayerController.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MPRemoteCommandEvent.h>
-//#import "EADemoAppDelegate.h"
 #import "FlightTimeDelegate.h"
 #import "Toast+UIView.h"
 #import "GetLocation.h"
 #import "MapGoogle.h"
-#define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24filter=FlightDate%20eq%20"
+
 
 @interface RootViewController(){
 
@@ -66,7 +65,7 @@
     NSTimer *flightSchedule;
     MBProgressHUD *hudView;
     GetSchedule *Get;
-
+ 
 }
 @end
 
@@ -87,8 +86,7 @@
     hudView.delegate = self;
     hudView = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:hudView];
- 
-    isArrival = true;
+     isArrival = true;
     self.refresh = [[UIRefreshControl alloc]init];
     [self.refresh addTarget:self action:@selector(refreshXD) forControlEvents:UIControlEventValueChanged];
     [_tableView addSubview:self.refresh];
@@ -103,6 +101,7 @@
     flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
     [flightSchedule fire];
     
+    
 }
 
 -(void)refreshXD{
@@ -111,7 +110,7 @@
     NSLog(@"refresh~~~~");
 
 }
-
+#pragma mark initial Table
 -(void)initialTable{
     
     _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 80, 320, 568)];
@@ -122,6 +121,9 @@
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 1030)];
     _tableView.scrollEnabled = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    
+     [self.tableView registerNib:[UINib nibWithNibName:@"SchduleTableCell" bundle:nil] forCellReuseIdentifier:@"cell"];
+    
     _tableView.dataSource = self;
     _tableView.delegate = self;
     [_tableView setBackgroundColor:[UIColor clearColor]];
@@ -296,28 +298,27 @@
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-//    if (cell == nil) {
-//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
-//    }
     
+   
     switch (row) {
         case 0:
             
-        /*
-             "FlightDate": "2017-02-18",
-             "FlightNumber": "100",
-             "AirRouteType": 1,
-             "AirlineID": "JW",
-             "DepartureAirportID": "TPE",
-             "ArrivalAirportID": "NRT",
-             "ScheduleDepartureTime": "2017-02-18T02:05",
-             "ActualDepartureTime": "2017-02-18T02:44",
-             "DepartureRemark": "出發",
-             "DepartureTerminal": "1",
-             "DepartureGate": "A2",
-             "CheckCounter": "1",
-             "UpdateTime": "2017-02-18T14:56:06+08:00"
-             */
+           
+     
+//             "FlightDate": "2017-02-18",
+//             "FlightNumber": "100",
+//             "AirRouteType": 1,
+//             "AirlineID": "JW",
+//             "DepartureAirportID": "TPE",
+//             "ArrivalAirportID": "NRT",
+//             "ScheduleDepartureTime": "2017-02-18T02:05",
+//             "ActualDepartureTime": "2017-02-18T02:44",
+//             "DepartureRemark": "出發",
+//             "DepartureTerminal": "1",
+//             "DepartureGate": "A2",
+//             "CheckCounter": "1",
+//             "UpdateTime": "2017-02-18T14:56:06+08:00"
+     
             
             
             
@@ -379,7 +380,6 @@
                 departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
                 scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
                 [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-
             }
             else{
                 //離境的
@@ -743,6 +743,22 @@
         default:;
             break;
     }
+    if(row == 9){
+    
+        ScheduleTableCell *cellxd = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+       // cellxd.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+//    if (cellxd == nil) {
+//         cellxd = [[ScheduleTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+//    }
+        ScheduleTableCell *receiveSchedule = [[ScheduleTableCell alloc]init];
+   
+        [receiveSchedule receiveDepartureArrayxd:row];
+        cellxd.delegate = self;
+      
+        return cellxd;
+    }
+
     
     return cell;
   
