@@ -41,7 +41,7 @@ static GetSchedule *_instance = nil;
     NSLog(@"arrival status = %ld",[res statusCode]);
     if(data != nil && [res statusCode]==200 && err == nil){
         arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
-        NSLog(@"arrival json in GetSchedule: %@",arrivalArray);
+      //  NSLog(@"arrival json in GetSchedule: %@",arrivalArray);
     }
     else{
         NSLog(@"error json = %@ and status code = %ld error = %@",arrivalArray,[res statusCode],[err description]);

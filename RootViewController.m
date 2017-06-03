@@ -115,7 +115,7 @@
     
     _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 80, 320, 568)];
     _scrollView.scrollEnabled = YES;
-    _scrollView.contentSize = CGSizeMake(320, 1150);
+    _scrollView.contentSize = CGSizeMake(320, 1200);
     [_scrollView reloadInputViews];
     
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 1030)];
@@ -297,8 +297,9 @@
     
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    
+//      ScheduleTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+  
    
     switch (row) {
         case 0:
@@ -745,15 +746,14 @@
     }
     if(row == 9){
     
-        ScheduleTableCell *cellxd = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+        ScheduleTableCell *cellxd = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
        // cellxd.selectionStyle = UITableViewCellSelectionStyleNone;
     
 //    if (cellxd == nil) {
 //         cellxd = [[ScheduleTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
 //    }
         ScheduleTableCell *receiveSchedule = [[ScheduleTableCell alloc]init];
-   
-        [receiveSchedule receiveDepartureArrayxd:row];
+        [receiveSchedule receiveDepartureArrayxd:row status:isArrival];
         cellxd.delegate = self;
       
         return cellxd;

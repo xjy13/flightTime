@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @protocol ScheduleCellDelegate<NSObject>
 @optional
 
@@ -16,7 +17,10 @@
 @property(nonatomic,weak)id<ScheduleCellDelegate>delegate;
 
 //-(void)receiveDepartureArray:(NSMutableArray *)array;
--(void)receiveDepartureArrayxd:(int)row;
-@property(weak,nonatomic)IBOutlet UILabel *title;
-@property(weak,nonatomic)NSString *a;
+-(void)receiveDepartureArrayxd:(int)row status:(BOOL)isArrival;
+@property(weak,nonatomic)IBOutlet UILabel *flightID;
+@property(weak,nonatomic)IBOutlet UILabel *IDLabel;
+@property(weak,nonatomic)IBOutlet UILabel *ManuLabel;
+@property(nonatomic,strong)NSString *a;
+@property(weak,nonatomic)NSString *count;
 @end
