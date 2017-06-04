@@ -30,7 +30,6 @@ NSUserDefaults *usrDefault;
 
 
 - (void)drawRect:(CGRect)rect{
-  //  NSLog(@"XDDDDD ---> %ld and %@",[usrDefault integerForKey:@"row"],arrival);
     [self showInfo:row status:arrival];
 
 
@@ -51,6 +50,7 @@ NSUserDefaults *usrDefault;
         [departArray addObjectsFromArray:[GetSchedule jsonArrival:@"cellView"]];
         airlineID = [NSString stringWithFormat:@"%@",[[departArray objectAtIndex:row] objectForKey:@"AirlineID"]];
         NSLog(@"arrival ---> %@",airlineID);
+        NSLog(@"arrival + 1 --> %@",[[departArray objectAtIndex:row+1] objectForKey:@"AirlineID"]);
         flightNumber = [NSString stringWithFormat:@"%@",[[departArray objectAtIndex:row] objectForKey:@"FlightNumber"]];
         arrivalRemark = [[departArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
         departureAirport = [[departArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];

@@ -115,10 +115,10 @@
     
     _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 80, 320, 568)];
     _scrollView.scrollEnabled = YES;
-    _scrollView.contentSize = CGSizeMake(320, 1200);
+    _scrollView.contentSize = CGSizeMake(320, 1300);
     [_scrollView reloadInputViews];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 1030)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 1100)];
     _tableView.scrollEnabled = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
@@ -263,8 +263,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return [self.arrivalArray count];
+      return [self.arrivalArray count];
     
 }
 
@@ -291,16 +290,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *cellIdentifier = @"scheduleCell";
+    static NSString *reUseIndetifier =@"cell";
+     static NSString *reUseIndetifier1 =@"cell1";
     NSUInteger row = [indexPath row];
-    NSLog(@"Table Row = %d",row);
+    NSLog(@"Table Row = %ld",row);
     // NSLog(@"AIRLINE ID = %@",[[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"]);
     
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//      ScheduleTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-  
-   
+    
+//    ScheduleTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    cell.delegate = self;
+//     ScheduleTableCell *receiveSchedule = [[ScheduleTableCell alloc]init];
+     ScheduleTableCell *cellxd = [tableView dequeueReusableCellWithIdentifier:reUseIndetifier];
+     ScheduleTableCell *cellxdd = [tableView dequeueReusableCellWithIdentifier:reUseIndetifier1];
     switch (row) {
         case 0:
             
@@ -413,6 +417,11 @@
             [cell addSubview:IDLabel];
             [cell addSubview:IDLabel_D];
             [cell addSubview:ManuLabel];
+            
+            
+          
+        //    [receiveSchedule receiveDepartureArrayxd:row status:isArrival];
+
             break;
         case 2:
             flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
@@ -744,21 +753,36 @@
         default:;
             break;
     }
+   
     if(row == 9){
     
-        ScheduleTableCell *cellxd = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
        // cellxd.selectionStyle = UITableViewCellSelectionStyleNone;
     
 //    if (cellxd == nil) {
 //         cellxd = [[ScheduleTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
 //    }
         ScheduleTableCell *receiveSchedule = [[ScheduleTableCell alloc]init];
-        [receiveSchedule receiveDepartureArrayxd:row status:isArrival];
+        [receiveSchedule receiveDepartureArrayxd:9 status:isArrival];
         cellxd.delegate = self;
       
         return cellxd;
     }
+  if(row == 10){
+      
+        // cellxd.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+            if (cellxdd == nil) {
+                 cellxdd = [[ScheduleTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reUseIndetifier1];
+            }
+        ScheduleTableCell *receiveSchedulex = [[ScheduleTableCell alloc]init];
+        [receiveSchedulex receiveDepartureArrayxd:10 status:isArrival];
+        cellxdd.delegate = self;
+        
+        return cellxdd;
 
+    
+    }
+ 
     
     return cell;
   
