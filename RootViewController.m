@@ -144,10 +144,8 @@
     self.departureArray = [GetSchedule jsonDepature:@"root"];
      NSLog(@"at rootView arrival = %@ ", _arrivalArray);
     NSLog(@"at rootView departure = %@ ", _departureArray);
-     //  [self.rootdelegate getAirApiticket:self ];
-//     NSString *ticketCode = [NSString stringWithFormat:@"%@",[self.rootdelegate getAirApiticket:self ]];
-//     NSLog(@"at rootView ticketCode= %@",ticketCode);
-   }
+ 
+}
 
 -(NSString *)currentDateDeparture{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
@@ -234,13 +232,6 @@
 
 
 #pragma mark access to next
-//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//
-//    if ([segue.identifier isEqualToString:@"testPage"]) {
-//        EADSessionTransferViewController *EADTransView =[segue destinationViewController];
-//    }
-//
-//}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -427,24 +418,12 @@
     [hudView hide:YES afterDelay:20];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-//    [self.tableView beginUpdates];
-//    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject: [NSIndexPath indexPathForRow:[self.arrivalArray count]-1 inSection:10]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    [self.tableView endUpdates];
 
 }
 -(void)refreshTable{
     NSLog(@"refresh schedule");
     [self getSchdule_delegation];
     
-//    if(isArrival == true){
-//       // [self jsonArrival];
-////        [self getSchdule_delegation];
-//        [GetSchedule jsonArrival:@"root"];
-//        //NSLog(@"test refresh table for delegate = %@",[self.rootdelegate jsonArrival:self comeFrom:@"root"]);
-//       // _arrivalArray = [self.rootdelegate jsonArrival:self comeFrom:@"root"];
-//    }else{
-//        [GetSchedule jsonDepature:@"root"];
-//    }
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
 }
