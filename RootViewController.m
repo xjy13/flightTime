@@ -65,7 +65,7 @@
     NSTimer *flightSchedule;
     MBProgressHUD *hudView;
     GetSchedule *Get;
- 
+    ScheduleTableCell *cellXD;
 }
 @end
 
@@ -289,507 +289,66 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellIdentifier = @"scheduleCell";
-    static NSString *reUseIndetifier =@"cell";
-     static NSString *reUseIndetifier1 =@"cell1";
+//    static NSString *cellIdentifier = @"scheduleCell";
+//    static NSString *reUseIndetifier =@"cell";
+//     static NSString *reUseIndetifier1 =@"cell1";
     NSUInteger row = [indexPath row];
     NSLog(@"Table Row = %ld",row);
-    // NSLog(@"AIRLINE ID = %@",[[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"]);
+  
+     cellXD = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+     cellXD.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-//    ScheduleTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    cell.delegate = self;
-//     ScheduleTableCell *receiveSchedule = [[ScheduleTableCell alloc]init];
-     ScheduleTableCell *cellxd = [tableView dequeueReusableCellWithIdentifier:reUseIndetifier];
-     ScheduleTableCell *cellxdd = [tableView dequeueReusableCellWithIdentifier:reUseIndetifier1];
-    switch (row) {
-        case 0:
-            
-           
-     
-//             "FlightDate": "2017-02-18",
-//             "FlightNumber": "100",
-//             "AirRouteType": 1,
-//             "AirlineID": "JW",
-//             "DepartureAirportID": "TPE",
-//             "ArrivalAirportID": "NRT",
-//             "ScheduleDepartureTime": "2017-02-18T02:05",
-//             "ActualDepartureTime": "2017-02-18T02:44",
-//             "DepartureRemark": "出發",
-//             "DepartureTerminal": "1",
-//             "DepartureGate": "A2",
-//             "CheckCounter": "1",
-//             "UpdateTime": "2017-02-18T14:56:06+08:00"
-     
-            
-            
-            
-            flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
-            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-        
-            
-            if(isArrival == true){
-                //入境的
-                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-
-            }
-            else{
-                //離境的
-                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
-                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
-                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
-            }
-            
-            [flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
-           
-            
-            NSRange delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
-            NSRange changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-            NSRange cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-            ManuLabel.numberOfLines = 0;
-            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-                       [ManuLabel setFont:[UIFont systemFontOfSize:16]];
-            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-            }
-            else{
-                 [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-            }
-            
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            [cell addSubview:flightID];
-            [cell addSubview:IDLabel];
-            [cell addSubview:ManuLabel];
-            break;
-        case 1:
-            flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
-            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            if(isArrival == true){
-                //入境的
-                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-            }
-            else{
-                //離境的
-                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
-                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
-                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
-
-            }
-            [flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
-            
-            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
-            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-            ManuLabel.numberOfLines = 0;
-            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
-            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-            }
-            else{
-                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-            }
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            
-                        
-            [cell addSubview:flightID];
-            [cell addSubview:IDLabel];
-            [cell addSubview:IDLabel_D];
-            [cell addSubview:ManuLabel];
-            
-            
-          
-        //    [receiveSchedule receiveDepartureArrayxd:row status:isArrival];
-
-            break;
-        case 2:
-            flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
-            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            if(isArrival == true){
-                //入境的
-                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            else{
-                //離境的
-                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
-                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
-                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            [flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
-            
-            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
-            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-            ManuLabel.numberOfLines = 0;
-            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
-            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-            }
-            else{
-                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-            }
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            
-            
-            [cell addSubview:flightID];
-            [cell addSubview:IDLabel];
-            [cell addSubview:IDLabel_D];
-            [cell addSubview:ManuLabel];
-            break;
-        case 3:
-            flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
-            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            if(isArrival == true){
-                //入境的
-                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            else{
-                //離境的
-                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
-                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
-                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            [flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
-            
-            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
-            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-            ManuLabel.numberOfLines = 0;
-            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
-            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-            }
-            else{
-                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-            }
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            
-            
-            [cell addSubview:flightID];
-            [cell addSubview:IDLabel];
-            [cell addSubview:IDLabel_D];
-            [cell addSubview:ManuLabel];
-
-            break;
-        case 4:
-            flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
-            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            if(isArrival == true){
-                //入境的
-                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            else{
-                //離境的
-                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
-                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
-                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            [flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
-            
-            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
-            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-            ManuLabel.numberOfLines = 0;
-            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
-            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-            }
-            else{
-                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-            }
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            
-            
-            [cell addSubview:flightID];
-            [cell addSubview:IDLabel];
-            [cell addSubview:IDLabel_D];
-            [cell addSubview:ManuLabel];
-
-            break;
-        case 5:
-            flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
-            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            if(isArrival == true){
-                //入境的
-                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            else{
-                //離境的
-                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
-                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
-                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            [flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
-            
-            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
-            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-            ManuLabel.numberOfLines = 0;
-            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
-            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-            }
-            else{
-                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-            }
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            
-            
-            [cell addSubview:flightID];
-            [cell addSubview:IDLabel];
-            [cell addSubview:IDLabel_D];
-            [cell addSubview:ManuLabel];
-
-            break;
-        case 6:
-            flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
-            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            if(isArrival == true){
-                //入境的
-                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            else{
-                //離境的
-                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
-                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
-                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            [flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
-            
-            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
-            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-            ManuLabel.numberOfLines = 0;
-            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
-            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-            }
-            else{
-                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-            }
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            
-            
-            [cell addSubview:flightID];
-            [cell addSubview:IDLabel];
-            [cell addSubview:IDLabel_D];
-            [cell addSubview:ManuLabel];
-
-            break;
-        case 7:
-            flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
-            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            if(isArrival == true){
-                //入境的
-                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            else{
-                //離境的
-                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
-                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
-                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            [flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
-            
-            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
-            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-            ManuLabel.numberOfLines = 0;
-            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
-            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-            }
-            else{
-                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-            }
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            
-            
-            [cell addSubview:flightID];
-            [cell addSubview:IDLabel];
-            [cell addSubview:IDLabel_D];
-            [cell addSubview:ManuLabel];
-
-            break;
-        case 8:
-            flightID = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 300, 20)];
-            IDLabel =  [[UILabel alloc]initWithFrame:CGRectMake(15, flightID.frame.origin.y+30, 300, 20)];
-            ManuLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, IDLabel.frame.origin.y+30, 300, 25)];
-            if(isArrival == true){
-                //入境的
-                airlineID = [[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
-                departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
-                scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            else{
-                //離境的
-                airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
-                flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
-                arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
-                departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
-                scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-                [IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
-                
-            }
-            [flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
-            
-            delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
-            changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
-            cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-            ManuLabel.numberOfLines = 0;
-            ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            [ManuLabel setFont:[UIFont systemFontOfSize:16]];
-            if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-                [ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-            }
-            else{
-                [ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-            }
-            [ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
-            
-            [cell addSubview:flightID];
-            [cell addSubview:IDLabel];
-            [cell addSubview:IDLabel_D];
-            [cell addSubview:ManuLabel];
-
-            break;
-        default:;
-            break;
-    }
-   
-    if(row == 9){
-    
-       // cellxd.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-//    if (cellxd == nil) {
-//         cellxd = [[ScheduleTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-//    }
-        ScheduleTableCell *receiveSchedule = [[ScheduleTableCell alloc]init];
-        [receiveSchedule receiveDepartureArrayxd:9 status:isArrival];
-        cellxd.delegate = self;
-      
-        return cellxd;
-    }
-  if(row == 10){
-      
-        // cellxd.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-            if (cellxdd == nil) {
-                 cellxdd = [[ScheduleTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reUseIndetifier1];
-            }
-        ScheduleTableCell *receiveSchedulex = [[ScheduleTableCell alloc]init];
-        [receiveSchedulex receiveDepartureArrayxd:10 status:isArrival];
-        cellxdd.delegate = self;
-        
-        return cellxdd;
-
-    
-    }
- 
-    
-    return cell;
+    [self scheduleBoard:row];
+    return cellXD;
   
 }
 
 
+-(void)scheduleBoard:(int)row{
 
+    if(isArrival == true){
+        //入境的
+        [_departureArray removeAllObjects];
+        [_arrivalArray addObjectsFromArray:[GetSchedule jsonArrival:@"cellView"]];
+        airlineID = [NSString stringWithFormat:@"%@",[[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"]];
+        
+        flightNumber = [NSString stringWithFormat:@"%@",[[_arrivalArray objectAtIndex:row] objectForKey:@"FlightNumber"]];
+        arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
+        departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
+        scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+     
+    }
+    else{
+        //離境的
+        [_airportArray removeAllObjects];
+        [_departureArray addObjectsFromArray:[GetSchedule jsonDepature:@"cellView"]];
+        airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
+        NSLog(@"departure ---> %@",airlineID);
+        flightNumber = [[_departureArray objectAtIndex:row] objectForKey:@"FlightNumber"];
+        arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
+        departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
+        scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+     }
+    
+    [cellXD.IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
+    [cellXD.flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
+    NSRange delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
+     NSRange changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
+     NSRange cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
+    cellXD.ManuLabel.numberOfLines = 0;
+    cellXD.ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    [cellXD.ManuLabel setFont:[UIFont systemFontOfSize:16]];
+    if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
+        [cellXD.ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
+        cellXD.backgroundColor = [[UIColor alloc]initWithRed:240.0/255.0 green:200.0/255.0 blue:70.0/255.0 alpha:0.8];
+    }
+    else{
+        [cellXD.ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
+    }
+    
+    [cellXD.ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+
+}
 
 #pragma mark Warning message when get failure
 -(void)warningMessage:(NSString *)from{
@@ -876,6 +435,7 @@
 -(void)refreshTable{
     NSLog(@"refresh schedule");
     [self getSchdule_delegation];
+    
 //    if(isArrival == true){
 //       // [self jsonArrival];
 ////        [self getSchdule_delegation];
