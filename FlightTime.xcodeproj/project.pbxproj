@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,6 +22,7 @@
 		047C827C1E86528F0098EB57 /* libPods-flightTimeNew.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047C827B1E86528F0098EB57 /* libPods-flightTimeNew.a */; };
 		0488540C1E7FCD3300FD1277 /* airPort.png in Resources */ = {isa = PBXBuildFile; fileRef = 0488540B1E7FCD3300FD1277 /* airPort.png */; };
 		049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0498058F1DC2FC6700C42C5F /* GetSchedule.m */; };
+		049BBA6C1EE41AE400D578D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 049BBA6B1EE41AE400D578D0 /* GoogleService-Info.plist */; };
 		04A0233F1D263C99002C989D /* playBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A0233D1D263C99002C989D /* playBtn.png */; };
 		04A023401D263C99002C989D /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A0233E1D263C99002C989D /* stop.png */; };
 		04A023431D265DDC002C989D /* stop_recording.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A023411D265DDC002C989D /* stop_recording.png */; };
@@ -51,6 +52,7 @@
 		309BCA7111DB0A0E000B4574 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6A11DB0A0E000B4574 /* Icon.png */; };
 		309BCA7211DB0A0E000B4574 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6B11DB0A0E000B4574 /* Icon@2x.png */; };
 		30B3DE3311ED1F7700C12546 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 30B3DE3211ED1F7700C12546 /* iTunesArtwork */; };
+		B37DB811FD8A9E5147C58CE0 /* libPods-FlightTime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4863A550A84BF501BF9F1B10 /* libPods-FlightTime.a */; };
 		C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C986345A0FB66A2200D461F2 /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +76,7 @@
 		0488540B1E7FCD3300FD1277 /* airPort.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airPort.png; sourceTree = "<group>"; };
 		0498058E1DC2FC3D00C42C5F /* GetSchedule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSchedule.h; sourceTree = "<group>"; };
 		0498058F1DC2FC6700C42C5F /* GetSchedule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSchedule.m; sourceTree = "<group>"; };
+		049BBA6B1EE41AE400D578D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04A0233D1D263C99002C989D /* playBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playBtn.png; sourceTree = "<group>"; };
 		04A0233E1D263C99002C989D /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop.png; sourceTree = "<group>"; };
 		04A023411D265DDC002C989D /* stop_recording.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop_recording.png; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 		309BCA6A11DB0A0E000B4574 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		309BCA6B11DB0A0E000B4574 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		30B3DE3211ED1F7700C12546 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		4863A550A84BF501BF9F1B10 /* libPods-FlightTime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightTime.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1107310486CEB800E47090 /* FlightTime-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FlightTime-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime.debug.xcconfig"; sourceTree = "<group>"; };
 		C98634590FB66A2200D461F2 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
+				B37DB811FD8A9E5147C58CE0 /* libPods-FlightTime.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +190,7 @@
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				044ECEE81D2D01420073DA60 /* Storyboard.storyboard */,
 				8D1107310486CEB800E47090 /* FlightTime-Info.plist */,
+				049BBA6B1EE41AE400D578D0 /* GoogleService-Info.plist */,
 				3F5AF01567F8D482E4DD1689 /* Pods */,
 			);
 			name = CustomTemplate;
@@ -202,6 +208,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				4863A550A84BF501BF9F1B10 /* libPods-FlightTime.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -297,7 +304,7 @@
 				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FlightTime" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -333,6 +340,7 @@
 				043EADBF1E8D217D001BC635 /* search.png in Resources */,
 				045AEECB1D65EA7D0065CAE7 /* refresh.png in Resources */,
 				309BCA6E11DB0A0E000B4574 /* Icon-Small-50.png in Resources */,
+				049BBA6C1EE41AE400D578D0 /* GoogleService-Info.plist in Resources */,
 				309BCA6F11DB0A0E000B4574 /* Icon-Small.png in Resources */,
 				04A0234A1D2662A7002C989D /* play.png in Resources */,
 				044ECEE71D2D01180073DA60 /* back.png in Resources */,
@@ -396,7 +404,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -426,6 +434,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD)";
@@ -441,6 +450,59 @@
 				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"GoogleToolboxForMac\"",
+					"-l\"Protobuf\"",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"FirebaseAnalytics\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseNanoPB\"",
+					"-framework",
+					"\"GLKit\"",
+					"-framework",
+					"\"GoogleMaps\"",
+					"-framework",
+					"\"GoogleMapsBase\"",
+					"-framework",
+					"\"GoogleMapsCore\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"$(OTHER_LDFLAGS)",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
 				VALID_ARCHS = "armv7 armv6 arm64";
@@ -451,6 +513,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2872C70C3ECFD4E9F3D0178C /* Pods-FlightTime.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD)";
@@ -465,6 +528,59 @@
 				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"GoogleToolboxForMac\"",
+					"-l\"Protobuf\"",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"FirebaseAnalytics\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseNanoPB\"",
+					"-framework",
+					"\"GLKit\"",
+					"-framework",
+					"\"GoogleMaps\"",
+					"-framework",
+					"\"GoogleMapsBase\"",
+					"-framework",
+					"\"GoogleMapsCore\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"$(OTHER_LDFLAGS)",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
 				VALID_ARCHS = "armv7 armv6 arm64";

@@ -7,7 +7,8 @@
 //
 
 #import "FlightTimeDelegate.h"
-#import <GoogleMaps/GoogleMaps.h>
+
+//#import "Firebase.h"
 
 
 @implementation FlightTimeDelegate
@@ -20,6 +21,8 @@
     [window setRootViewController:nav];
     [window makeKeyAndVisible];
     [GMSServices provideAPIKey:hahaha];
+    [FIRApp configure];
+    
     return YES;
     
 }

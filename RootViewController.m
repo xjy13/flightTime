@@ -10,7 +10,7 @@
 #import "Toast+UIView.h"
 #import "GetLocation.h"
 #import "MapGoogle.h"
-
+#import "FlightTimeDelegate.h"
 
 @interface RootViewController(){
 
@@ -65,6 +65,7 @@
     NSTimer *flightSchedule;
     MBProgressHUD *hudView;
     GetSchedule *Get;
+    
  
 }
 @end
@@ -100,8 +101,7 @@
    
     flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
     [flightSchedule fire];
-    
-    
+       
 }
 
 -(void)refreshXD{
@@ -121,6 +121,8 @@
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 1100)];
     _tableView.scrollEnabled = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    
+  //   [self.tableView registerNib:[UINib nibWithNibName:@"SchduleTableCell" bundle:nil] forCellReuseIdentifier:@"cell"];
     
      [self.tableView registerNib:[UINib nibWithNibName:@"SchduleTableCell" bundle:nil] forCellReuseIdentifier:@"cell"];
     
@@ -761,6 +763,7 @@
 //    if (cellxd == nil) {
 //         cellxd = [[ScheduleTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
 //    }
+        
         ScheduleTableCell *receiveSchedule = [[ScheduleTableCell alloc]init];
         [receiveSchedule receiveDepartureArrayxd:9 status:isArrival];
         cellxd.delegate = self;
@@ -777,7 +780,7 @@
         ScheduleTableCell *receiveSchedulex = [[ScheduleTableCell alloc]init];
         [receiveSchedulex receiveDepartureArrayxd:10 status:isArrival];
         cellxdd.delegate = self;
-        
+        cellxdd.flightID.text = @"母豬航空";
         return cellxdd;
 
     
@@ -925,7 +928,7 @@
 }
 
 
-#pragma mark 新的
+
 
 
 
