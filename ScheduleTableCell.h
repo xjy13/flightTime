@@ -12,10 +12,9 @@
 @optional
 
 @end
+
 @interface ScheduleTableCell : UITableViewCell
-
 @property(nonatomic,weak)id<ScheduleCellDelegate>delegate;
-
 //-(void)receiveDepartureArray:(NSMutableArray *)array;
 -(void)receiveDepartureArrayxd:(int)row status:(BOOL)isArrival;
 @property(weak,nonatomic)IBOutlet UILabel *flightID;

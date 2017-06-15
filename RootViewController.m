@@ -31,8 +31,7 @@
     UILabel *ManuLabel;
     UILabel *serialLabel;
     UILabel *IDLabel_D;
-    int failTime;
-    UIAlertController *failAlert;
+    
     UIImageView *warningSign;
     UIGestureRecognizer *tapAction;
     
@@ -65,7 +64,7 @@
     NSTimer *flightSchedule;
     MBProgressHUD *hudView;
     GetSchedule *Get;
-    ScheduleTableCell *cellXD;
+    ScheduleTableCell *scheduleCell;
 }
 @end
 
@@ -100,7 +99,7 @@
    
     flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
     [flightSchedule fire];
-    
+    [self xdgc];
     
 }
 
@@ -115,10 +114,10 @@
     
     _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 80, 320, 568)];
     _scrollView.scrollEnabled = YES;
-    _scrollView.contentSize = CGSizeMake(320, 1300);
+    _scrollView.contentSize = CGSizeMake(320, 2210);
     [_scrollView reloadInputViews];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 1100)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,130, 320, 2000)];
     _tableView.scrollEnabled = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
@@ -131,9 +130,9 @@
     [_tableView reloadInputViews];
     [_scrollView addSubview:_tableView];
     
-    UILabel *seperate = [[UILabel alloc]initWithFrame:CGRectMake(0,125, 320, 0.8)];
-    [seperate setBackgroundColor:[UIColor colorWithRed:230.0/255.0 green:230.0/255.0 blue:230.0/255.0 alpha:1]];
-    [_scrollView addSubview:seperate];
+//    UILabel *seperate = [[UILabel alloc]initWithFrame:CGRectMake(0,125, 320, 0.8)];
+//    [seperate setBackgroundColor:[UIColor colorWithRed:230.0/255.0 green:230.0/255.0 blue:230.0/255.0 alpha:1]];
+//    [_scrollView addSubview:seperate];
     [self.view addSubview:_scrollView];
 }
 
@@ -286,11 +285,11 @@
     NSUInteger row = [indexPath row];
     NSLog(@"Table Row = %ld",row);
   
-     cellXD = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-     cellXD.selectionStyle = UITableViewCellSelectionStyleNone;
+     scheduleCell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+     scheduleCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     [self scheduleBoard:row];
-    return cellXD;
+    return scheduleCell;
   
 }
 
@@ -307,6 +306,8 @@
         arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
         departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
         scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+        [scheduleCell.IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
+
      
     }
     else{
@@ -319,41 +320,38 @@
         arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
         departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
         scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
+         [scheduleCell.IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
      }
     
-    [cellXD.IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-    [cellXD.flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
+   
+    [scheduleCell.flightID setText:[NSString stringWithFormat:@"%@", [GetSchedule figureRegistration:airlineID number:flightNumber]]];
     NSRange delayNote = [arrivalRemark rangeOfString:@"DELAY" options:NSBackwardsSearch];
      NSRange changeNote = [arrivalRemark rangeOfString:@"SCHEDULE CHANGE" options:NSBackwardsSearch];
      NSRange cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
-    cellXD.ManuLabel.numberOfLines = 0;
-    cellXD.ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    [cellXD.ManuLabel setFont:[UIFont systemFontOfSize:16]];
+    scheduleCell.ManuLabel.numberOfLines = 0;
+    scheduleCell.ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    [scheduleCell.ManuLabel setFont:[UIFont systemFontOfSize:16]];
     if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
-        [cellXD.ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
-        cellXD.backgroundColor = [[UIColor alloc]initWithRed:240.0/255.0 green:200.0/255.0 blue:70.0/255.0 alpha:0.8];
+        [scheduleCell.ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
+        scheduleCell.backgroundColor = [[UIColor alloc]initWithRed:240.0/255.0 green:200.0/255.0 blue:70.0/255.0 alpha:0.8];
+        [self warningMessage:[[GetSchedule figureRegistration:airlineID number:flightNumber] stringByAppendingString:arrivalRemark]];
     }
     else{
-        [cellXD.ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
+        [scheduleCell.ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
+       
     }
     
-    [cellXD.ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+    [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
 
 }
 
 #pragma mark Warning message when get failure
--(void)warningMessage:(NSString *)from{
-    NSString *failTitle;
-    NSString *failTimes;
-    failTime++;
-    if([from isEqualToString:@"vol"]){
-        failAlert = [UIAlertController alertControllerWithTitle:@"ATTENTION!!" message:@"You volume value is Min/Max value" preferredStyle:UIAlertControllerStyleAlert];
+-(void)warningMessage:(NSString *)msg{
+    UIAlertController *failAlert = [[UIAlertController alloc]init];
+    if([msg length] > 0){
+        failAlert = [UIAlertController alertControllerWithTitle:@"注意" message:msg preferredStyle:UIAlertControllerStyleAlert];
     }
-    else{
-        failTitle = [NSString stringWithFormat:@" %@ WARNING",from];
-        failTimes = [NSString stringWithFormat:@"Total fail time is %d",failTime];
-        failAlert = [UIAlertController alertControllerWithTitle:failTitle message:failTimes preferredStyle:UIAlertControllerStyleAlert];
-    }
+
     UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleCancel handler:^(UIAlertAction *cancel){
     }];
     [failAlert addAction:confirm];
@@ -467,7 +465,11 @@
 #pragma mark 新的
 
 
-
+    
+-(void)xdgc{
+  
+    
+}
 
 
 @end
