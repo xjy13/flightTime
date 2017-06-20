@@ -13,9 +13,8 @@
 
 #define locationURL @"https://opensky-network.org/api/states/all"
 #define arrivalURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?%24filter=FlightDate%20eq%20"
-#define arrival_new @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival?$filter=hour(ScheduleArrivalTime)%20ge%20"
-
-#define departure_new @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure?$filter=hour(ScheduleDepartureTime)%20ge%20"
+#define arrival_new @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?$filter=time(ScheduleArrivalTime)%20ge%20"
+#define departure_new @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?$filter=time(ScheduleDepartureTime)%20ge%20"
 #define airportInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airport"
 #define flightInfo @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline"
 #define hahaha @"AIzaSyCKer63TbIOPLbmlNLCamBdUB3ZZFoYvs0"

@@ -62,11 +62,15 @@ static GetSchedule *_instance = nil;
     NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:nowDate];
    
     //http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival?$filter=hour(ScheduleArrivalTime)%20ge%2016&$orderby=ScheduleArrivalTime%20asc&$top=25&$format=JSON
-
-    NSString *frontURL = [arrival_new stringByAppendingString:[NSString stringWithFormat:@"%ld",[dateComponent hour]]];
-    NSString *backURL = @"&$orderby=ScheduleArrivalTime%20asc&$top=20&$format=JSON";
+    
+    NSString *dot = @"%3A";
+    NSString *frontURL = [arrival_new stringByAppendingString:[NSString stringWithFormat:@"%ld%@%ld",[dateComponent hour],dot,[dateComponent minute]]];
+    NSLog(@"frontURL = %@",frontURL);
+    NSString *backURL = @"&$top=20&$format=JSON";
     NSString *filterURL = [NSString stringWithFormat:@"%@%@",frontURL,backURL];
     NSLog(@"URL current Time = %@",filterURL);
+
+    
     return  filterURL;
 }
 
@@ -95,13 +99,16 @@ static GetSchedule *_instance = nil;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
-    // [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *nowDate = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:nowDate];
-    
-    NSString *frontURL = [departure_new stringByAppendingString:[NSString stringWithFormat:@"%ld",[dateComponent hour]]];
-    NSString *backURL = @"&$orderby=ScheduleDepartureTime%20asc&$top=20&$format=JSON";
+    NSLog(@"dateXD = %@",dateComponent);
+    // http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?$filter=time(ScheduleArrivalTime)%20ge%2018%3A36&$top=20&$format=JSON
+    NSString *dot = @"%3A";
+    NSString *frontURL = [departure_new stringByAppendingString:[NSString stringWithFormat:@"%ld%@%ld",[dateComponent hour],dot,[dateComponent minute]]];
+    NSLog(@"frontURL = %@",frontURL);
+    NSString *backURL = @"&$top=20&$format=JSON";
     NSString *filterURL = [NSString stringWithFormat:@"%@%@",frontURL,backURL];
     NSLog(@"URL current Time = %@",filterURL);
     return  filterURL;

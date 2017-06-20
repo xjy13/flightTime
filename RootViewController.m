@@ -1,6 +1,5 @@
 
 #import "RootViewController.h"
-#import "EADSessionController.h"
 #import <ExternalAccessory/ExternalAccessory.h>
 #import <MediaPlayer/MPVolumeView.h>
 #import <MediaPlayer/MPMusicPlayerController.h>
@@ -146,21 +145,21 @@
  
 }
 
--(NSString *)currentDateDeparture{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSDate *nowDate = [NSDate date];
-    NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
-    NSString *topCountString = @"&%24top=6&%24format=JSON";
-    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
-    
-    NSString *departureDate = [departureURL stringByAppendingString:filter];
-    NSLog(@"[departure] new format Date = %@",departureDate);
-    return  departureDate;
-
-}
+//-(NSString *)currentDateDeparture{
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+//    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
+//    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+//    NSDate *nowDate = [NSDate date];
+//    NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
+//    NSString *topCountString = @"&%24top=6&%24format=JSON";
+//    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
+//    
+//    NSString *departureDate = [departureURL stringByAppendingString:filter];
+//    NSLog(@"[departure] new format Date = %@",departureDate);
+//    return  departureDate;
+//
+//}
 
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -254,8 +253,22 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
       return [self.arrivalArray count];
-    
+   
 }
+
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+//    UIView *footer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, , 10)];
+//    footer.backgroundColor = [UIColor clearColor];
+//    
+//    UILabel *lbl = [[UILabel alloc]initWithFrame:footer.frame];
+//    lbl.backgroundColor = [UIColor clearColor];
+//    lbl.text = @"下面還有喔";
+//    lbl.textAlignment = NSTextAlignmentCenter;
+//    [footer addSubview:lbl];
+//    
+//    return footer;
+//}
+
 
 
 //分割線補滿
@@ -311,6 +324,23 @@
      
     }
     else{
+        
+        /*
+         "FlightDate": "2017-06-19",
+         "FlightNumber": "809",
+         "AirlineID": "BR",
+         "DepartureAirportID": "TPE",
+         "ArrivalAirportID": "HKG",
+         "ScheduleDepartureTime": "2017-06-19T19:00",
+         "ActualDepartureTime": "2017-06-19T19:04",
+         "EstimatedDepartureTime": "2017-06-19T19:04",
+         "DepartureRemark": "出發DEPARTED",
+         "Terminal": "2",
+         "Gate": "C5R",
+         "CheckCounter": "12",
+         "UpdateTime": "2017-06-20T19:04:45+08:00"
+         */
+        
         //離境的
         [_airportArray removeAllObjects];
         [_departureArray addObjectsFromArray:[GetSchedule jsonDepature:@"cellView"]];
@@ -347,15 +377,19 @@
 
 #pragma mark Warning message when get failure
 -(void)warningMessage:(NSString *)msg{
-    UIAlertController *failAlert = [[UIAlertController alloc]init];
+    UIAlertController *alertMsg = [[UIAlertController alloc]init];
     if([msg length] > 0){
-        failAlert = [UIAlertController alertControllerWithTitle:@"注意" message:msg preferredStyle:UIAlertControllerStyleAlert];
+        alertMsg = [UIAlertController alertControllerWithTitle:@"注意" message:msg preferredStyle:UIAlertControllerStyleAlert];
     }
 
-    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleCancel handler:^(UIAlertAction *cancel){
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"確認" style:UIAlertActionStyleCancel handler:^(UIAlertAction *cancel)
+    {
+        
     }];
-    [failAlert addAction:confirm];
-    [self presentViewController:failAlert animated:YES completion:nil];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    [alertMsg addAction:confirm];
+    [alertMsg addAction:cancel];
+    [self presentViewController:alertMsg animated:YES completion:nil];
 }
 
 
