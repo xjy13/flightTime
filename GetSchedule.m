@@ -17,7 +17,6 @@ NSMutableArray *routeArray;
 NSString *status;
 NSString *ticketCode;
 NSString *IATACodeCompelete;
-
 @implementation GetSchedule
 
 static GetSchedule *_instance = nil;
@@ -25,6 +24,7 @@ static GetSchedule *_instance = nil;
     dispatch_once_t oneCall;
     dispatch_once(&oneCall, ^{
         _instance = [[GetSchedule allocWithZone:NULL]init];
+      //  flightName = [[FlightInfoView alloc]init];
     });
     return _instance;
 
@@ -56,15 +56,13 @@ static GetSchedule *_instance = nil;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
-   // [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *nowDate = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:nowDate];
+    NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute|NSCalendarUnitSecond ) fromDate:nowDate];
    
-    //http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival?$filter=hour(ScheduleArrivalTime)%20ge%2016&$orderby=ScheduleArrivalTime%20asc&$top=25&$format=JSON
     
     NSString *dot = @"%3A";
-    NSString *frontURL = [arrival_new stringByAppendingString:[NSString stringWithFormat:@"%ld%@%ld",[dateComponent hour],dot,[dateComponent minute]]];
+    NSString *frontURL = [arrival_new stringByAppendingString:[NSString stringWithFormat:@"%ld%@%ld%@%ld",[dateComponent hour],dot,[dateComponent minute],dot,[dateComponent second]]];
     NSLog(@"frontURL = %@",frontURL);
     NSString *backURL = @"&$top=20&$format=JSON";
     NSString *filterURL = [NSString stringWithFormat:@"%@%@",frontURL,backURL];
@@ -245,6 +243,7 @@ static GetSchedule *_instance = nil;
         NSLog(@"IATAcompelete 1 = %@",IATACodeCompelete);
         //return IATACodeCompelete;
         [self flightDestination:IATACodeCompelete];
+        [FlightInfoView getAirlineName:IATACodeCompelete];
     }
     else{
         NSLog(@"IATA code convert error = %@",err.description);

@@ -11,7 +11,7 @@
 #import "GetLocation.h"
 #import "Toast+UIView.h"
 #import "FlightInfoView.h"
-@interface MapGoogle()<GMSMapViewDelegate,CLLocationManagerDelegate,UIPickerViewDelegate,UIPickerViewDataSource>{
+@interface MapGoogle()<GMSMapViewDelegate,CLLocationManagerDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>{
     
     
 }
@@ -60,29 +60,6 @@ FlightInfoView *extendView;
     
     [self.view addSubview:mapView_];
     // Creates a marker in the center of the map.
-        GMSMarker *marker = [[GMSMarker alloc] init];
-        marker.position = CLLocationCoordinate2DMake(25.0796514,121.2320283);
-        marker.snippet = @"TPE";
-        marker.icon = [UIImage imageNamed:@"airPort"];
-        marker.map = mapView_;
-    
-        GMSMarker *marker1 = [[GMSMarker alloc] init];
-        marker1.position = CLLocationCoordinate2DMake(25.067566,121.5505103);
-        marker1.snippet = @"TSA";
-        marker1.icon = [UIImage imageNamed:@"airPort"];
-        marker1.map = mapView_;
-    
-        GMSMarker *marker2 = [[GMSMarker alloc] init];
-        marker2.position = CLLocationCoordinate2DMake(22.5746339,120.3426181);
-        marker2.snippet = @"KHH";
-        marker2.icon = [UIImage imageNamed:@"airPort"];
-        marker2.map = mapView_;
-    
-        GMSMarker *marker4 = [[GMSMarker alloc] init];
-        marker4.position = CLLocationCoordinate2DMake(24.2595672,120.6243446);
-        marker4.snippet = @"RMQ";
-        marker4.icon = [UIImage imageNamed:@"airPort"];
-        marker4.map = mapView_;
     
     
     
@@ -122,8 +99,41 @@ FlightInfoView *extendView;
     
     self.cancelBtn.hidden = YES;
     
+    UITextField *txtField = [[UITextField alloc]initWithFrame:CGRectMake(30,400 ,self.view.frame.size.width-100 , 50)];
+    txtField.delegate = self;
+    txtField.borderStyle = UITextBorderStyleLine;
+    txtField.placeholder = @"輸入國家";
+    txtField.enabled = YES;
+    txtField.keyboardType = UIKeyboardTypeEmailAddress;
+    [self.view addSubview:txtField];
+}
+
+-(void)airportPoint{
+    GMSMarker *marker = [[GMSMarker alloc] init];
+    marker.position = CLLocationCoordinate2DMake(25.0796514,121.2320283);
+    marker.snippet = @"TPE";
+    marker.icon = [UIImage imageNamed:@"airPort"];
+    marker.map = mapView_;
     
+    GMSMarker *marker1 = [[GMSMarker alloc] init];
+    marker1.position = CLLocationCoordinate2DMake(25.067566,121.5505103);
+    marker1.snippet = @"TSA";
+    marker1.icon = [UIImage imageNamed:@"airPort"];
+    marker1.map = mapView_;
     
+    GMSMarker *marker2 = [[GMSMarker alloc] init];
+    marker2.position = CLLocationCoordinate2DMake(22.5746339,120.3426181);
+    marker2.snippet = @"KHH";
+    marker2.icon = [UIImage imageNamed:@"airPort"];
+    marker2.map = mapView_;
+    
+    GMSMarker *marker4 = [[GMSMarker alloc] init];
+    marker4.position = CLLocationCoordinate2DMake(24.2595672,120.6243446);
+    marker4.snippet = @"RMQ";
+    marker4.icon = [UIImage imageNamed:@"airPort"];
+    marker4.map = mapView_;
+
+
 }
 - (BOOL)canBecomeFirstResponder {
     
@@ -170,6 +180,52 @@ FlightInfoView *extendView;
         
     });
     
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    //textField:调用次方法的textField
+    NSLog(@"点击return 按钮时会执行的方法");
+    [textField resignFirstResponder];   //回收键盘
+    return YES;
+}
+// Had Begin Editing Action
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSLog(@"已经开始编辑文本框时执行的方法%@", textField.text);
+}
+// Had End Editing Action
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"已经结束编辑时执行的方法%@", textField.text);
+    [GetLocation jsonLocation:textField.text];
+}
+// will begin Editing Action
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    NSLog(@"将要开始编辑时执行的方法%@", textField.text);
+    //系统是否响应这个动作
+    return YES;
+}
+// Will End Editing Action
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    NSLog(@"将要结束编辑时执行的方法%@", textField.text);
+    return YES;
+}
+// Will Text Change Action
+-(BOOL)textField:(UITextField* )textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString* )string
+{
+    NSLog(@"将要被改变的范围:%ld, %ld", (long)range.location, (long)range.length);
+    NSLog(@"将要改变的文本：%@", string);
+    NSLog(@"%@", textField.text);
+    return YES;
+}
+// clear button Action
+-(BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    NSLog(@"将被清空时执行的方法%@", textField.text);
+    return YES;
 }
 
 
@@ -238,6 +294,7 @@ FlightInfoView *extendView;
     
     [mapView_ clear];
     // [self initalView];
+    [self airportPoint];
     loc = country.userInfo;
     NSString *longitude;
     NSString *latitude;
@@ -246,7 +303,7 @@ FlightInfoView *extendView;
     // NSLog(@"Get in MapGoogle = %@",[GetLocation jsonLocation]);
     NSMutableArray *point = [[NSMutableArray alloc] init];
     [point addObjectsFromArray:[GetLocation jsonLocation:loc]];
-    NSLog(@"point array count = %d",point.count);
+    NSLog(@"point array count = %ld",point.count);
    // NSLog(@"point array is =%@",point);  --->有需要再開 log有點大
     for (int i = 0 ; i < point.count ; i++){
         longitude = [[point objectAtIndex:i] objectAtIndex:5];
@@ -297,8 +354,6 @@ FlightInfoView *extendView;
      0,
      0
      
-     
-     
      */
     
     
@@ -314,10 +369,17 @@ FlightInfoView *extendView;
             [GetSchedule flightCodeConverter:@"CES2048"];
         }
         [GetSchedule flightCodeConverter:marker.snippet];
-      //  [GetSchedule flightDestination:IATACode];
         extendView.hidden = NO;
         [self.view addSubview:extendView];
         isClick = true;
+//        if(isClick == true){
+//            dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20*NSEC_PER_SEC));
+//            dispatch_after(delay, dispatch_get_main_queue(), ^{
+//                extendView.hidden = YES;
+//            });
+//        
+//        
+//        }
     }
     else{
         extendView.hidden = YES;

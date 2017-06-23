@@ -21,4 +21,6 @@
 #define flight_info @"https://iatacodes.org/api/v6/routes?api_key=ff2ef22c-068a-47ba-805a-572ccf772056&flight_number="
 #define flightcodeConverter @"http://ptx.transportdata.tw/MOTC/v2/Air/Airline?$filter=AirlineICAO%20eq%20"
 #define departureURL @"http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Departure/TPE?%24filter=FlightDate%20eq%20"
+
+#define weatherCurrent @"https://api.apixu.com/v1/current.json?key=90a2b7d0978d462eafb32459172306&q="
 //#define cellIdentifier @"scheduleCell";

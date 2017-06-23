@@ -12,10 +12,12 @@
 #import "GetSchedule.h"
 NSString *departureSite;
 NSString *arrivalSite;
+NSString *airlineCode;
 @implementation FlightInfoView
 
 
 +(void)getRouteArray:(NSMutableArray *)array{
+   
     NSMutableArray *rounteArray = [[NSMutableArray alloc]init];
     [rounteArray addObjectsFromArray:array];
     departureSite = [NSString stringWithFormat:@"%@",[[rounteArray objectAtIndex:0] objectForKey:@"departure"]];
@@ -30,20 +32,25 @@ NSString *arrivalSite;
    
 }
 
++(void)getAirlineName:(NSString *)name{
+    airlineCode = name;
+    
+}
+
 -(instancetype)initWithFrame:(CGRect)frame
 {
+    
     self = [super initWithFrame:frame];
     if (self) {
         self = [[[NSBundle mainBundle]loadNibNamed:@"FlightInfoView" owner:self options:nil]lastObject];
         self.frame = frame;
         
-       // UILabel *title3 = [[UILabel alloc]initWithFrame:CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)]
         
-        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5*NSEC_PER_SEC));
+        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1*NSEC_PER_SEC));
         dispatch_after(delayTime, dispatch_get_main_queue(), ^{
             [self.title setText:[NSString stringWithFormat:@"出發：%@",departureSite]];
             [self.title2 setText:[NSString stringWithFormat:@"抵達：%@",arrivalSite]];
-        
+            [self.title3 setText:[NSString stringWithFormat:@"%@", airlineCode]];
         });
         
         [self.title setFont:[UIFont systemFontOfSize:13]];
@@ -54,8 +61,12 @@ NSString *arrivalSite;
         [self.title2 setTextColor:[UIColor blackColor]];
         
         
-        NSLog(@"小圖示XDDD");
+        [self.title3 setFont:[UIFont systemFontOfSize:13]];
+        [self.title3 setTextColor:[UIColor blackColor]];
+
         
+        NSLog(@"小圖示XDDD");
+               
     }
     return self;
 }

@@ -9,8 +9,8 @@
 #import "Toast+UIView.h"
 #import "GetLocation.h"
 #import "MapGoogle.h"
-
-
+#import "GetWeather.h"
+#import "WeatherSign.h"
 @interface RootViewController(){
 
     
@@ -45,9 +45,9 @@
     UILabel *hardkeyCounter_play;
     UILabel *hardkeyCounter_pause;
     
-    BOOL pause_test;
-    BOOL enterBackgound;
-    BOOL enterFront;
+//    BOOL pause_test;
+//    BOOL enterBackgound;
+//    BOOL enterFront;
     BOOL isConnect;
     BOOL isArrival;
     NSURL* url_music;
@@ -64,6 +64,7 @@
     MBProgressHUD *hudView;
     GetSchedule *Get;
     ScheduleTableCell *scheduleCell;
+    WeatherSign *weatherSign;
 }
 @end
 
@@ -79,8 +80,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     // [[GetLocation shareInstance]jsonLocation];
-   // [GetLocation jsonLocation];
     hudView.delegate = self;
     hudView = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:hudView];
@@ -98,7 +97,8 @@
    
     flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
     [flightSchedule fire];
-    [self xdgc];
+  
+    
     
 }
 
@@ -133,7 +133,7 @@
 //    [seperate setBackgroundColor:[UIColor colorWithRed:230.0/255.0 green:230.0/255.0 blue:230.0/255.0 alpha:1]];
 //    [_scrollView addSubview:seperate];
     [self.view addSubview:_scrollView];
-}
+  }
 
 
 #pragma mark delegate use
@@ -144,22 +144,6 @@
     NSLog(@"at rootView departure = %@ ", _departureArray);
  
 }
-
-//-(NSString *)currentDateDeparture{
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-//    [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
-//    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-//    NSDate *nowDate = [NSDate date];
-//    NSString *currentDateString = [dateFormatter stringFromDate:nowDate];
-//    NSString *topCountString = @"&%24top=6&%24format=JSON";
-//    NSString *filter = [NSString stringWithFormat:@"%@%@",currentDateString,topCountString];
-//    
-//    NSString *departureDate = [departureURL stringByAppendingString:filter];
-//    NSLog(@"[departure] new format Date = %@",departureDate);
-//    return  departureDate;
-//
-//}
 
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -177,25 +161,25 @@
 #pragma mark initial UI
 -(void)initView{
     
-    vol = [[UILabel alloc]initWithFrame:CGRectMake(260, 25, 110, 20)];
-    [vol setFont:[UIFont systemFontOfSize:14]];
-    [vol setTextColor:[UIColor blackColor]];
-    [vol setText:[NSString stringWithFormat:@"VOL:%.0f",volValue*100]];
-    [_scrollView addSubview:vol];
+//    vol = [[UILabel alloc]initWithFrame:CGRectMake(260, 25, 110, 20)];
+//    [vol setFont:[UIFont systemFontOfSize:14]];
+//    [vol setTextColor:[UIColor blackColor]];
+//    [vol setText:[NSString stringWithFormat:@"VOL:%.0f",volValue*100]];
+//    [_scrollView addSubview:vol];
     
-    volmeUp_label = [[UILabel alloc]initWithFrame:CGRectMake(counter.frame.origin.x, counter.frame.origin.y+25, 130, 20)];
-    [volmeUp_label setFont:[UIFont systemFontOfSize:15]];
-    [volmeUp_label setTextColor:[UIColor blackColor]];
+//    volmeUp_label = [[UILabel alloc]initWithFrame:CGRectMake(counter.frame.origin.x, counter.frame.origin.y+25, 130, 20)];
+//    [volmeUp_label setFont:[UIFont systemFontOfSize:15]];
+//    [volmeUp_label setTextColor:[UIColor blackColor]];
     
     
-    volumDown_label = [[UILabel alloc]initWithFrame:CGRectMake(vol.frame.origin.x, vol.frame.origin.y+25, 135, 20)];
-    [volumDown_label setFont:[UIFont systemFontOfSize:15]];
-    [volumDown_label setTextColor:[UIColor blackColor]];
+//    volumDown_label = [[UILabel alloc]initWithFrame:CGRectMake(vol.frame.origin.x, vol.frame.origin.y+25, 135, 20)];
+//    [volumDown_label setFont:[UIFont systemFontOfSize:15]];
+//    [volumDown_label setTextColor:[UIColor blackColor]];
     
-    [volumeView reloadInputViews];
-    volumeView = [[MPVolumeView alloc] init];
-    [volumeView setFrame:CGRectMake(60, 25, 190.0, 20.0)];
-    [_scrollView addSubview:volumeView];
+//    [volumeView reloadInputViews];
+//    volumeView = [[MPVolumeView alloc] init];
+//    [volumeView setFrame:CGRectMake(60, 25, 190.0, 20.0)];
+//    [_scrollView addSubview:volumeView];
     
     _refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _refreshBtn = [[UIButton alloc]initWithFrame:CGRectMake(270,30, 28, 28)];
@@ -224,6 +208,11 @@
     [_departureBtn addTarget:self action:@selector(departureTable:) forControlEvents:UIControlEventTouchUpInside];
     [_departureBtn setTitle:@"Departure" forState:UIControlStateNormal];
     [_scrollView addSubview:_departureBtn];
+//    
+    weatherSign = [[WeatherSign alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
+  
+    [_scrollView addSubview:weatherSign];
+
 
 }
 
@@ -499,11 +488,7 @@
 #pragma mark 新的
 
 
-    
--(void)xdgc{
-  
-    
-}
+
 
 
 @end

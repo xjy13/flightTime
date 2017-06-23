@@ -13,6 +13,9 @@
 		043EADC11E8D306A001BC635 /* place.png in Resources */ = {isa = PBXBuildFile; fileRef = 043EADC01E8D306A001BC635 /* place.png */; };
 		0448F3D31D2E474C00FF90DB /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 0448F3D21D2E474C00FF90DB /* warning.png */; };
 		0448F55A1E6DC38100944D93 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448F5591E6DC38100944D93 /* MapKit.framework */; };
+		044C426C1EFCA9AF00672B05 /* GetWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 044C426B1EFCA9AF00672B05 /* GetWeather.m */; };
+		044C42701EFCFFE000672B05 /* WeatherSign.m in Sources */ = {isa = PBXBuildFile; fileRef = 044C426F1EFCFFE000672B05 /* WeatherSign.m */; };
+		044C42721EFD037C00672B05 /* WeatherSign.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044C42711EFD037C00672B05 /* WeatherSign.xib */; };
 		044ECEE71D2D01180073DA60 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 044ECEE61D2D01180073DA60 /* back.png */; };
 		044ECEE91D2D01420073DA60 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044ECEE81D2D01420073DA60 /* Storyboard.storyboard */; };
 		045AEECB1D65EA7D0065CAE7 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 045AEECA1D65EA7D0065CAE7 /* refresh.png */; };
@@ -63,6 +66,11 @@
 		043EADC01E8D306A001BC635 /* place.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = place.png; sourceTree = "<group>"; };
 		0448F3D21D2E474C00FF90DB /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
 		0448F5591E6DC38100944D93 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		044C426B1EFCA9AF00672B05 /* GetWeather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetWeather.m; sourceTree = "<group>"; };
+		044C426D1EFCDAA900672B05 /* GetWeather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetWeather.h; sourceTree = "<group>"; };
+		044C426E1EFCFFCF00672B05 /* WeatherSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherSign.h; sourceTree = "<group>"; };
+		044C426F1EFCFFE000672B05 /* WeatherSign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherSign.m; sourceTree = "<group>"; };
+		044C42711EFD037C00672B05 /* WeatherSign.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeatherSign.xib; sourceTree = "<group>"; };
 		044ECEE61D2D01180073DA60 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		044ECEE81D2D01420073DA60 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		045AEECA1D65EA7D0065CAE7 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
@@ -143,6 +151,8 @@
 				0498058F1DC2FC6700C42C5F /* GetSchedule.m */,
 				0422FF861E4A32F500F6F867 /* GetLocation.h */,
 				0422FF871E4A330700F6F867 /* GetLocation.m */,
+				044C426D1EFCDAA900672B05 /* GetWeather.h */,
+				044C426B1EFCA9AF00672B05 /* GetWeather.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -160,6 +170,9 @@
 				04D243321EDFC28800C461B5 /* ScheduleTableCell.h */,
 				04D243331EDFC2A500C461B5 /* ScheduleTableCell.m */,
 				04D243351EDFC5D700C461B5 /* SchduleTableCell.xib */,
+				044C426E1EFCFFCF00672B05 /* WeatherSign.h */,
+				044C426F1EFCFFE000672B05 /* WeatherSign.m */,
+				044C42711EFD037C00672B05 /* WeatherSign.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -334,6 +347,7 @@
 				045AEECB1D65EA7D0065CAE7 /* refresh.png in Resources */,
 				309BCA6E11DB0A0E000B4574 /* Icon-Small-50.png in Resources */,
 				309BCA6F11DB0A0E000B4574 /* Icon-Small.png in Resources */,
+				044C42721EFD037C00672B05 /* WeatherSign.xib in Resources */,
 				04A0234A1D2662A7002C989D /* play.png in Resources */,
 				044ECEE71D2D01180073DA60 /* back.png in Resources */,
 				04D243311EDE59F600C461B5 /* close.png in Resources */,
@@ -407,10 +421,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0422FF881E4A330700F6F867 /* GetLocation.m in Sources */,
+				044C42701EFCFFE000672B05 /* WeatherSign.m in Sources */,
 				04F808E01E70FC45002B9B2F /* MapGoogle.m in Sources */,
 				04C5706D1DA6848A0097DA3A /* Toast+UIView.m in Sources */,
 				045FCF431EA22D6E004C3958 /* FlightInfoView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				044C426C1EFCA9AF00672B05 /* GetWeather.m in Sources */,
 				04D243341EDFC2A500C461B5 /* ScheduleTableCell.m in Sources */,
 				C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */,
 				04A42CCC1DDA234B00A769FB /* FlightTimeDelegate.m in Sources */,
