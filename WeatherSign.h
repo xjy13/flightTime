@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIkit.h>
+
 @interface WeatherSign:UIView
 @property(retain,nonatomic)IBOutlet UILabel *cityName;
 @property(retain,nonatomic)IBOutlet UILabel *weatherInfo;
 @property(retain,nonatomic)IBOutlet UIImageView *weatherImg;
++(void)loc:(NSString *)XD;
 @end

@@ -64,7 +64,8 @@
     MBProgressHUD *hudView;
     GetSchedule *Get;
     ScheduleTableCell *scheduleCell;
-    WeatherSign *weatherSign;
+    WeatherSign *weatherSign_1;
+    WeatherSign *weatherSign_2;
 }
 @end
 
@@ -208,11 +209,20 @@
     [_departureBtn addTarget:self action:@selector(departureTable:) forControlEvents:UIControlEventTouchUpInside];
     [_departureBtn setTitle:@"Departure" forState:UIControlStateNormal];
     [_scrollView addSubview:_departureBtn];
-//    
-    weatherSign = [[WeatherSign alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
-  
-    [_scrollView addSubview:weatherSign];
+//
+    dispatch_queue_t getWeatherQueue = dispatch_queue_create("weatherQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_sync(getWeatherQueue, ^{
+        [WeatherSign loc:@"Taipei"];
+        weatherSign_1 = [[WeatherSign alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, 80)];
+        [WeatherSign loc:@"New%20York"];
+        weatherSign_2 = [[WeatherSign alloc]initWithFrame:CGRectMake(160,0, self.view.frame.size.width/2, 80)];
+        [_scrollView addSubview:weatherSign_1];
+        
+        [_scrollView addSubview:weatherSign_2];
 
+        
+    });
+  
 
 }
 
