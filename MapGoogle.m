@@ -198,7 +198,12 @@ FlightInfoView *extendView;
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSLog(@"已经结束编辑时执行的方法%@", textField.text);
-    [GetLocation jsonLocation:textField.text];
+   // [GetLocation jsonLocation:textField.text];
+    
+    refreshRoute = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(realTime:) userInfo:textField.text repeats:YES];
+    [refreshRoute fire];
+
+    
 }
 // will begin Editing Action
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField

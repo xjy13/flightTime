@@ -27,18 +27,18 @@ NSString *location;
     NSMutableArray *weatherArray = [[NSMutableArray alloc]init];
     weatherArray = [NSMutableArray array];
     [weatherArray addObject:[GetWeather getWeather:location]];
-    NSLog(@"XDDDDD1 = %@",[weatherArray objectAtIndex:0]);
+ //   NSLog(@"XDDDDD1 = %@",[weatherArray objectAtIndex:0]);
 //    NSLog(@"XDDDDD2 = %@",[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"temp_c"] );
 //    NSLog(@"XDDDDD3 = %@",[[[weatherArray objectAtIndex:0]objectForKey:@"location"] objectForKey:@"name"]);
 //    NSLog(@"XDDDDD4img = %@",[[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"condition"] objectForKey:@"icon"] );
     city = [[[weatherArray objectAtIndex:0]objectForKey:@"location"] objectForKey:@"name"];
-    degree = [NSString stringWithFormat:@"%@ºC / %@ºF",[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"temp_c"],[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"temp_f"]];
+    degree = [NSString stringWithFormat:@"%.0fºC / %.0fºF", [[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"temp_c"] floatValue], [[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"temp_f"] floatValue]];
     NSString *imgURL = [@"https:" stringByAppendingString:[[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"condition"] objectForKey:@"icon"]];
     img = [[UIImage alloc]init];
     img= [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
     isDay = [NSString stringWithFormat:@"%@",[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"is_day"]] ;
     
-    
+  ;
 }
 
 -(instancetype)initWithFrame:(CGRect)frame

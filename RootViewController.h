@@ -2,14 +2,12 @@
 #import <ExternalAccessory/ExternalAccessory.h>
 
 //add for 20160712
-#import <MediaPlayer/MPVolumeView.h>
-#import <MediaPlayer/MPMusicPlayerController.h>
-#import <AVFoundation/AVFoundation.h>
-#import <MediaPlayer/MPRemoteCommandCenter.h>
+
 #import "FlightTimeDelegate.h"
 #import "MBProgressHUD.h"
 #import "GetSchedule.h"
 #import "ScheduleTableCell.h"
+#import <MapKit/MapKit.h>
 @class RootViewController;
 
 //他是老闆要叫getschedule這個class幫忙做事
@@ -21,17 +19,8 @@
 
 
 
-@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate,MBProgressHUDDelegate,ScheduleCellDelegate> {
-    
-    
-    //add for 20160712
-    AVAudioPlayer *audioPlayer;
-    AVAudioPlayer *recordPlayer;
-    AVAudioRecorder *audioRecoder;
-    AVAudioSession *audioSession;
-    MPRemoteCommandCenter *commandCenter;
-    
-}
+@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,MBProgressHUDDelegate,ScheduleCellDelegate,CLLocationManagerDelegate>
+
 //@property(nonatomic,assign) id<rootDelegate>rootdelegate;
 @property(nonatomic,retain)UITableView *tableView;
 @property(nonatomic,strong)UIScrollView *scrollView;

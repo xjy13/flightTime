@@ -1,10 +1,6 @@
 
 #import "RootViewController.h"
 #import <ExternalAccessory/ExternalAccessory.h>
-#import <MediaPlayer/MPVolumeView.h>
-#import <MediaPlayer/MPMusicPlayerController.h>
-#import <AVFoundation/AVFoundation.h>
-#import <MediaPlayer/MPRemoteCommandEvent.h>
 #import "FlightTimeDelegate.h"
 #import "Toast+UIView.h"
 #import "GetLocation.h"
@@ -45,16 +41,10 @@
     UILabel *hardkeyCounter_play;
     UILabel *hardkeyCounter_pause;
     
-//    BOOL pause_test;
-//    BOOL enterBackgound;
-//    BOOL enterFront;
     BOOL isConnect;
     BOOL isArrival;
     NSURL* url_music;
     NSURL *recordPath;
-    
-    MPVolumeView *volumeView;
-    NSUserDefaults *volumeValueBefore;
     
     
     NSString *recordRate;
@@ -210,19 +200,8 @@
     [_departureBtn setTitle:@"Departure" forState:UIControlStateNormal];
     [_scrollView addSubview:_departureBtn];
 //
-    dispatch_queue_t getWeatherQueue = dispatch_queue_create("weatherQueue", DISPATCH_QUEUE_SERIAL);
-    dispatch_sync(getWeatherQueue, ^{
-        [WeatherSign loc:@"Taipei"];
-        weatherSign_1 = [[WeatherSign alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, 80)];
-        [WeatherSign loc:@"New%20York"];
-        weatherSign_2 = [[WeatherSign alloc]initWithFrame:CGRectMake(160,0, self.view.frame.size.width/2, 80)];
-        [_scrollView addSubview:weatherSign_1];
-        
-        [_scrollView addSubview:weatherSign_2];
-
-        
-    });
-  
+    [self weatherSignShow];
+    
 
 }
 
@@ -392,43 +371,6 @@
 }
 
 
-//-(void)enterToFront{
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(toFront:) name:UIApplicationWillEnterForegroundNotification object:nil];
-//    
-//}
-//-(void)toFront:(NSNotification *)noti{
-//    if(!enterFront){
-//     //   [self setupTestEnvironment];
-//        [self refreshTable];
-//        [self enterToBackground];
-//       // [flightSchedule fire];
-//        enterBackgound = false;
-//    }
-//}
-
-
-//-(void)enterToBackground{
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterToBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-//    
-//}
-
-//-(void)enterToBackground:(NSNotification *)nofi{
-//    if(!enterBackgound){
-//        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1*NSEC_PER_MSEC));
-//        dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
-//           // [self uninstallSetup];
-//            [flightSchedule invalidate];
-//            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(receive_harkeyCmd:) object:nil];
-//            NSLog(@"really go to background!!");
-//        });
-//        
-//        enterBackgound = true;
-//        enterFront = false;
-//    }
-//    
-//}
-
-
 // refresh schedule
 -(void)refreshTable:(UIButton *)btn {
     NSLog(@"refresh schedule");
@@ -494,7 +436,31 @@
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
 }
 
+-(void)weatherSignShow{
 
+    CLLocationManager *locationCurrent = [[CLLocationManager alloc]init];
+    locationCurrent.delegate = self;
+    locationCurrent.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    float currentLatitude = locationCurrent.location.coordinate.latitude;
+    float currentLongitude = locationCurrent.location.coordinate.longitude;
+    
+    
+    
+    dispatch_queue_t getWeatherQueue = dispatch_queue_create("weatherQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_sync(getWeatherQueue, ^{
+        [WeatherSign loc:[NSString stringWithFormat:@"%f,%f",currentLatitude,currentLongitude]];
+        weatherSign_1 = [[WeatherSign alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, 80)];
+        [WeatherSign loc:@"New%20York"];
+        weatherSign_2 = [[WeatherSign alloc]initWithFrame:CGRectMake(160,0, self.view.frame.size.width/2, 80)];
+        [_scrollView addSubview:weatherSign_1];
+        
+        [_scrollView addSubview:weatherSign_2];
+        
+        
+    });
+
+
+}
 #pragma mark 新的
 
 
