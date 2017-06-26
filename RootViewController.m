@@ -456,7 +456,7 @@
         float currentLongitude = locationCurrent.location.coordinate.longitude;
         [WeatherSign loc:[NSString stringWithFormat:@"%.2f,%.2f",currentLatitude,currentLongitude]];
         [weatherSign_1 removeFromSuperview];
-        weatherSign_1 = [[WeatherSign alloc]initWithFrame:CGRectMake(-1, 0, self.view.frame.size.width/2, 80)];
+        weatherSign_1 = [[WeatherSign alloc]initWithFrame:CGRectMake(0.5, 0, self.view.frame.size.width/2, 80)];
         [_scrollView addSubview:weatherSign_1];
     
     });
@@ -466,7 +466,7 @@
      
         [WeatherSign loc:iataCode];
         [weatherSign_2 removeFromSuperview];
-        weatherSign_2 = [[WeatherSign alloc]initWithFrame:CGRectMake(161,0, self.view.frame.size.width/2, 80)];
+        weatherSign_2 = [[WeatherSign alloc]initWithFrame:CGRectMake(160.5,0, self.view.frame.size.width/2, 80)];
         [_scrollView addSubview:weatherSign_2];
         
         

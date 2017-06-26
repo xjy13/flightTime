@@ -15,6 +15,7 @@ NSString *degree;
 NSString *isDay;
 UIImage *img;
 NSString *location;
+NSString *condition;
 @implementation WeatherSign
 
 +(void)loc:(NSString *)XD{
@@ -27,7 +28,7 @@ NSString *location;
     NSMutableArray *weatherArray = [[NSMutableArray alloc]init];
     weatherArray = [NSMutableArray array];
     [weatherArray addObject:[GetWeather getWeather:location]];
- //   NSLog(@"XDDDDD1 = %@",[weatherArray objectAtIndex:0]);
+    NSLog(@"XDDDDD1 = %@",[weatherArray objectAtIndex:0]);
 //    NSLog(@"XDDDDD2 = %@",[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"temp_c"] );
 //    NSLog(@"XDDDDD3 = %@",[[[weatherArray objectAtIndex:0]objectForKey:@"location"] objectForKey:@"name"]);
 //    NSLog(@"XDDDDD4img = %@",[[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"condition"] objectForKey:@"icon"] );
@@ -38,7 +39,7 @@ NSString *location;
     img= [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
     isDay = [NSString stringWithFormat:@"%@",[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"is_day"]] ;
     
-  ;
+    condition = [NSString stringWithFormat:@"%@",[[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"condition"] objectForKey:@"text"]];;
 }
 
 -(instancetype)initWithFrame:(CGRect)frame
@@ -61,6 +62,7 @@ NSString *location;
             [self.cityName setTextColor:[UIColor whiteColor]];
             [self.weatherInfo setTextColor:[UIColor whiteColor]];
         }
+        [self.conditionLabel setText:condition];
     }
     return self;
 }
