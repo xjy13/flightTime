@@ -7,6 +7,7 @@
 #import "MapGoogle.h"
 #import "GetWeather.h"
 #import "WeatherSign.h"
+
 @interface RootViewController(){
 
     
@@ -28,7 +29,7 @@
     UILabel *IDLabel_D;
     
     UIImageView *warningSign;
-    UIGestureRecognizer *tapAction;
+    UITapGestureRecognizer *tapAction;
     
 
 
@@ -152,26 +153,6 @@
 #pragma mark initial UI
 -(void)initView{
     
-//    vol = [[UILabel alloc]initWithFrame:CGRectMake(260, 25, 110, 20)];
-//    [vol setFont:[UIFont systemFontOfSize:14]];
-//    [vol setTextColor:[UIColor blackColor]];
-//    [vol setText:[NSString stringWithFormat:@"VOL:%.0f",volValue*100]];
-//    [_scrollView addSubview:vol];
-    
-//    volmeUp_label = [[UILabel alloc]initWithFrame:CGRectMake(counter.frame.origin.x, counter.frame.origin.y+25, 130, 20)];
-//    [volmeUp_label setFont:[UIFont systemFontOfSize:15]];
-//    [volmeUp_label setTextColor:[UIColor blackColor]];
-    
-    
-//    volumDown_label = [[UILabel alloc]initWithFrame:CGRectMake(vol.frame.origin.x, vol.frame.origin.y+25, 135, 20)];
-//    [volumDown_label setFont:[UIFont systemFontOfSize:15]];
-//    [volumDown_label setTextColor:[UIColor blackColor]];
-    
-//    [volumeView reloadInputViews];
-//    volumeView = [[MPVolumeView alloc] init];
-//    [volumeView setFrame:CGRectMake(60, 25, 190.0, 20.0)];
-//    [_scrollView addSubview:volumeView];
-    
     _refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _refreshBtn = [[UIButton alloc]initWithFrame:CGRectMake(270,30, 28, 28)];
     [_refreshBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
@@ -199,8 +180,8 @@
     [_departureBtn addTarget:self action:@selector(departureTable:) forControlEvents:UIControlEventTouchUpInside];
     [_departureBtn setTitle:@"Departure" forState:UIControlStateNormal];
     [_scrollView addSubview:_departureBtn];
-//
-    [self weatherSignShow];
+
+    [self weatherSignShow:@"JFK"];
     
 
 }
@@ -289,7 +270,7 @@
 
     if(isArrival == true){
         //入境的
-        [_departureArray removeAllObjects];
+//        [_departureArray removeAllObjects];
         [_arrivalArray addObjectsFromArray:[GetSchedule jsonArrival:@"cellView"]];
         airlineID = [NSString stringWithFormat:@"%@",[[_arrivalArray objectAtIndex:row] objectForKey:@"AirlineID"]];
         
@@ -298,7 +279,9 @@
         departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
         scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
         [scheduleCell.IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
-
+        
+        
+        
      
     }
     else{
@@ -320,7 +303,7 @@
          */
         
         //離境的
-        [_airportArray removeAllObjects];
+//        [_airportArray removeAllObjects];
         [_departureArray addObjectsFromArray:[GetSchedule jsonDepature:@"cellView"]];
         airlineID = [[_departureArray objectAtIndex:row] objectForKey:@"AirlineID"];
         NSLog(@"departure ---> %@",airlineID);
@@ -350,6 +333,29 @@
     }
     
     [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+    
+    tapAction = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapFunction:)];
+    tapAction.numberOfTapsRequired = 1;
+    tapAction.numberOfTouchesRequired = 1;
+    scheduleCell.IDLabel.userInteractionEnabled = YES;
+    [scheduleCell.IDLabel addGestureRecognizer:tapAction];
+    scheduleCell.IDLabel.tag = row;
+
+
+}
+
+-(void)tapFunction:(UIGestureRecognizer *)gesture {
+    int i = (int)gesture.view.tag;
+    NSString *airport ;
+    if(isArrival == true){
+        airport =[NSString stringWithFormat:@"%@",[[_arrivalArray objectAtIndex:i] objectForKey:@"DepartureAirportID"]];
+    }
+    else{
+        airport =[NSString stringWithFormat:@"%@",[[_departureArray objectAtIndex:i] objectForKey:@"ArrivalAirportID"]];
+    }
+  
+    NSLog(@"i am in %d row  ---> %@",i,airport);
+    [self weatherSignShow:airport];
 
 }
 
@@ -380,7 +386,7 @@
     if(isArrival == true){
         _refreshBtn.userInteractionEnabled = NO;
         [self getSchdule_delegation];
-        
+       // [self weatherSignShow];
    //     [hudView setHidden:YES];
        //   [self.view makeToast:@"哈哈哈哈哈哈哈哈" duration:2.0 position:@"center"];
         
@@ -388,7 +394,7 @@
     }else{
       //  [self jsonDeparture];
     }
-    [hudView hide:YES afterDelay:20];
+    [hudView hide:YES afterDelay:5];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
 
@@ -397,8 +403,10 @@
     NSLog(@"refresh schedule");
     [self getSchdule_delegation];
     
+    
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+   // [self weatherSignShow:@"TPE"];
 }
 
 -(void)setToMapBtn:(UIButton *)btn{
@@ -436,24 +444,29 @@
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
 }
 
--(void)weatherSignShow{
+-(void)weatherSignShow:(NSString *)iataCode{
 
-    CLLocationManager *locationCurrent = [[CLLocationManager alloc]init];
-    locationCurrent.delegate = self;
-    locationCurrent.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    float currentLatitude = locationCurrent.location.coordinate.latitude;
-    float currentLongitude = locationCurrent.location.coordinate.longitude;
-    
-    
     
     dispatch_queue_t getWeatherQueue = dispatch_queue_create("weatherQueue", DISPATCH_QUEUE_SERIAL);
     dispatch_sync(getWeatherQueue, ^{
-        [WeatherSign loc:[NSString stringWithFormat:@"%f,%f",currentLatitude,currentLongitude]];
-        weatherSign_1 = [[WeatherSign alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, 80)];
-        [WeatherSign loc:@"New%20York"];
-        weatherSign_2 = [[WeatherSign alloc]initWithFrame:CGRectMake(160,0, self.view.frame.size.width/2, 80)];
+        CLLocationManager *locationCurrent = [[CLLocationManager alloc]init];
+        locationCurrent.delegate = self;
+        locationCurrent.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+        float currentLatitude = locationCurrent.location.coordinate.latitude;
+        float currentLongitude = locationCurrent.location.coordinate.longitude;
+        [WeatherSign loc:[NSString stringWithFormat:@"%.2f,%.2f",currentLatitude,currentLongitude]];
+        [weatherSign_1 removeFromSuperview];
+        weatherSign_1 = [[WeatherSign alloc]initWithFrame:CGRectMake(-1, 0, self.view.frame.size.width/2, 80)];
         [_scrollView addSubview:weatherSign_1];
-        
+    
+    });
+   
+   
+    dispatch_sync(getWeatherQueue, ^{
+     
+        [WeatherSign loc:iataCode];
+        [weatherSign_2 removeFromSuperview];
+        weatherSign_2 = [[WeatherSign alloc]initWithFrame:CGRectMake(161,0, self.view.frame.size.width/2, 80)];
         [_scrollView addSubview:weatherSign_2];
         
         

@@ -8,6 +8,7 @@
 #import "GetSchedule.h"
 #import "ScheduleTableCell.h"
 #import <MapKit/MapKit.h>
+#import <UIKit/UIKit.h>
 @class RootViewController;
 
 //他是老闆要叫getschedule這個class幫忙做事
@@ -19,7 +20,7 @@
 
 
 
-@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,MBProgressHUDDelegate,ScheduleCellDelegate,CLLocationManagerDelegate>
+@interface RootViewController : UIViewController <UIActionSheetDelegate,UITableViewDelegate,UIScrollViewDelegate,MBProgressHUDDelegate,ScheduleCellDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate>
 
 //@property(nonatomic,assign) id<rootDelegate>rootdelegate;
 @property(nonatomic,retain)UITableView *tableView;
