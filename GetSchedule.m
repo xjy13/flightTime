@@ -56,16 +56,27 @@ static GetSchedule *_instance = nil;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hant_TW"]];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Taipei"]];
+    [dateFormatter setDateFormat:@"YYYY-MM-dd"];
     NSDate *nowDate = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute|NSCalendarUnitSecond ) fromDate:nowDate];
+    NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour | NSCalendarUnitMinute|NSCalendarUnitSecond ) fromDate:nowDate];
    
-    
     NSString *dot = @"%3A";
     NSString *frontURL = [arrival_new stringByAppendingString:[NSString stringWithFormat:@"%ld%@%ld%@%ld",[dateComponent hour],dot,[dateComponent minute],dot,[dateComponent second]]];
     NSLog(@"frontURL = %@",frontURL);
-    NSString *backURL = @"&$top=20&$format=JSON";
-    NSString *filterURL = [NSString stringWithFormat:@"%@%@",frontURL,backURL];
+    NSString *month;
+    if([dateComponent month] >= 10){
+    
+        month = [NSString stringWithFormat:@"%ld",[dateComponent month]];
+    }
+    else{
+        month = [NSString stringWithFormat:@"0%ld",[dateComponent month]];
+    
+    }
+    NSString *yeardate = [NSString stringWithFormat:@"%ld-%@-%ld",[dateComponent year],month,[dateComponent day]];
+    NSString *midURL = @"%20and%20date(ScheduleArrivalTime)%20eq%20";
+    NSString *backURL = [NSString stringWithFormat:@"%@&$top=20&$format=JSON",yeardate];
+    NSString *filterURL = [NSString stringWithFormat:@"%@%@%@",frontURL,midURL,backURL];
     NSLog(@"URL current Time = %@",filterURL);
 
     
@@ -100,15 +111,27 @@ static GetSchedule *_instance = nil;
      [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *nowDate = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:nowDate];
-    NSLog(@"dateXD = %@",dateComponent);
+    NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour | NSCalendarUnitMinute|NSCalendarUnitSecond ) fromDate:nowDate];
+//    NSLog(@"dateXD = %@",dateComponent);
     // http://ptx.transportdata.tw/MOTC/v2/Air/FIDS/Airport/Arrival/TPE?$filter=time(ScheduleArrivalTime)%20ge%2018%3A36&$top=20&$format=JSON
     NSString *dot = @"%3A";
     NSString *frontURL = [departure_new stringByAppendingString:[NSString stringWithFormat:@"%ld%@%ld",[dateComponent hour],dot,[dateComponent minute]]];
-    NSLog(@"frontURL = %@",frontURL);
-    NSString *backURL = @"&$top=20&$format=JSON";
-    NSString *filterURL = [NSString stringWithFormat:@"%@%@",frontURL,backURL];
+    NSString *month;
+    if([dateComponent month] >= 10){
+        
+        month = [NSString stringWithFormat:@"%ld",[dateComponent month]];
+    }
+    else{
+        month = [NSString stringWithFormat:@"0%ld",[dateComponent month]];
+        
+    }
+
+    NSString *yeardate = [NSString stringWithFormat:@"%ld-%@-%ld",[dateComponent year],month,[dateComponent day]];
+    NSString *midURL = @"%20and%20date(ScheduleDepartureTime)%20eq%20";
+    NSString *backURL = [NSString stringWithFormat:@"%@&$top=20&$format=JSON",yeardate];
+    NSString *filterURL = [NSString stringWithFormat:@"%@%@%@",frontURL,midURL,backURL];
     NSLog(@"URL current Time = %@",filterURL);
+
     return  filterURL;
 
 }

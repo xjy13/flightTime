@@ -454,8 +454,14 @@
         locationCurrent.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         float currentLatitude = locationCurrent.location.coordinate.latitude;
         float currentLongitude = locationCurrent.location.coordinate.longitude;
-        [WeatherSign loc:[NSString stringWithFormat:@"%.2f,%.2f",currentLatitude,currentLongitude]];
-        [weatherSign_1 removeFromSuperview];
+        if(currentLatitude != 0.0 && currentLongitude != 0.0){
+               [WeatherSign loc:[NSString stringWithFormat:@"%.2f,%.2f",currentLatitude,currentLongitude]];
+        }
+        else{
+            [WeatherSign loc:[NSString stringWithFormat:@"25.0051539,121.5060025"]];
+
+        }
+              [weatherSign_1 removeFromSuperview];
         weatherSign_1 = [[WeatherSign alloc]initWithFrame:CGRectMake(0.5, 0, self.view.frame.size.width/2, 80)];
         [_scrollView addSubview:weatherSign_1];
     
