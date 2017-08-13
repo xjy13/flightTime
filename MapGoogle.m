@@ -11,6 +11,7 @@
 #import "GetLocation.h"
 #import "Toast+UIView.h"
 #import "FlightInfoView.h"
+
 @interface MapGoogle()<GMSMapViewDelegate,CLLocationManagerDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>{
     
     
@@ -29,17 +30,18 @@ BOOL isClick;
 NSString *loc;
 FlightInfoView *extendView;
 
+
 - (void)viewDidLoad {
     // Create a GMSCameraPosition that tells the map to display the
     // coordinate -33.86,151.20 at zoom level 6. //-33.86 151.20
     
-    //    [self getFlightLocation];
     [self initalView];
     loc = @"Taiwan";
     // [self realTime:loc];
     refreshRoute = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(realTime:) userInfo:loc repeats:YES];
     [refreshRoute fire];
-    mapView_.delegate = self;
+    
+   
 }
 
 -(void)initalView{
@@ -56,7 +58,7 @@ FlightInfoView *extendView;
     mapView_.settings.compassButton = YES;
     mapView_.settings.zoomGestures = YES;
     mapView_.settings.scrollGestures = YES;
-    
+     mapView_.delegate = self;
     
     [self.view addSubview:mapView_];
     // Creates a marker in the center of the map.
@@ -106,6 +108,7 @@ FlightInfoView *extendView;
     txtField.enabled = YES;
     txtField.keyboardType = UIKeyboardTypeEmailAddress;
     [self.view addSubview:txtField];
+    txtField.hidden = YES;
 }
 
 -(void)airportPoint{
@@ -233,13 +236,25 @@ FlightInfoView *extendView;
     return YES;
 }
 
+-(void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+//    [refreshRoute invalidate];
+//    [self initalView];
+//    refreshRoute = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(realTime:) userInfo:loc repeats:YES];
+//    [refreshRoute fire];
+   
+}
 
 -(void)viewDidDisappear:(BOOL)animated{
-    [refreshRoute invalidate];
+   
+    if ([self isMovingFromParentViewController]) {
+        [refreshRoute invalidate]; //解除对self的引用
+    }
+    
     [mapView_ clear];
     [mapView_ removeFromSuperview];
     mapView_ = nil;
-    
+    mapView_.delegate = nil;
     
     
 }
@@ -296,7 +311,7 @@ FlightInfoView *extendView;
 //}
 
 -(void)realTime:(NSTimer *)country{
-    
+    [self report_memory];
     [mapView_ clear];
     // [self initalView];
     [self airportPoint];
@@ -336,9 +351,9 @@ FlightInfoView *extendView;
 //            compassSetting.compassButton  = YES;
             
         }
-      
+
     }
- 
+  
 
     /*
      899015,
@@ -377,14 +392,6 @@ FlightInfoView *extendView;
         extendView.hidden = NO;
         [self.view addSubview:extendView];
         isClick = true;
-//        if(isClick == true){
-//            dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20*NSEC_PER_SEC));
-//            dispatch_after(delay, dispatch_get_main_queue(), ^{
-//                extendView.hidden = YES;
-//            });
-//        
-//        
-//        }
     }
     else{
         extendView.hidden = YES;
@@ -393,11 +400,41 @@ FlightInfoView *extendView;
  
 }
 
+-(void)mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate{
+    double latitude = coordinate.latitude;
+    double longitude = coordinate.longitude;
+    NSLog(@"Tap latitue = %f and longtitude = %f",latitude,longitude);
+//    int craftLong = self.marker3.position.longitude;
+//    int xd = coordinate.longitude;
+//    if(abs(xd-craftLong) < 25){
+//      self.marker3.map = mapView_;
+//    }
+//    else{
+//       
+//    
+//    }
+    //DO SOMETHING HERE WITH THAT INFO
+}
+
 +(void)closeExtension{
     if(isClick == true){
         extendView.hidden = YES;
     }
 
+}
+-(void)report_memory{
+    struct task_basic_info info;
+    mach_msg_type_number_t size = sizeof(info);
+    kern_return_t kerr = task_info(mach_task_self(),
+                                   TASK_BASIC_INFO,
+                                   (task_info_t)&info,
+                                   &size);
+    if( kerr == KERN_SUCCESS ) {
+        NSLog(@"Memory in use (in bytes): %lu", info.resident_size);
+        NSLog(@"Memory in use (in bytes) %f", ((CGFloat)info.resident_size / 1024000));
+    } else {
+        NSLog(@"Error with task_info(): %s", mach_error_string(kerr));
+    }
 }
 
 @end

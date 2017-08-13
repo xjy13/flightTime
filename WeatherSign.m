@@ -18,9 +18,9 @@ NSString *location;
 NSString *condition;
 @implementation WeatherSign
 
-+(void)loc:(NSString *)XD{
-    NSLog(@"location = %@",XD);
-    location = [NSString stringWithFormat:@"%@",XD];
++(void)loc:(NSString *)site{
+    NSLog(@"location = %@",site);
+    location = [NSString stringWithFormat:@"%@",site];
 
 }
 -(void)getWeatherInfo{
@@ -28,7 +28,7 @@ NSString *condition;
     NSMutableArray *weatherArray = [[NSMutableArray alloc]init];
     weatherArray = [NSMutableArray array];
     [weatherArray addObject:[GetWeather getWeather:location]];
-    NSLog(@"XDDDDD1 = %@",[weatherArray objectAtIndex:0]);
+//    NSLog(@"XDDDDD1 = %@",[weatherArray objectAtIndex:0]);
 //    NSLog(@"XDDDDD2 = %@",[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"temp_c"] );
 //    NSLog(@"XDDDDD3 = %@",[[[weatherArray objectAtIndex:0]objectForKey:@"location"] objectForKey:@"name"]);
 //    NSLog(@"XDDDDD4img = %@",[[[[weatherArray objectAtIndex:0] objectForKey:@"current"] objectForKey:@"condition"] objectForKey:@"icon"] );
@@ -54,6 +54,7 @@ NSString *condition;
         [self.weatherInfo setText:degree];
         [self.weatherInfo setFont:[UIFont systemFontOfSize:10]];
         [self.weatherImg setImage:img];
+        [self.conditionLabel setText:condition];
         if([isDay isEqualToString:@"1"]){
             self.backgroundColor = [[UIColor alloc]initWithRed:148.0/255.0 green:222.0/255.0 blue:255.0/255.0 alpha:0.8];
                    }
@@ -61,8 +62,8 @@ NSString *condition;
             self.backgroundColor = [[UIColor alloc]initWithRed:100/255.0 green:100/255.0 blue:100/255.0 alpha:0.8];
             [self.cityName setTextColor:[UIColor whiteColor]];
             [self.weatherInfo setTextColor:[UIColor whiteColor]];
+            [self.conditionLabel setTextColor:[UIColor whiteColor]];
         }
-        [self.conditionLabel setText:condition];
     }
     return self;
 }

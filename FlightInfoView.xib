@@ -30,7 +30,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkO-MN-q1d">
-                    <rect key="frame" x="285" y="1" width="32" height="32"/>
+                    <rect key="frame" x="288" y="1" width="28" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="close.png"/>
                     <connections>
@@ -53,7 +53,7 @@
                 <outlet property="title2" destination="LKn-a5-MEZ" id="BgQ-Ky-Rg0"/>
                 <outlet property="title3" destination="PPz-tK-qp6" id="TXc-vq-0ie"/>
             </connections>
-            <point key="canvasLocation" x="-534" y="630"/>
+            <point key="canvasLocation" x="-671" y="627"/>
         </view>
     </objects>
     <resources>

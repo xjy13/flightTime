@@ -13,6 +13,7 @@
 @end
 NSMutableArray *arrivalArray;
 NSMutableArray *departureArray;
+NSDictionary *dicDepart;
 NSMutableArray *routeArray;
 NSString *status;
 NSString *ticketCode;
@@ -45,7 +46,7 @@ static GetSchedule *_instance = nil;
     }
     else{
         NSLog(@"error json = %@ and status code = %ld error = %@",arrivalArray,[res statusCode],[err description]);
-    }
+       }
     return arrivalArray;
  
 }
@@ -62,7 +63,7 @@ static GetSchedule *_instance = nil;
     NSDateComponents *dateComponent = [calendar components:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour | NSCalendarUnitMinute|NSCalendarUnitSecond ) fromDate:nowDate];
    
     NSString *dot = @"%3A";
-    NSString *frontURL = [arrival_new stringByAppendingString:[NSString stringWithFormat:@"%ld%@%ld%@%ld",[dateComponent hour],dot,[dateComponent minute],dot,[dateComponent second]]];
+    NSString *frontURL = [arrival_new stringByAppendingString:[NSString stringWithFormat:@"%ld%@%ld%@%ld",[dateComponent hour],dot,[dateComponent minute],dot,[dateComponent second]-5]];
     NSLog(@"frontURL = %@",frontURL);
     NSString *month;
     if([dateComponent month] >= 10){
@@ -77,7 +78,7 @@ static GetSchedule *_instance = nil;
     NSString *midURL = @"%20and%20date(ScheduleArrivalTime)%20eq%20";
     NSString *backURL = [NSString stringWithFormat:@"%@&$top=20&$format=JSON",yeardate];
     NSString *filterURL = [NSString stringWithFormat:@"%@%@%@",frontURL,midURL,backURL];
-    NSLog(@"URL current Time = %@",filterURL);
+    NSLog(@"Arrival URL current Time = %@",filterURL);
 
     
     return  filterURL;
@@ -91,7 +92,7 @@ static GetSchedule *_instance = nil;
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
     
-    NSLog(@"departure status = %d",[res statusCode]);
+    NSLog(@"departure status = %ld",[res statusCode]);
     if(data != nil && [res statusCode]==200 && err == nil){
         departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"departure json in GetSchedule: %@",departureArray);
@@ -130,7 +131,7 @@ static GetSchedule *_instance = nil;
     NSString *midURL = @"%20and%20date(ScheduleDepartureTime)%20eq%20";
     NSString *backURL = [NSString stringWithFormat:@"%@&$top=20&$format=JSON",yeardate];
     NSString *filterURL = [NSString stringWithFormat:@"%@%@%@",frontURL,midURL,backURL];
-    NSLog(@"URL current Time = %@",filterURL);
+    NSLog(@"Departure URL current Time = %@",filterURL);
 
     return  filterURL;
 
@@ -274,7 +275,7 @@ static GetSchedule *_instance = nil;
     }
 
 
-
-
+   
 }
-@end
+
+ @end

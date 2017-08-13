@@ -10,8 +10,8 @@
 
 #import "ScheduleTableCell.h"
 #import "GetSchedule.h"
-int row;
-BOOL arrival;
+//int row;
+//BOOL arrival;
 NSUserDefaults *usrDefault;
 @implementation ScheduleTableCell
 

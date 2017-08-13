@@ -54,7 +54,7 @@ static GetLocation *_instance = nil;
     if(data != nil && [res statusCode]==200 && err == nil){
        // NSMutableArray *json = [[NSMutableArray alloc]init];
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-      //  NSLog(@"location json = %@",json);  --->Log有點大 有需要再開吧
+        NSLog(@"location json = %@",json);  //--->Log有點大 有需要再開吧
         NSMutableArray *add = [[NSMutableArray alloc]init];
         [add addObjectsFromArray:json[@"states"]];
       //  NSLog(@"location json_1= %@",add);
@@ -71,7 +71,8 @@ static GetLocation *_instance = nil;
                 }
             
             }
-                   }
+            
+        }
 //        for(int j = 0 ; j < filterArray.count ; j++){
 //
 //            NSDictionary *jsonFilter = [NSDictionary dictionaryWithObjectsAndKeys:[[filterArray objectAtIndex:j] objectAtIndex:2],@"Country",[[filterArray objectAtIndex:j] objectAtIndex:5],@"longitude",[[filterArray objectAtIndex:j] objectAtIndex:2],@"Country",[[filterArray objectAtIndex:j] objectAtIndex:6],@"latitude" ,nil];

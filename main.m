@@ -3,7 +3,7 @@
 #import "RootViewController.h"
 #import "GetSchedule.h"
 #import "FlightTimeDelegate.h"
-
+#import "MapGoogle.h"
 //for change to storyborad
 int main(int argc, char *argv[]) {
 

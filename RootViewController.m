@@ -7,6 +7,7 @@
 #import "MapGoogle.h"
 #import "GetWeather.h"
 #import "WeatherSign.h"
+#import "ExtensionView.h"
 
 @interface RootViewController(){
 
@@ -17,6 +18,8 @@
     NSString *arrivalRemark;
     NSString *departureAirport;
     NSString *scheduleArrivalTime;
+    NSString *EstimatedTime;
+    NSString *ActualTime;
     NSString *gateNumber ;
     NSString *terminal;
     NSString *ticketCode;
@@ -51,12 +54,13 @@
     NSString *recordRate;
     NSString *recordChannel;
     NSTimer *checkdB;
-    NSTimer *flightSchedule;
+   
     MBProgressHUD *hudView;
-    GetSchedule *Get;
+  //  GetSDelegate *Get;
     ScheduleTableCell *scheduleCell;
     WeatherSign *weatherSign_1;
     WeatherSign *weatherSign_2;
+    
 }
 @end
 
@@ -76,9 +80,6 @@
     hudView = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:hudView];
      isArrival = true;
-    self.refresh = [[UIRefreshControl alloc]init];
-    [self.refresh addTarget:self action:@selector(refreshXD) forControlEvents:UIControlEventValueChanged];
-    [_tableView addSubview:self.refresh];
     [self initialTable];
     [self initView];
 //    [self setupTestEnvironment];
@@ -87,19 +88,18 @@
 //    [self enterToFront];
 //    [self enterToBackground];
    
-    flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
-    [flightSchedule fire];
-  
-    
+    self.flightSchedule = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(refreshTable) userInfo:nil repeats:YES];
+    [self.flightSchedule fire];
+//    ExtensionView *extView = [[ExtensionView alloc]init];
+//     extView = [[ExtensionView alloc]initWithFrame:CGRectMake(0, 150, 200, 30)];
+//    extView.gateLabel.text = @"第五號登機門";
+//    extView.terminalLabel.text = @"第二航廈";
+//    extView.counterLabel.text = @"第八號轉盤" ;
+//    [self.view addSubview:extView];
+
     
 }
 
--(void)refreshXD{
-
-    
-    NSLog(@"refresh~~~~");
-
-}
 #pragma mark initial Table
 -(void)initialTable{
     
@@ -129,13 +129,13 @@
 
 
 #pragma mark delegate use
--(void)getSchdule_delegation{
-     self.arrivalArray =  [GetSchedule jsonArrival:@"root"];
-    self.departureArray = [GetSchedule jsonDepature:@"root"];
-     NSLog(@"at rootView arrival = %@ ", _arrivalArray);
-    NSLog(@"at rootView departure = %@ ", _departureArray);
- 
-}
+//-(void)getSchdule_delegation{
+//     self.arrivalArray =  [GetSchedule jsonArrival:@"root"];
+//    self.departureArray = [GetSchedule jsonDepature:@"root"];
+//     NSLog(@"at rootView arrival = %@ ", _arrivalArray);
+//    NSLog(@"at rootView departure = %@ ", _departureArray);
+// 
+//}
 
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -191,9 +191,7 @@
 #pragma mark access to next
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     return 100;
-    
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -212,7 +210,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
       return [self.arrivalArray count];
-   
+  
 }
 
 //- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -255,19 +253,17 @@
 //    static NSString *reUseIndetifier =@"cell";
 //     static NSString *reUseIndetifier1 =@"cell1";
     NSUInteger row = [indexPath row];
-    NSLog(@"Table Row = %ld",row);
-  
+    
      scheduleCell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
      scheduleCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     [self scheduleBoard:row];
     return scheduleCell;
   
 }
 
 
--(void)scheduleBoard:(int)row{
-
+-(void)scheduleBoard:(NSUInteger)row{
+    
     if(isArrival == true){
         //入境的
 //        [_departureArray removeAllObjects];
@@ -278,6 +274,9 @@
         arrivalRemark = [[_arrivalArray objectAtIndex:row] objectForKey:@"ArrivalRemark"];
         departureAirport = [[_arrivalArray objectAtIndex:row] objectForKey:@"DepartureAirportID"];
         scheduleArrivalTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ScheduleArrivalTime"];
+        EstimatedTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"EstimatedArrivalTime"];
+        ActualTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ActualArrivalTime"];
+
         [scheduleCell.IDLabel setText:[NSString stringWithFormat:@"From : %@",[GetSchedule translateIATA:departureAirport]]];
         
         
@@ -311,7 +310,9 @@
         arrivalRemark = [[_departureArray objectAtIndex:row] objectForKey:@"DepartureRemark"];
         departureAirport = [[_departureArray objectAtIndex:row] objectForKey:@"ArrivalAirportID"];
         scheduleArrivalTime = [[_departureArray objectAtIndex:row]objectForKey:@"ScheduleDepartureTime"];
-         [scheduleCell.IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
+        EstimatedTime = [[_departureArray objectAtIndex:row]objectForKey:@"EstimatedDepartureTime"];
+        ActualTime = [[_arrivalArray objectAtIndex:row]objectForKey:@"ActualDepartureTime"];
+        [scheduleCell.IDLabel setText:[NSString stringWithFormat:@"To : %@",[GetSchedule translateIATA:departureAirport]]];
      }
     
    
@@ -321,18 +322,41 @@
      NSRange cancelNote = [arrivalRemark rangeOfString:@"CANCEL" options:NSBackwardsSearch];
     scheduleCell.ManuLabel.numberOfLines = 0;
     scheduleCell.ManuLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    [scheduleCell.ManuLabel setFont:[UIFont systemFontOfSize:16]];
+    
     if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
         [scheduleCell.ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
         scheduleCell.backgroundColor = [[UIColor alloc]initWithRed:240.0/255.0 green:200.0/255.0 blue:70.0/255.0 alpha:0.8];
+        [scheduleCell.ManuLabel setFont:[UIFont systemFontOfSize:14]];
         [self warningMessage:[[GetSchedule figureRegistration:airlineID number:flightNumber] stringByAppendingString:arrivalRemark]];
+
+       
+//        NSLog(@"flightStatus ---->%@",arrivalRemark);
+        if([arrivalRemark hasPrefix:@"時間更改"]){
+            [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@,at: %@",[arrivalRemark substringToIndex:4],EstimatedTime]];
+        }
+        else if ([arrivalRemark hasPrefix:@"取消"]){
+            [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@,at: %@",arrivalRemark,scheduleArrivalTime]];
+        }
+        else{
+            [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@,at: %@",arrivalRemark,EstimatedTime]];
+        }
+        
     }
     else{
         [scheduleCell.ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];
-       
+        if([arrivalRemark hasPrefix:@"已到"] || [arrivalRemark hasPrefix:@"出發"]){
+           [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,ActualTime]];
+        }
+        if([arrivalRemark hasPrefix:@"準時"]){
+           [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+        }
+        else{
+            [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+        }
+      
     }
-    
-    [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+     //  [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@, at: %@",arrivalRemark,scheduleArrivalTime]];
+  
     
     tapAction = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapFunction:)];
     tapAction.numberOfTapsRequired = 1;
@@ -340,7 +364,10 @@
     scheduleCell.IDLabel.userInteractionEnabled = YES;
     [scheduleCell.IDLabel addGestureRecognizer:tapAction];
     scheduleCell.IDLabel.tag = row;
-
+//    [scheduleCell.ManuLabel addGestureRecognizer:tapAction];
+//    scheduleCell.ManuLabel.tag = row;
+//    scheduleCell.ManuLabel.userInteractionEnabled = YES;
+    
 
 }
 
@@ -349,6 +376,7 @@
     NSString *airport ;
     if(isArrival == true){
         airport =[NSString stringWithFormat:@"%@",[[_arrivalArray objectAtIndex:i] objectForKey:@"DepartureAirportID"]];
+      
     }
     else{
         airport =[NSString stringWithFormat:@"%@",[[_departureArray objectAtIndex:i] objectForKey:@"ArrivalAirportID"]];
@@ -356,6 +384,8 @@
   
     NSLog(@"i am in %d row  ---> %@",i,airport);
     [self weatherSignShow:airport];
+    
+    
 
 }
 
@@ -363,13 +393,15 @@
 -(void)warningMessage:(NSString *)msg{
     UIAlertController *alertMsg = [[UIAlertController alloc]init];
     if([msg length] > 0){
-        alertMsg = [UIAlertController alertControllerWithTitle:@"注意" message:msg preferredStyle:UIAlertControllerStyleAlert];
+        alertMsg = [UIAlertController alertControllerWithTitle:@"注意" message:msg preferredStyle: UIAlertControllerStyleActionSheet];
+      
     }
 
-    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"確認" style:UIAlertActionStyleCancel handler:^(UIAlertAction *cancel)
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"打電話問" style:UIAlertActionStyleCancel handler:^(UIAlertAction *confirm)
     {
-        
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"telprompt://0987654321"]];
     }];
+    
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
     [alertMsg addAction:confirm];
     [alertMsg addAction:cancel];
@@ -382,10 +414,12 @@
     NSLog(@"refresh schedule");
    
     hudView.labelText = @"載入中";
+    [_tableView addSubview:hudView];
     [hudView show:YES];
+    
     if(isArrival == true){
         _refreshBtn.userInteractionEnabled = NO;
-        [self getSchdule_delegation];
+        [self refreshTable];
        // [self weatherSignShow];
    //     [hudView setHidden:YES];
        //   [self.view makeToast:@"哈哈哈哈哈哈哈哈" duration:2.0 position:@"center"];
@@ -401,7 +435,11 @@
 }
 -(void)refreshTable{
     NSLog(@"refresh schedule");
-    [self getSchdule_delegation];
+    self.arrivalArray =  [GetSchedule jsonArrival:@"root"];
+    self.departureArray = [GetSchedule jsonDepature:@"root"];
+    NSLog(@"at rootView arrival = %@ ", _arrivalArray);
+    NSLog(@"at rootView departure = %@ ", _departureArray);
+
     
     
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
@@ -430,6 +468,7 @@
     isArrival = true;
     //原本的
     [GetSchedule jsonArrival:@"root"];
+      [hudView hide:YES afterDelay:5];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
 }
@@ -440,14 +479,14 @@
      [_arrivalBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     isArrival = false;
     [GetSchedule jsonDepature:@"root"];
+      [hudView hide:YES afterDelay:5];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
     [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
 }
 
 -(void)weatherSignShow:(NSString *)iataCode{
-
     
-    dispatch_queue_t getWeatherQueue = dispatch_queue_create("weatherQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t getWeatherQueue = dispatch_queue_create("getWeather", DISPATCH_QUEUE_SERIAL);
     dispatch_sync(getWeatherQueue, ^{
         CLLocationManager *locationCurrent = [[CLLocationManager alloc]init];
         locationCurrent.delegate = self;
@@ -461,7 +500,8 @@
             [WeatherSign loc:[NSString stringWithFormat:@"25.0051539,121.5060025"]];
 
         }
-              [weatherSign_1 removeFromSuperview];
+        
+        [weatherSign_1 removeFromSuperview];
         weatherSign_1 = [[WeatherSign alloc]initWithFrame:CGRectMake(0.5, 0, self.view.frame.size.width/2, 80)];
         [_scrollView addSubview:weatherSign_1];
     

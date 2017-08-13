@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "FlightInfoView.h"
 @class MapGoogle;
+
 @interface MapGoogle : UIViewController
 
 //typedef NS_ENUM(NSInteger, _airways) {
@@ -20,10 +21,11 @@
 //    FET = 4
 //};
 
-@property (retain, nonatomic) IBOutlet UIPickerView *pickers;
+@property (strong, nonatomic) IBOutlet UIPickerView *pickers;
 @property(strong,nonatomic)NSArray *pickerData;
 @property (strong,nonatomic)UIButton *cancelBtn;
 @property (strong,nonatomic)UIButton *certainBtn;
+
 +(void)closeExtension;
 
 @end

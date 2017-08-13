@@ -22,7 +22,6 @@
 @class GetSchedule;
 
 @interface GetSchedule : NSObject
-
 +(instancetype)shareInstance;
 +(NSMutableArray *)jsonArrival:(NSString *)from;
 +(NSMutableArray *)jsonDepature:(NSString *)from;
