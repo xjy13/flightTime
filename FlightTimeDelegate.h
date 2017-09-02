@@ -24,7 +24,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nav;
-@property (nonatomic, retain)NSMutableArray *arrivalArray;
-//+(void)jsonArrival:(NSString *)comeFrom;
+
 @end
 

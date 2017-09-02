@@ -55,6 +55,7 @@
 		309BCA7111DB0A0E000B4574 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6A11DB0A0E000B4574 /* Icon.png */; };
 		309BCA7211DB0A0E000B4574 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6B11DB0A0E000B4574 /* Icon@2x.png */; };
 		30B3DE3311ED1F7700C12546 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 30B3DE3211ED1F7700C12546 /* iTunesArtwork */; };
+		912F19331F5AA0C100F19C9A /* jsonURLTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 912F19321F5AA0C100F19C9A /* jsonURLTool.m */; };
 		C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C986345A0FB66A2200D461F2 /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +123,8 @@
 		309BCA6B11DB0A0E000B4574 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		30B3DE3211ED1F7700C12546 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* FlightTime-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FlightTime-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		912F19311F5AA0A700F19C9A /* jsonURLTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsonURLTool.h; sourceTree = "<group>"; };
+		912F19321F5AA0C100F19C9A /* jsonURLTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jsonURLTool.m; sourceTree = "<group>"; };
 		A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime.debug.xcconfig"; sourceTree = "<group>"; };
 		C98634590FB66A2200D461F2 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		C986345A0FB66A2200D461F2 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
@@ -156,6 +159,8 @@
 				0422FF871E4A330700F6F867 /* GetLocation.m */,
 				044C426D1EFCDAA900672B05 /* GetWeather.h */,
 				044C426B1EFCA9AF00672B05 /* GetWeather.m */,
+				912F19311F5AA0A700F19C9A /* jsonURLTool.h */,
+				912F19321F5AA0C100F19C9A /* jsonURLTool.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -438,6 +443,7 @@
 				04A42CCC1DDA234B00A769FB /* FlightTimeDelegate.m in Sources */,
 				049805901DC2FC6700C42C5F /* GetSchedule.m in Sources */,
 				043424E61DAFECB7003E7E2B /* MBProgressHUD.m in Sources */,
+				912F19331F5AA0C100F19C9A /* jsonURLTool.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

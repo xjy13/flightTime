@@ -33,7 +33,7 @@
     
     UIImageView *warningSign;
     UITapGestureRecognizer *tapAction;
-    
+    UITapGestureRecognizer *tapAction2;
 
 
     float firstVol;
@@ -181,7 +181,7 @@
     [_departureBtn setTitle:@"Departure" forState:UIControlStateNormal];
     [_scrollView addSubview:_departureBtn];
 
-    [self weatherSignShow:@"JFK"];
+    [self weatherSignShow:@"TPE"];
     
 
 }
@@ -361,9 +361,16 @@
     tapAction = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapFunction:)];
     tapAction.numberOfTapsRequired = 1;
     tapAction.numberOfTouchesRequired = 1;
-    scheduleCell.IDLabel.userInteractionEnabled = YES;
+   
+     scheduleCell.IDLabel.userInteractionEnabled = YES;
     [scheduleCell.IDLabel addGestureRecognizer:tapAction];
-    scheduleCell.IDLabel.tag = row;
+     scheduleCell.IDLabel.tag = row;
+  
+     tapAction2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapFunction:)];
+     [scheduleCell.flightID addGestureRecognizer:tapAction2];
+     scheduleCell.flightID.userInteractionEnabled = YES;
+     scheduleCell.flightID.tag =row+101;
+     
 //    [scheduleCell.ManuLabel addGestureRecognizer:tapAction];
 //    scheduleCell.ManuLabel.tag = row;
 //    scheduleCell.ManuLabel.userInteractionEnabled = YES;
@@ -373,17 +380,23 @@
 
 -(void)tapFunction:(UIGestureRecognizer *)gesture {
     int i = (int)gesture.view.tag;
-    NSString *airport ;
-    if(isArrival == true){
-        airport =[NSString stringWithFormat:@"%@",[[_arrivalArray objectAtIndex:i] objectForKey:@"DepartureAirportID"]];
-      
-    }
-    else{
-        airport =[NSString stringWithFormat:@"%@",[[_departureArray objectAtIndex:i] objectForKey:@"ArrivalAirportID"]];
-    }
-  
-    NSLog(@"i am in %d row  ---> %@",i,airport);
-    [self weatherSignShow:airport];
+     NSLog(@"gesture info %@",gesture);
+     if(i < 100){
+          NSString *airport ;
+          if(isArrival == true){
+                  airport =[NSString stringWithFormat:@"%@",[[_arrivalArray objectAtIndex:i] objectForKey:@"DepartureAirportID"]];
+              }
+          else{
+                  airport =[NSString stringWithFormat:@"%@",[[_departureArray objectAtIndex:i] objectForKey:@"ArrivalAirportID"]];
+              }
+          NSLog(@"i am in %d row  ---> %@",i,airport);
+             [self weatherSignShow:airport];
+
+     }
+     else{
+     
+     }
+         
     
     
 

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "RootViewController.h"
 #import "FlightInfoView.h"
-
+#import "jsonURLTool.h"
 //接收root那邊老闆的指示做事
 //@interface GetSchedule : NSObject<rootDelegate>
 //
@@ -29,4 +29,5 @@
 +(NSString *)figureRegistration:(NSString *)flightCode number:(NSString *)flightNum;
 +(void)flightDestination:(NSString *)code;
 +(void)flightCodeConverter:(NSString *)code;
++(void)testJson:(NSString *)from isArrival:(bool)isArrival;
 @end
