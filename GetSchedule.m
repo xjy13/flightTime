@@ -35,24 +35,33 @@ static GetSchedule *_instance = nil;
 
 +(NSMutableArray *)jsonArrival:(NSString *)from{
     NSLog(@"comeFrom = %@",from);
-    NSError *err = nil;
-    NSHTTPURLResponse *res = nil;
-    //NSURL *url = [NSURL URLWithString:[self currentDateArrival]];
-     NSURL *url = [NSURL URLWithString:[jsonURLTool currentDateArrival:true]];
-
+      //NSURL *url = [NSURL URLWithString:[self currentDateArrival]];
+     
+//     dispatch_semaphore_t sem = dispatch_semaphore_create(1);
+//     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+     
+    // dispatch_async(queue, ^{
+         // dispatch_semaphore_signal(sem);
+     NSError *err = nil;
+     NSHTTPURLResponse *res = nil;
+     @autoreleasepool {
+          NSURL *url = [NSURL URLWithString:[jsonURLTool currentDateArrival:true]];
           NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+          NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+          NSLog(@"arrival status = %ld",[res statusCode]);
+          if(data != nil && [res statusCode]==200 && err == nil){
+               arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
+               //  NSLog(@"arrival json in GetSchedule: %@",arrivalArray);
+          }
+          else{
+               NSLog(@"error json = %@ and status code = %ld error = %@",arrivalArray,[res statusCode],[err description]);
+          }
+     }
+     
+     return arrivalArray;
     
-    NSLog(@"arrival status = %ld",[res statusCode]);
-    if(data != nil && [res statusCode]==200 && err == nil){
-        arrivalArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
-      //  NSLog(@"arrival json in GetSchedule: %@",arrivalArray);
-    }
-    else{
-        NSLog(@"error json = %@ and status code = %ld error = %@",arrivalArray,[res statusCode],[err description]);
-       }
-    return arrivalArray;
- 
+   
+     
 }
 
 
@@ -60,20 +69,23 @@ static GetSchedule *_instance = nil;
     NSLog(@"comeFrom = %@",from);
     NSError *err = nil;
     NSHTTPURLResponse *res = nil;
-    //NSURL *url = [NSURL URLWithString:[self currentDateDeparture]];
-     NSURL *url = [NSURL URLWithString: [jsonURLTool currentDateArrival:false]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
-    
-    NSLog(@"departure status = %ld",[res statusCode]);
-    if(data != nil && [res statusCode]==200 && err == nil){
-        departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"departure json in GetSchedule: %@",departureArray);
-    }
-    else{
-        NSLog(@"error json = %@ and status code = %ld error = %@",departureArray,[res statusCode],[err description]);
-    }
-    return departureArray;
+     @autoreleasepool {
+          //NSURL *url = [NSURL URLWithString:[self currentDateDeparture]];
+          NSURL *url = [NSURL URLWithString: [jsonURLTool currentDateArrival:false]];
+          NSURLRequest *request = [NSURLRequest requestWithURL:url];
+          NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+          
+          NSLog(@"departure status = %ld",[res statusCode]);
+          if(data != nil && [res statusCode]==200 && err == nil){
+               departureArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+               NSLog(@"departure json in GetSchedule: %@",departureArray);
+          }
+          else{
+               NSLog(@"error json = %@ and status code = %ld error = %@",departureArray,[res statusCode],[err description]);
+          }
+  
+     }
+     return departureArray;
     
 }
 

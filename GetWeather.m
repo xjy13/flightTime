@@ -29,20 +29,24 @@ static GetWeather *_instance = nil;
         NSLog(@"weather loc = %@",location);
         NSError *err = nil;
         NSHTTPURLResponse *res = nil;
-        NSURL *url = [NSURL URLWithString:[weatherCurrent stringByAppendingString:location]];
-        NSLog(@"weather url  = %@",url);
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
-        
-        NSLog(@"weather status = %ld",[res statusCode]);
-        if(data != nil && [res statusCode]==200 && err == nil){
-            weatherArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
-            //  NSLog(@"arrival json in GetSchedule: %@",arrivalArray);
-        }
-        else{
-            NSLog(@"error json = %@ and status code = %ld error = %@",weatherArray,[res statusCode],[err description]);
-        }
-        return weatherArray;
+     
+         @autoreleasepool {
+              NSURL *url = [NSURL URLWithString:[weatherCurrent stringByAppendingString:location]];
+              NSLog(@"weather url  = %@",url);
+              NSURLRequest *request = [NSURLRequest requestWithURL:url];
+              NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+              
+              NSLog(@"weather status = %ld",[res statusCode]);
+              if(data != nil && [res statusCode]==200 && err == nil){
+                   weatherArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
+                   //  NSLog(@"arrival json in GetSchedule: %@",arrivalArray);
+              }
+              else{
+                   NSLog(@"error json = %@ and status code = %ld error = %@",weatherArray,[res statusCode],[err description]);
+              }
+              return weatherArray;
+         }
+         
     }
    
 
