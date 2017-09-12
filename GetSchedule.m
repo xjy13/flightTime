@@ -94,31 +94,34 @@ static GetSchedule *_instance = nil;
     NSLog(@"airport code = %@",airportCode);
     NSString *IATAinfo = [NSString stringWithFormat:@"%@/%@?format=JSON",airportInfo,airportCode];   //JFK?$format=JSON
     NSURL *url = [NSURL URLWithString:IATAinfo];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSHTTPURLResponse *response = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-    
-    
-    NSLog(@"translateIATA status = %ld",[response statusCode]);
-    
-    if(data != nil &&[response statusCode] ==200){
-        NSDictionary *airportDictionary = [[NSDictionary alloc]init];
-        //airportArray = [NSMutableArray array];
-        airportDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"Airport json : %@,  %ld",airportDictionary,[airportDictionary count]);
-        //_scrollView.hidden = NO;
-        //noDatasLabelView.hidden = YES;
-        NSString *airportName = [[airportDictionary objectForKey:@"AirportName"] objectForKey:@"Zh_tw"];
-        NSLog(@"airport name = %@",airportName);
-        if([airportName isEqualToString:@""]){
-            airportName = airportCode;
-        }
-        return  airportName;
-    }
-    else{
-        NSLog(@"Get problem The status code = %ld",[response statusCode]);
-    }
-    //NSArray *portName = [[_airportArray objectAtIndex:4]objectForKey:@"AirportName"];
+
+     @autoreleasepool {
+          NSURLRequest *request = [NSURLRequest requestWithURL:url];
+          NSHTTPURLResponse *response = nil;
+          NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+          
+          
+          NSLog(@"translateIATA status = %ld",[response statusCode]);
+          
+          if(data != nil &&[response statusCode] ==200){
+               NSDictionary *airportDictionary = [[NSDictionary alloc]init];
+               //airportArray = [NSMutableArray array];
+               airportDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+               NSLog(@"Airport json : %@,  %ld",airportDictionary,[airportDictionary count]);
+               //_scrollView.hidden = NO;
+               //noDatasLabelView.hidden = YES;
+               NSString *airportName = [[airportDictionary objectForKey:@"AirportName"] objectForKey:@"Zh_tw"];
+               NSLog(@"airport name = %@",airportName);
+               if([airportName isEqualToString:@""]){
+                    airportName = airportCode;
+               }
+               return  airportName;
+          }
+          else{
+               NSLog(@"Get problem The status code = %ld",[response statusCode]);
+          }
+     }
+       //NSArray *portName = [[_airportArray objectAtIndex:4]objectForKey:@"AirportName"];
 }
 
 +(NSString *)figureRegistration:(NSString *)flightCode number:(NSString *)flightNum{
@@ -130,17 +133,20 @@ static GetSchedule *_instance = nil;
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         NSError *err = nil;
         NSHTTPURLResponse *res =nil;
+        
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
         if([res statusCode] == 200 && err == nil && ![flightCode isEqualToString:@""]){
             NSDictionary *flightArray = [[NSDictionary alloc]init];
-            flightArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"flight json = %@",flightArray);
-            NSString *airlineCode = [NSString stringWithFormat:@"%@-%@%@",[[flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],flightCode,flightNum];
-            NSLog(@"flight name  = %@",airlineCode);
-            //[self returnCode];
-//            scrollView.hidden = NO;
-//            noDatasLabelView.hidden = YES;
-            return airlineCode;
+             @autoreleasepool {
+                  flightArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                  NSLog(@"flight json = %@",flightArray);
+                  NSString *airlineCode = [NSString stringWithFormat:@"%@-%@%@",[[flightArray objectForKey:@"AirlineNameAlias"] objectForKey:@"Zh_tw"],flightCode,flightNum];
+                  NSLog(@"flight name  = %@",airlineCode);
+                  //[self returnCode];
+                  //            scrollView.hidden = NO;
+                  //            noDatasLabelView.hidden = YES;
+                  return airlineCode;
+             }
         }
         else{
             NSLog(@"err = %@ and response code = %ld",err,[res statusCode]);
@@ -201,33 +207,31 @@ static GetSchedule *_instance = nil;
     int codeNumber = [[code substringWithRange:NSMakeRange(3, 4)] intValue];
     NSLog(@"IACO code = %@",IACOcode);
     
-    
     NSString *flightCode = [NSString stringWithFormat:@"%@'%@'&$format=JSON",flightcodeConverter,IACOcode];
     NSURL *url = [NSURL URLWithString:flightCode];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSError *err = nil;
     NSHTTPURLResponse *res =nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
-    if([res statusCode] == 200 && err == nil && data !=nil){
-        //NSDictionary *test = [[NSDictionary alloc]init];
-        NSMutableArray *converterCode = [[NSMutableArray alloc]init];
-        converterCode = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-//        NSLog(@"IATA code convert json = %@",converterCode);
-        NSString *IATAcode = [NSString stringWithFormat:@"%@",[[converterCode objectAtIndex:0] objectForKey:@"AirlineIATA"]];
-        NSLog(@"Convert result = %@",IATAcode);
-        NSString *IATACodeCompelete = [NSString stringWithFormat:@"%@%d",IATAcode,codeNumber];
-        NSLog(@"IATAcompelete 1 = %@",IATACodeCompelete);
-        //return IATACodeCompelete;
-        [self flightDestination:IATACodeCompelete];
-        [FlightInfoView getAirlineName:IATACodeCompelete];
-    }
-    else{
-        NSLog(@"IATA code convert error = %@",err.description);
-    
-    }
-
-
-   
+     @autoreleasepool {
+          NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&res error:&err];
+          if([res statusCode] == 200 && err == nil && data !=nil){
+               //NSDictionary *test = [[NSDictionary alloc]init];
+               NSMutableArray *converterCode = [[NSMutableArray alloc]init];
+               converterCode = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+               //        NSLog(@"IATA code convert json = %@",converterCode);
+               NSString *IATAcode = [NSString stringWithFormat:@"%@",[[converterCode objectAtIndex:0] objectForKey:@"AirlineIATA"]];
+               NSLog(@"Convert result = %@",IATAcode);
+               NSString *IATACodeCompelete = [NSString stringWithFormat:@"%@%d",IATAcode,codeNumber];
+               NSLog(@"IATAcompelete 1 = %@",IATACodeCompelete);
+               //return IATACodeCompelete;
+               [self flightDestination:IATACodeCompelete];
+               [FlightInfoView getAirlineName:IATACodeCompelete];
+          }
+          else{
+               NSLog(@"IATA code convert error = %@",err.description);
+               
+          }
+     }
 }
 
  @end

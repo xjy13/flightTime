@@ -58,10 +58,9 @@ static GetLocation *_instance = nil;
                
                              
                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-              // NSLog(@"location json = %@",json);  //--->Log有點大 有需要再開吧
+               NSLog(@"location json = %@",json);  //--->Log有點大 有需要再開吧
                NSMutableArray *add = [[NSMutableArray alloc]init];
                [add addObjectsFromArray:json[@"states"]];
-                 NSLog(@"location json_1= %@",[add initWithContentsOfFile:@"Taiwan"]);
                filterArray = [NSMutableArray array];
               for(int i = 0 ; i < add.count ; i++){
                     if(![country isEqualToString:@"ALL"]){

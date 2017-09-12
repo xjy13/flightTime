@@ -76,6 +76,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // [self testSemphore];
     hudView.delegate = self;
     hudView = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:hudView];
@@ -531,6 +532,40 @@
         
     });
 
+
+}
+
+-(void)testSemphore{
+
+     NSLog(@"Happy Start");
+    __block dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+     NSLog(@"Ssem number!! %@",sem);
+    // dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+     //[NSThread sleepForTimeInterval:3];
+     dispatch_semaphore_signal(sem);
+     dispatch_async(dispatch_get_main_queue(), ^{
+          NSLog(@"signal");
+//          dispatch_semaphore_signal(sem);
+          NSLog(@"XDDDD--->1");
+         dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+          NSLog(@"wait");
+        //  dispatch_semaphore_signal(sem);
+           NSLog(@"XDDDD--->2");
+          dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+          NSLog(@"wait");
+          //dispatch_semaphore_signal(sem);
+          NSLog(@"XDDDD--->3");
+         // dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+          NSLog(@"waitXDDDDFFFGSDF");
+            NSLog(@"Ssem number!! %@",sem);
+
+     });
+//
+     
+//     NSLog(@"Before wait");
+//     dispatch_semaphore_wait(sem,DISPATCH_TIME_FOREVER);
+//     NSLog(@"After wait");
+    
 
 }
 #pragma mark 新的
