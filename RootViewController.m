@@ -330,7 +330,7 @@
         [scheduleCell.ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
         scheduleCell.backgroundColor = [[UIColor alloc]initWithRed:240.0/255.0 green:200.0/255.0 blue:70.0/255.0 alpha:0.8];
         [scheduleCell.ManuLabel setFont:[UIFont systemFontOfSize:16]];
-        [self warningMessage:[[GetSchedule figureRegistration:airlineID number:airlineID] stringByAppendingString:arrivalRemark]];
+        [self warningMessage:[[GetSchedule figureRegistration:airlineID number:flightNumber] stringByAppendingString:arrivalRemark]];
 
        
         if([arrivalRemark hasPrefix:@"時間更改"]){
@@ -339,7 +339,7 @@
              [FIRAnalytics logEventWithName:@"TimeChange"
                                  parameters:@{
                                               @"name": arrivalRemark,
-                                              @"full_text": [NSString stringWithFormat:@"%@-%@",airlineID,airlineID]
+                                              @"full_text": [NSString stringWithFormat:@"%@-%@",airlineID,flightNumber]
                                               }];
         }
         if ([arrivalRemark hasPrefix:@"取消"]){
@@ -348,7 +348,7 @@
              [FIRAnalytics logEventWithName:@"FlightCancel"
               parameters:@{
                            @"name": arrivalRemark,
-                           @"full_text": [NSString stringWithFormat:@"%@-%@",airlineID,airlineID]
+                           @"full_text": [NSString stringWithFormat:@"%@-%@",airlineID,flightNumber]
                            }];
 
         }
@@ -357,7 +357,7 @@
              [FIRAnalytics logEventWithName:@"TimeDelay"
                                  parameters:@{
                                               @"name": arrivalRemark,
-                                              @"full_text": [NSString stringWithFormat:@"%@-%@",airlineID,airlineID]
+                                              @"full_text": [NSString stringWithFormat:@"%@-%@",airlineID,flightNumber]
                                               }];
 
         }
