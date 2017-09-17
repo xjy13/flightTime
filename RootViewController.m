@@ -8,6 +8,8 @@
 #import "GetWeather.h"
 #import "WeatherSign.h"
 #import "ExtensionView.h"
+#import <FirebaseCore/FirebaseCore.h>
+#import "Firebase.h"
 
 @interface RootViewController(){
 
@@ -327,21 +329,38 @@
     if(delayNote.length > 0 || changeNote.length > 0 ||cancelNote.length > 0){
         [scheduleCell.ManuLabel setTextColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5]];
         scheduleCell.backgroundColor = [[UIColor alloc]initWithRed:240.0/255.0 green:200.0/255.0 blue:70.0/255.0 alpha:0.8];
-        [scheduleCell.ManuLabel setFont:[UIFont systemFontOfSize:14]];
-        [self warningMessage:[[GetSchedule figureRegistration:airlineID number:flightNumber] stringByAppendingString:arrivalRemark]];
+        [scheduleCell.ManuLabel setFont:[UIFont systemFontOfSize:16]];
+        [self warningMessage:[[GetSchedule figureRegistration:airlineID number:airlineID] stringByAppendingString:arrivalRemark]];
 
        
-//        NSLog(@"flightStatus ---->%@",arrivalRemark);
         if([arrivalRemark hasPrefix:@"時間更改"]){
             [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@,at: %@",[arrivalRemark substringToIndex:4],EstimatedTime]];
+             
+             [FIRAnalytics logEventWithName:@"TimeChange"
+                                 parameters:@{
+                                              @"name": arrivalRemark,
+                                              @"full_text": [NSString stringWithFormat:@"%@-%@",airlineID,airlineID]
+                                              }];
         }
-        else if ([arrivalRemark hasPrefix:@"取消"]){
+        if ([arrivalRemark hasPrefix:@"取消"]){
             [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@,at: %@",arrivalRemark,scheduleArrivalTime]];
+             
+             [FIRAnalytics logEventWithName:@"FlightCancel"
+              parameters:@{
+                           @"name": arrivalRemark,
+                           @"full_text": [NSString stringWithFormat:@"%@-%@",airlineID,airlineID]
+                           }];
+
         }
         else{
             [scheduleCell.ManuLabel setText:[NSString stringWithFormat:@"%@,at: %@",arrivalRemark,EstimatedTime]];
+             [FIRAnalytics logEventWithName:@"TimeDelay"
+                                 parameters:@{
+                                              @"name": arrivalRemark,
+                                              @"full_text": [NSString stringWithFormat:@"%@-%@",airlineID,airlineID]
+                                              }];
+
         }
-        
     }
     else{
         [scheduleCell.ManuLabel setTextColor:[UIColor colorWithRed:0.0 green:0.6 blue:0.3 alpha:0.5]];

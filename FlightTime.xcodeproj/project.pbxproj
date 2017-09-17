@@ -55,6 +55,10 @@
 		309BCA7111DB0A0E000B4574 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6A11DB0A0E000B4574 /* Icon.png */; };
 		309BCA7211DB0A0E000B4574 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 309BCA6B11DB0A0E000B4574 /* Icon@2x.png */; };
 		30B3DE3311ED1F7700C12546 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 30B3DE3211ED1F7700C12546 /* iTunesArtwork */; };
+		4C486E02E1E4FA6C097F2BB7 /* libPods-FlightTime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D526BF34D78D590BC86D5B8 /* libPods-FlightTime.a */; };
+		9106602F1F6AE5920043640E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9106602E1F6AE5920043640E /* GoogleService-Info.plist */; };
+		912EB8661F6E67BF00C0632A /* libGoogleToolboxForMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 912EB8651F6E67BF00C0632A /* libGoogleToolboxForMac.a */; };
+		912EB8681F6E67D800C0632A /* libnanopb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 912EB8671F6E67D800C0632A /* libnanopb.a */; };
 		912F19331F5AA0C100F19C9A /* jsonURLTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 912F19321F5AA0C100F19C9A /* jsonURLTool.m */; };
 		C986345C0FB66A2200D461F2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C986345A0FB66A2200D461F2 /* RootViewController.m */; };
 /* End PBXBuildFile section */
@@ -108,10 +112,10 @@
 		04F808DC1E70F8C5002B9B2F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		04F808DE1E70FC2B002B9B2F /* MapGoogle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapGoogle.h; sourceTree = "<group>"; };
 		04F808DF1E70FC45002B9B2F /* MapGoogle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapGoogle.m; sourceTree = "<group>"; };
+		0D526BF34D78D590BC86D5B8 /* libPods-FlightTime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightTime.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* FlightTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlightTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		2872C70C3ECFD4E9F3D0178C /* Pods-FlightTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime.release.xcconfig"; sourceTree = "<group>"; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* FlightTime_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightTime_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -122,10 +126,14 @@
 		309BCA6A11DB0A0E000B4574 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		309BCA6B11DB0A0E000B4574 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		30B3DE3211ED1F7700C12546 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		55C19D15DE515F037D92E5C1 /* Pods-FlightTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime.release.xcconfig"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* FlightTime-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FlightTime-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		9106602E1F6AE5920043640E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		912EB8651F6E67BF00C0632A /* libGoogleToolboxForMac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleToolboxForMac.a; sourceTree = "<group>"; };
+		912EB8671F6E67D800C0632A /* libnanopb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libnanopb.a; sourceTree = "<group>"; };
 		912F19311F5AA0A700F19C9A /* jsonURLTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsonURLTool.h; sourceTree = "<group>"; };
 		912F19321F5AA0C100F19C9A /* jsonURLTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jsonURLTool.m; sourceTree = "<group>"; };
-		A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime.debug.xcconfig"; sourceTree = "<group>"; };
+		9E7236BD3CF38768BAD0EDD0 /* Pods-FlightTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime.debug.xcconfig"; sourceTree = "<group>"; };
 		C98634590FB66A2200D461F2 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		C986345A0FB66A2200D461F2 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,6 +143,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				912EB8681F6E67D800C0632A /* libnanopb.a in Frameworks */,
+				912EB8661F6E67BF00C0632A /* libGoogleToolboxForMac.a in Frameworks */,
 				04F808DD1E70F8C5002B9B2F /* Security.framework in Frameworks */,
 				04F808991E6FABF6002B9B2F /* ExternalAccessory.framework in Frameworks */,
 				0448F55A1E6DC38100944D93 /* MapKit.framework in Frameworks */,
@@ -144,6 +154,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
+				4C486E02E1E4FA6C097F2BB7 /* libPods-FlightTime.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +219,7 @@
 				28A0AAE50D9B0CCF005BE974 /* FlightTime_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				044ECEE81D2D01420073DA60 /* Storyboard.storyboard */,
+				9106602E1F6AE5920043640E /* GoogleService-Info.plist */,
 				8D1107310486CEB800E47090 /* FlightTime-Info.plist */,
 				3F5AF01567F8D482E4DD1689 /* Pods */,
 			);
@@ -217,6 +229,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				912EB8671F6E67D800C0632A /* libnanopb.a */,
+				912EB8651F6E67BF00C0632A /* libGoogleToolboxForMac.a */,
 				047C827B1E86528F0098EB57 /* libPods-flightTimeNew.a */,
 				04F808DC1E70F8C5002B9B2F /* Security.framework */,
 				04F808981E6FABF6002B9B2F /* ExternalAccessory.framework */,
@@ -226,6 +240,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				0D526BF34D78D590BC86D5B8 /* libPods-FlightTime.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -262,8 +277,8 @@
 		3F5AF01567F8D482E4DD1689 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */,
-				2872C70C3ECFD4E9F3D0178C /* Pods-FlightTime.release.xcconfig */,
+				9E7236BD3CF38768BAD0EDD0 /* Pods-FlightTime.debug.xcconfig */,
+				55C19D15DE515F037D92E5C1 /* Pods-FlightTime.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -358,6 +373,7 @@
 				309BCA6E11DB0A0E000B4574 /* Icon-Small-50.png in Resources */,
 				309BCA6F11DB0A0E000B4574 /* Icon-Small.png in Resources */,
 				044C42721EFD037C00672B05 /* WeatherSign.xib in Resources */,
+				9106602F1F6AE5920043640E /* GoogleService-Info.plist in Resources */,
 				04A0234A1D2662A7002C989D /* play.png in Resources */,
 				044ECEE71D2D01180073DA60 /* back.png in Resources */,
 				04D243311EDE59F600C461B5 /* close.png in Resources */,
@@ -384,9 +400,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FlightTime/Pods-FlightTime-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -414,13 +433,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FlightTime-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -452,7 +474,7 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A2DEBDF536A99560BE71AB99 /* Pods-FlightTime.debug.xcconfig */;
+			baseConfigurationReference = 9E7236BD3CF38768BAD0EDD0 /* Pods-FlightTime.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
@@ -468,7 +490,10 @@
 				GCC_PREFIX_HEADER = FlightTime_Prefix.pch;
 				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
 				VALID_ARCHS = "armv7 armv6 arm64";
@@ -477,7 +502,7 @@
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2872C70C3ECFD4E9F3D0178C /* Pods-FlightTime.release.xcconfig */;
+			baseConfigurationReference = 55C19D15DE515F037D92E5C1 /* Pods-FlightTime.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
@@ -492,7 +517,10 @@
 				GCC_PREFIX_HEADER = FlightTime_Prefix.pch;
 				INFOPLIST_FILE = "FlightTime-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tw.flightTime;
 				PRODUCT_NAME = FlightTime;
 				VALID_ARCHS = "armv7 armv6 arm64";
@@ -527,6 +555,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				PRODUCT_NAME = FlightTime;
@@ -564,6 +593,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = FlightTime;

@@ -7,7 +7,8 @@
 //
 #import <Foundation/Foundation.h>
 #import "GetSchedule.h"
-
+#import <FirebaseCore/FirebaseCore.h>
+#import "Firebase.h"
 
 @interface GetSchedule()
 @end
@@ -18,7 +19,7 @@ NSMutableArray *routeArray;
 NSString *status;
 NSString *ticketCode;
 NSString *IATACodeCompelete;
-jsonURLTool *x;
+
 @implementation GetSchedule
 
 static GetSchedule *_instance = nil;
