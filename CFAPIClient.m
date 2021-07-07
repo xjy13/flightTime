@@ -2,8 +2,6 @@
 //  CFAPIClient.m
 //  ChineseFit
 //
-//  Created by Eason Feng on 13-8-12.
-//  Copyright (c) 2013年 Eason Feng. All rights reserved.
 //
 
 #import "CFAPIClient.h"
